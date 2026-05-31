@@ -1,42 +1,57 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>VDB v3 · interactive demo</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>VDB v4 · X-Ray / Mechanism Mode</title>
 <style>body{background:#0a0a14;margin:0;padding:28px;font-family:ui-monospace,monospace;color:#cbd5e1}
 h1{font-size:18px;color:#7dd3fc;font-weight:500}.hint{font-size:13px;color:#64748b;margin:10px 0 18px;line-height:1.6}</style></head>
 <body>
-  <h1>VDB v3 · interactive — click the tabs, flip the switch, drag the slider, change the team, hit the button</h1>
-  <div class="hint">Everything is driven by <code>spec.state</code>. Controls write params; components show/hide via <code>when:</code>. The button fires <code>sendPrompt()</code> if a host is present, otherwise logs to console (open devtools to see it).</div>
+  <h1>VDB v4 · X-Ray / Mechanism Mode — "x-ray this refactor"</h1>
+  <div class="hint">Tabs switch views. On <b>Mechanism</b>, step ◀ ▶ through the 7 slices — the active layer highlights, the rest dim, and the callout explains the why. "Explain this step" fires sendPrompt with the live step number interpolated in.</div>
   <div id="board"></div>
   <script src="./vdb.js"></script>
   <script>
     VDB('#board', {
-      theme:'twilight-forest', title:'Project Atlas', tag:'interactive',
-      state:{ view:'overview', dense:false, team:'all', focus:40 },
+      theme:'blueprint', title:'Clean Architecture Refactor', tag:'x-ray',
+      state:{ view:'overview', step:1 },
       components:[
         { type:'controls', items:[
-          { type:'tabs', param:'view', options:[{value:'overview',label:'Overview'},{value:'detail',label:'Detail'},{value:'activity',label:'Activity'}] },
-          { type:'toggle', param:'dense', label:'Dense' },
-          { type:'select', param:'team', options:[{value:'all',label:'All teams'},{value:'eng',label:'Engineering'},{value:'design',label:'Design'}] },
-          { type:'slider', param:'focus', label:'Focus', min:0, max:100, step:5 }
-        ]},
+          { type:'tabs', param:'view', options:[
+            {value:'overview',label:'Overview'},{value:'before',label:'Before'},
+            {value:'after',label:'After'},{value:'mechanism',label:'Mechanism'} ] } ]},
 
-        { when:'view==overview', type:'scene', motif:'forest', height:120 },
-        { when:'view==overview', type:'focal', value:'94%', label:'on track' },
-        { when:'view==overview', type:'bars', title:'momentum', items:[{label:'shipped',value:88},{label:'reviewed',value:72},{label:'planned',value:45}] },
+        { when:'view==overview', type:'focal', value:'16 → 20', label:'flat files → 4 clean layers' },
+        { when:'view==overview', type:'callout', text:'Same app, cleaner bones. Seven behavior-preserving slices. Open the Mechanism tab to step through how it was taken apart.' },
 
-        { when:'view==detail', type:'cards', items:[
-          {title:'Postgres',desc:'relational analytics',tag:'recommended',rec:true},
-          {title:'Mongo',desc:'document store',tag:'flexible'} ]},
-        { when:'view==detail', type:'comparison', title:'fit (A) vs ops (B)', items:[{label:'Postgres',a:92,b:30},{label:'Dynamo',a:35,b:20}] },
+        { when:'view==before', type:'diagram', layers:[
+          { tag:'js/', color:'var(--accent)', label:'16 flat files, concerns mixed',
+            sub:'config · auth · data · render · health · skills · modal · pulse · profile · …' } ]},
+        { when:'view==before', type:'callout', text:'One folder: data-fetching, DOM rendering, and pure logic all intermingle. Hard to test or reason about in isolation.' },
 
-        { when:'view==activity', type:'sparkline', title:'throughput', points:[4,6,5,9,7,11,9,13], caption:'commits / day' },
-        { when:'view==activity', type:'pipeline', title:'deploy', items:[{label:'test',state:'done'},{label:'build',state:'active'},{label:'prod',state:'queued'}] },
+        { when:'view==after', type:'diagram', layers:[
+          { tag:'APP',  label:'app · auth · controller', sub:'boot, wiring, orchestration' },
+          { tag:'VIEW', label:'render · detail · modal · pulse · profile · *-view', sub:'DOM rendering only' },
+          { tag:'IO',   label:'supabase · github · data', sub:'the only outward calls' },
+          { tag:'CORE', label:'format · state · config · similarity · health · skills', sub:'pure — no DOM / no IO' } ]},
+        { when:'view==after', type:'callout', text:'Dependencies point one way — downward. CORE depends on nothing, which makes it the easy part to test.' },
 
-        { when:'dense!=true', type:'note', text:'cozy mode — toggle Dense to hide this note (a `when` bound to the switch).' },
-        { when:'focus>=70', type:'note', text:'⚡ focus ≥ 70 — this note only appears when you drag the slider up (a `when` bound to the slider).' },
-
-        { type:'controls', items:[
-          { type:'button', label:'Drill into selection →', action:{ prompt:'drill into the selected team and timeframe' } }
-        ]},
+        { when:'view==mechanism', type:'controls', items:[
+          { type:'stepper', param:'step', steps:7, labels:[
+            'S1 · format','S2 · state','S3 · io','S4 · domain⟂view','S5 · data','S6 · store','S7 · folderize'] } ]},
+        { when:'view==mechanism', type:'diagram', active:'step', layers:[
+          { tag:'S1', step:1, label:'Extract pure utils → core/format.js' },
+          { tag:'S2', step:2, label:'NX store → core/state.js (config becomes pure constants)' },
+          { tag:'S3', step:3, label:'Supabase client + GitHub API → io/' },
+          { tag:'S4', step:4, label:'Split health & skills → core (pure) + view (DOM)' },
+          { tag:'S5', step:5, label:'data.js → loadProjects(); orchestration → app/controller' },
+          { tag:'S6', step:6, label:'Add subscribe()/emit() to the store' },
+          { tag:'S7', step:7, label:'Folderize into core / io / view / app' } ]},
+        { when:'step==1', type:'callout', text:'Why: pure helpers had no home — now one testable module with zero dependencies.' },
+        { when:'step==2', type:'callout', text:'Why: state stops hiding inside config; config is now just constants.' },
+        { when:'step==3', type:'callout', text:'Why: every outward call lives in one place — the app’s only door to the world.' },
+        { when:'step==4', type:'callout', text:'Why: domain logic stops touching the DOM, so it can be tested in isolation.' },
+        { when:'step==5', type:'callout', text:'Why: the data layer just returns data; the view wiring moves up. Clean seam.' },
+        { when:'step==6', type:'callout', text:'Why: data changes notify views through the store — data and view fully decoupled.' },
+        { when:'step==7', type:'callout', text:'Why: everything lands in four layers; the dependency direction is now enforced by structure.' },
+        { when:'view==mechanism', type:'controls', items:[
+          { type:'button', label:'Explain this step →', action:{ prompt:'Explain clean-architecture refactor slice S{step} in plain terms — what moved and why it mattered.' } } ]},
       ]
     });
   </script>

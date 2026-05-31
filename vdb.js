@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════════════
-   VDB — Visual DashBoard engine  ·  v3 (interactive)
+   VDB — Visual DashBoard engine  ·  v4 (interactive + x-ray / mechanism mode)
      VDB('#el', { theme, title, subtitle, backdrop, decor, state, components:[...] })
    No dependencies. v3 adds interactivity, modelled on Vega-Lite's idea that
    interaction is STATE and every view is a pure function of it:
@@ -65,6 +65,13 @@
     .vdb-field select{background:rgba(0,0,0,.28);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:4px 7px;font:inherit}
     .vdb-field input[type=range]{accent-color:var(--accent)}
     .vdb-btn{background:var(--accent);color:#0a0a12;border:0;border-radius:7px;font:inherit;font-size:13px;padding:6px 13px;cursor:pointer}
+    .vdb-step{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--ink)}
+    .vdb-step button{background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--ink);border-radius:6px;font:inherit;padding:3px 11px;cursor:pointer}
+    .vdb-diagram{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+    .vdb-layer{border:1px solid var(--line);border-radius:9px;padding:10px 13px;background:rgba(255,255,255,.03);transition:opacity .2s,border-color .2s,box-shadow .2s}
+    .vdb-layer.dim{opacity:.38}.vdb-layer.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);background:rgba(255,255,255,.06)}
+    .vdb-layer .ll{font-size:14px;color:var(--ink)}.vdb-layer .ls{font-size:12px;color:var(--muted);margin-top:2px}
+    .vdb-callout{border-left:3px solid var(--accent);background:rgba(255,255,255,.04);border-radius:0 8px 8px 0;padding:9px 13px;margin:8px 0;font-size:13.5px;color:var(--ink);line-height:1.55}
     @media (prefers-reduced-motion:reduce){.vdb *{transition:none!important;animation:none!important}}`;
     const el=document.createElement('style');el.id='vdb-styles';el.textContent=css;document.head.appendChild(el);
   }
@@ -99,6 +106,9 @@
     select(c){const st=c._state;return `<label class="vdb-field">${c.label?esc(c.label):''}<select data-vdb-select="${esc(c.param)}" data-focus="${esc(c.param)}" aria-label="${esc(c.label||c.param)}">${c.options.map(o=>{const v=o.value!=null?o.value:o,l=o.label!=null?o.label:o;return `<option value="${esc(v)}" ${st[c.param]==v?'selected':''}>${esc(l)}</option>`;}).join('')}</select></label>`;},
     slider(c){const v=c._state[c.param]!=null?c._state[c.param]:(c.min||0);return `<label class="vdb-field">${esc(c.label||c.param)} <input type="range" data-vdb-slider="${esc(c.param)}" data-focus="${esc(c.param)}" min="${c.min||0}" max="${c.max!=null?c.max:100}" step="${c.step||1}" value="${v}" aria-label="${esc(c.label||c.param)}"><span class="vdb-out">${esc(v)}</span></label>`;},
     button(c){return `<button class="vdb-btn" data-vdb-btn="${c._idx}" data-focus="btn${c._idx}">${esc(c.label||'Go')}</button>`;},
+    stepper(c){const p=c.param,n=c.steps||1,cur=c._state[p]||1,lbl=(c.labels&&c.labels[cur-1])?c.labels[cur-1]:(cur+' / '+n);return `<div class="vdb-step" data-focus="${esc(p)}"><button data-vdb-step="-1" data-p="${esc(p)}" data-n="${n}" aria-label="previous">\u25C0</button><span class="n">${esc(lbl)}</span><button data-vdb-step="1" data-p="${esc(p)}" data-n="${n}" aria-label="next">\u25B6</button></div>`;},
+    diagram(c){const cur=c.active?c._state[c.active]:null;return `<div class="vdb-diagram">${(c.layers||[]).map((L,i)=>{const on=cur!=null&&(L.step!=null?L.step:i+1)==cur;const cls=cur==null?'':(on?'on':'dim');return `<div class="vdb-layer ${cls}">${L.tag?`<span style="display:inline-block;min-width:50px;text-align:center;color:#06070f;background:${L.color||'var(--secondary)'};border-radius:4px;font-size:11px;padding:1px 6px;margin-right:8px">${esc(L.tag)}</span>`:''}<span class="ll">${esc(L.label)}</span>${L.sub?`<div class="ls">${esc(L.sub)}</div>`:''}</div>`;}).join('')}</div>`;},
+    callout(c){return `<div class="vdb-callout">${c.html||esc(c.text)}</div>`;},
   };
 
   const ATM={far:'opacity:.5;filter:saturate(.7)',mid:'opacity:.8',near:''};
@@ -125,7 +135,7 @@
 
     function hostAction(a){
       if(!a) return;
-      if(a.prompt){ if(typeof global.sendPrompt==='function') global.sendPrompt(a.prompt); else if(global.cowork&&global.cowork.sendPrompt) global.cowork.sendPrompt(a.prompt); else console.log('[vdb] prompt →',a.prompt); }
+      if(a.prompt){ var P=String(a.prompt).replace(/\{(\w+)\}/g,function(_,k){return state[k]!=null?state[k]:'';}); if(typeof global.sendPrompt==='function') global.sendPrompt(P); else if(global.cowork&&global.cowork.sendPrompt) global.cowork.sendPrompt(P); else console.log('[vdb] prompt →',P); }
       else if(a.tool){ if(global.cowork&&global.cowork.callMcpTool){ Promise.resolve(global.cowork.callMcpTool(a.tool,a.args||{})).then(()=>render()).catch(e=>console.error('[vdb] tool error',e)); } else console.log('[vdb] tool →',a.tool,a.args||{}); }
       else if(a.url){ if(typeof global.openLink==='function') global.openLink(a.url); else global.open(a.url,'_blank','noopener'); }
     }
@@ -153,6 +163,7 @@
         const tab=e.target.closest('[data-vdb-tab]'); if(tab){state[tab.dataset.vdbTab]=coerce(tab.dataset.v);render();return;}
         const tg=e.target.closest('[data-vdb-toggle]'); if(tg){state[tg.dataset.vdbToggle]=!state[tg.dataset.vdbToggle];render();return;}
         const bt=e.target.closest('[data-vdb-btn]'); if(bt){hostAction((el.__actions||[])[+bt.dataset.vdbBtn]);return;}
+        const stp=e.target.closest('[data-vdb-step]'); if(stp){const sp=stp.dataset.p,nn=+stp.dataset.n;state[sp]=Math.max(1,Math.min(nn,(state[sp]||1)+(+stp.dataset.vdbStep)));render();return;}
       });
       el.addEventListener('keydown',e=>{   /* arrow-key nav within a tablist */
         const tab=e.target.closest('[role=tab]'); if(!tab||(e.key!=='ArrowRight'&&e.key!=='ArrowLeft'))return;
@@ -168,7 +179,7 @@
     return el;
   }
 
-  VDB.version='v3';
+  VDB.version='v4';
   VDB.themes=Object.keys(THEMES);
   VDB.palette=resolveTheme;
   global.VDB=VDB;
