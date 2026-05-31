@@ -15,7 +15,7 @@ h1{font-size:18px;color:#7dd3fc;font-weight:500}.hint{font-size:13px;color:#6474
         { type:'controls', items:[
           { type:'tabs', param:'view', options:[
             {value:'overview',label:'Overview'},{value:'before',label:'Before'},
-            {value:'after',label:'After'},{value:'mechanism',label:'Mechanism'} ] } ]},
+            {value:'after',label:'After'},{value:'graph',label:'Graph'},{value:'mechanism',label:'Mechanism'} ] } ]},
 
         { when:'view==overview', type:'focal', value:'16 → 20', label:'flat files → 4 clean layers' },
         { when:'view==overview', type:'callout', text:'Same app, cleaner bones. Seven behavior-preserving slices. Open the Mechanism tab to step through how it was taken apart.' },
@@ -32,6 +32,8 @@ h1{font-size:18px;color:#7dd3fc;font-weight:500}.hint{font-size:13px;color:#6474
           { tag:'CORE', label:'format · state · config · similarity · health · skills', sub:'pure — no DOM / no IO' } ]},
         { when:'view==after', type:'callout', text:'Dependencies point one way — downward. CORE depends on nothing, which makes it the easy part to test.' },
         { when:'view==after', type:'flow', title:'dependency flow (a dot traces it)', nodes:['APP','VIEW','IO','CORE'] },
+        { when:'view==graph', type:'nodes', title:'module dependencies (hand-rolled)', nodes:[{id:'app',label:'APP',col:0},{id:'view',label:'VIEW',col:1},{id:'io',label:'IO',col:1},{id:'core',label:'CORE',col:2}], edges:[['app','view'],['app','io'],['view','core'],['io','core']] },
+        { when:'view==graph', type:'mermaid', title:'render pipeline (mermaid · lazy-loaded)', code:'graph LR; Spec[tiny spec]-->Engine[vdb.js on CDN]-->Board[themed board]' },
 
         { when:'view==mechanism', type:'controls', items:[
           { type:'stepper', param:'step', steps:7, labels:[

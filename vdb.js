@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════════════
-   VDB — Visual DashBoard engine  ·  v5 (interactive · x-ray · motion)
+   VDB — Visual DashBoard engine  ·  v6 (interactive · x-ray · motion · graphs)
      VDB('#el', { theme, title, subtitle, backdrop, decor, state, components:[...] })
    No dependencies. v3 adds interactivity, modelled on Vega-Lite's idea that
    interaction is STATE and every view is a pure function of it:
@@ -80,6 +80,9 @@
     .vdb-anim .vdb-fv{animation:vdb-pop .5s cubic-bezier(.2,.8,.2,1) both}
     .vdb-anim .vdb-layer,.vdb-anim .vdb-callout,.vdb-anim .vdb-tile,.vdb-anim .vdb-card,.vdb-anim .vdb-scene{animation:vdb-in .4s ease both}
     .vdb-travel{animation:vdb-travel 2.4s linear infinite}
+    @keyframes vdb-draw{from{stroke-dashoffset:600}to{stroke-dashoffset:0}}
+    .vdb-anim .vdb-edge{stroke-dasharray:600;animation:vdb-draw 1s ease forwards}
+    .vdb-mermaid{margin:8px 0;font-size:13px;color:var(--muted)}.vdb-mermaid svg{max-width:100%;height:auto}
     @media (prefers-reduced-motion:reduce){.vdb *{transition:none!important;animation:none!important}}`;
     const el=document.createElement('style');el.id='vdb-styles';el.textContent=css;document.head.appendChild(el);
   }
@@ -95,6 +98,8 @@
     if(motif==='forest'){let t='';for(let i=0;i<5;i++){const x=rng()*w,th=h*0.16+rng()*h*0.12;t+=`<polygon points="${x},${h} ${x-th*0.4},${h} ${x},${h-th} ${x+th*0.4},${h}" fill="rgba(0,0,0,.62)"/>`;}body+=t;}
     return `<svg class="vdb-scene" width="100%" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><defs><linearGradient id="vdbsky_${opts.id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient></defs><rect width="${w}" height="${h}" fill="url(#vdbsky_${opts.id})"/>${body}</svg>`;}
 
+  let _mmP=null;
+  function loadMermaid(){ if(_mmP) return _mmP; _mmP=new Promise(function(res,rej){ if(global.mermaid){res(global.mermaid);return;} var sc=document.createElement('script'); sc.src='https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js'; sc.onload=function(){ try{global.mermaid.initialize({startOnLoad:false,theme:'dark',securityLevel:'loose'});}catch(e){} res(global.mermaid); }; sc.onerror=function(){rej(new Error('mermaid load failed'));}; document.head.appendChild(sc); }); return _mmP; }
   let _sid=0;
   const C={
     gauge(c){const p=pct(c.value),circ=264,dash=(p/100*circ).toFixed(0);return `<div class="vdb-gw"><div class="vdb-gc"><svg width="108" height="108" viewBox="0 0 108 108"><circle cx="54" cy="54" r="42" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="9"/><circle cx="54" cy="54" r="42" fill="none" stroke="var(--anchor)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${dash} ${circ}" transform="rotate(-90 54 54)"/></svg><div class="vdb-gt"><div class="vdb-gv">${esc(c.display||(c.value<=1?c.value:Math.round(p)+'%'))}</div><div class="vdb-gl">${esc(c.label||'')}</div></div></div>${c.tiles?`<div class="vdb-tiles" style="--cols:${Math.min(c.tiles.length,2)}">${c.tiles.map(t=>`<div class="vdb-tile"><div class="vdb-tv">${esc(t.value)}</div><div class="vdb-tl">${esc(t.label)}</div></div>`).join('')}</div>`:''}</div>`;},
@@ -118,6 +123,8 @@
     diagram(c){const cur=c.active?c._state[c.active]:null;return `<div class="vdb-diagram">${(c.layers||[]).map((L,i)=>{const on=cur!=null&&(L.step!=null?L.step:i+1)==cur;const cls=cur==null?'':(on?'on':'dim');return `<div class="vdb-layer ${cls}">${L.tag?`<span style="display:inline-block;min-width:50px;text-align:center;color:#06070f;background:${L.color||'var(--secondary)'};border-radius:4px;font-size:11px;padding:1px 6px;margin-right:8px">${esc(L.tag)}</span>`:''}<span class="ll">${esc(L.label)}</span>${L.sub?`<div class="ls">${esc(L.sub)}</div>`:''}</div>`;}).join('')}</div>`;},
     callout(c){return `<div class="vdb-callout">${c.html||esc(c.text)}</div>`;},
     flow(c){const nodes=c.nodes||c.steps||[];const n=nodes.length||1;const w=600,h=66,y=24;const X=i=>n<2?w/2:30+i/(n-1)*(w-60);const line=`M30,${y} L${w-30},${y}`;const nm=nodes.map((nd,i)=>{const x=X(i).toFixed(1),l=(nd&&nd.label!=null)?nd.label:nd;return `<circle cx="${x}" cy="${y}" r="6" fill="var(--anchor)"/><text x="${x}" y="${h-8}" text-anchor="middle" fill="var(--muted)" font-size="12">${esc(l)}</text>`;}).join('');return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<svg width="100%" height="${h}" viewBox="0 0 ${w} ${h}"><path d="${line}" stroke="var(--line)" stroke-width="2" fill="none"/>${nm}<circle r="4.5" fill="var(--accent)" class="vdb-travel" style="offset-path:path('${line}');filter:drop-shadow(0 0 5px var(--accent))"/></svg>`;},
+    nodes(c){c._id=++_sid;const ns=c.nodes||[];const byId={};ns.forEach(function(n,i){n._i=i;if(n.id!=null)byId[n.id]=n;});const cols={};ns.forEach(function(n,i){const k=n.col!=null?n.col:i;(cols[k]=cols[k]||[]).push(n);});const ck=Object.keys(cols).map(Number).sort(function(a,b){return a-b;});const NW=120,NH=34,GX=48,GY=14,PX=8,PY=8;const maxR=Math.max.apply(null,ck.map(function(k){return cols[k].length;}));const W=PX*2+ck.length*NW+(ck.length-1)*GX;const H=PY*2+maxR*NH+(maxR-1)*GY;ck.forEach(function(k,ci){const arr=cols[k],colH=arr.length*NH+(arr.length-1)*GY,y0=(H-colH)/2;arr.forEach(function(n,ri){n._x=PX+ci*(NW+GX);n._y=y0+ri*(NH+GY);});});const cur=c.active?c._state[c.active]:null;const eg=(c.edges||[]).map(function(e){const f=Array.isArray(e)?e[0]:e.from,t=Array.isArray(e)?e[1]:e.to,a=byId[f]||ns[f],b=byId[t]||ns[t];if(!a||!b)return '';const x1=a._x+NW,y1=a._y+NH/2,x2=b._x,y2=b._y+NH/2,mx=(x1+x2)/2;return `<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" stroke="var(--line)" stroke-width="2" class="vdb-edge" marker-end="url(#vdbar_${c._id})"/>`;}).join('');const nm=ns.map(function(n,i){const on=cur!=null&&((n.step!=null?n.step:i+1)==cur),op=cur!=null&&!on?'.45':'1';return `<g opacity="${op}"><rect x="${n._x}" y="${n._y}" width="${NW}" height="${NH}" rx="8" fill="rgba(255,255,255,.05)" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="${on?2:1}"/><text x="${n._x+NW/2}" y="${n._y+NH/2+4}" text-anchor="middle" fill="var(--ink)" font-size="12">${esc(n.label!=null?n.label:n.id)}</text></g>`;}).join('');return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-width:${W}px"><defs><marker id="vdbar_${c._id}" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6" fill="var(--line)"/></marker></defs>${eg}${nm}</svg>`;},
+    mermaid(c){const id='vdbmm_'+(++_sid);setTimeout(function(){const host=document.getElementById(id);if(!host)return;const fb=function(){host.innerHTML='<pre style="white-space:pre-wrap;font-size:12px;color:var(--muted);margin:0">'+esc(c.code)+'</pre>';};loadMermaid().then(function(mm){try{mm.render(id+'_s',c.code).then(function(r){if(document.getElementById(id))host.innerHTML=r.svg;}).catch(fb);}catch(e){fb();}}).catch(fb);},0);return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<div id="${id}" class="vdb-mermaid">Loading diagram…</div>`;},
   };
 
   const ATM={far:'opacity:.5;filter:saturate(.7)',mid:'opacity:.8',near:''};
@@ -188,7 +195,7 @@
     return el;
   }
 
-  VDB.version='v5';
+  VDB.version='v6';
   VDB.themes=Object.keys(THEMES);
   VDB.palette=resolveTheme;
   global.VDB=VDB;
