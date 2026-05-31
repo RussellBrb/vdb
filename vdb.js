@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════════════
-   VDB — Visual DashBoard engine  ·  v4 (interactive + x-ray / mechanism mode)
+   VDB — Visual DashBoard engine  ·  v5 (interactive · x-ray · motion)
      VDB('#el', { theme, title, subtitle, backdrop, decor, state, components:[...] })
    No dependencies. v3 adds interactivity, modelled on Vega-Lite's idea that
    interaction is STATE and every view is a pure function of it:
@@ -72,6 +72,14 @@
     .vdb-layer.dim{opacity:.38}.vdb-layer.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);background:rgba(255,255,255,.06)}
     .vdb-layer .ll{font-size:14px;color:var(--ink)}.vdb-layer .ls{font-size:12px;color:var(--muted);margin-top:2px}
     .vdb-callout{border-left:3px solid var(--accent);background:rgba(255,255,255,.04);border-radius:0 8px 8px 0;padding:9px 13px;margin:8px 0;font-size:13.5px;color:var(--ink);line-height:1.55}
+    @keyframes vdb-grow{from{transform:scaleX(0)}}
+    @keyframes vdb-pop{from{transform:scale(.85);opacity:0}}
+    @keyframes vdb-in{from{transform:translateY(7px);opacity:0}}
+    @keyframes vdb-travel{from{offset-distance:0}to{offset-distance:100%}}
+    .vdb-anim .vdb-fl{animation:vdb-grow .55s cubic-bezier(.2,.8,.2,1) both;transform-origin:left center}
+    .vdb-anim .vdb-fv{animation:vdb-pop .5s cubic-bezier(.2,.8,.2,1) both}
+    .vdb-anim .vdb-layer,.vdb-anim .vdb-callout,.vdb-anim .vdb-tile,.vdb-anim .vdb-card,.vdb-anim .vdb-scene{animation:vdb-in .4s ease both}
+    .vdb-travel{animation:vdb-travel 2.4s linear infinite}
     @media (prefers-reduced-motion:reduce){.vdb *{transition:none!important;animation:none!important}}`;
     const el=document.createElement('style');el.id='vdb-styles';el.textContent=css;document.head.appendChild(el);
   }
@@ -109,6 +117,7 @@
     stepper(c){const p=c.param,n=c.steps||1,cur=c._state[p]||1,lbl=(c.labels&&c.labels[cur-1])?c.labels[cur-1]:(cur+' / '+n);return `<div class="vdb-step" data-focus="${esc(p)}"><button data-vdb-step="-1" data-p="${esc(p)}" data-n="${n}" aria-label="previous">\u25C0</button><span class="n">${esc(lbl)}</span><button data-vdb-step="1" data-p="${esc(p)}" data-n="${n}" aria-label="next">\u25B6</button></div>`;},
     diagram(c){const cur=c.active?c._state[c.active]:null;return `<div class="vdb-diagram">${(c.layers||[]).map((L,i)=>{const on=cur!=null&&(L.step!=null?L.step:i+1)==cur;const cls=cur==null?'':(on?'on':'dim');return `<div class="vdb-layer ${cls}">${L.tag?`<span style="display:inline-block;min-width:50px;text-align:center;color:#06070f;background:${L.color||'var(--secondary)'};border-radius:4px;font-size:11px;padding:1px 6px;margin-right:8px">${esc(L.tag)}</span>`:''}<span class="ll">${esc(L.label)}</span>${L.sub?`<div class="ls">${esc(L.sub)}</div>`:''}</div>`;}).join('')}</div>`;},
     callout(c){return `<div class="vdb-callout">${c.html||esc(c.text)}</div>`;},
+    flow(c){const nodes=c.nodes||c.steps||[];const n=nodes.length||1;const w=600,h=66,y=24;const X=i=>n<2?w/2:30+i/(n-1)*(w-60);const line=`M30,${y} L${w-30},${y}`;const nm=nodes.map((nd,i)=>{const x=X(i).toFixed(1),l=(nd&&nd.label!=null)?nd.label:nd;return `<circle cx="${x}" cy="${y}" r="6" fill="var(--anchor)"/><text x="${x}" y="${h-8}" text-anchor="middle" fill="var(--muted)" font-size="12">${esc(l)}</text>`;}).join('');return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<svg width="100%" height="${h}" viewBox="0 0 ${w} ${h}"><path d="${line}" stroke="var(--line)" stroke-width="2" fill="none"/>${nm}<circle r="4.5" fill="var(--accent)" class="vdb-travel" style="offset-path:path('${line}');filter:drop-shadow(0 0 5px var(--accent))"/></svg>`;},
   };
 
   const ATM={far:'opacity:.5;filter:saturate(.7)',mid:'opacity:.8',near:''};
@@ -154,7 +163,7 @@
       if(fk){const t=el.querySelector('[data-focus="'+(window.CSS&&CSS.escape?CSS.escape(fk):fk)+'"]'); if(t&&t.focus)t.focus();}
     }
 
-    el.className='vdb';
+    el.className='vdb'+(spec.animate?' vdb-anim':'');
     el.style.cssText=`background:${pal.bg};border:1px solid ${pal.accent};--anchor:${pal.anchor};--secondary:${pal.secondary};--tint:${pal.tint};--accent:${pal.accent};--ink:${pal.ink};--muted:${pal.muted};--line:${pal.line};`+(spec.font?`--vdb-font:${spec.font};`:'');
 
     if(!el.__bound){
@@ -179,7 +188,7 @@
     return el;
   }
 
-  VDB.version='v4';
+  VDB.version='v5';
   VDB.themes=Object.keys(THEMES);
   VDB.palette=resolveTheme;
   global.VDB=VDB;

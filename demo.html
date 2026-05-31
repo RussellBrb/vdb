@@ -10,7 +10,7 @@ h1{font-size:18px;color:#7dd3fc;font-weight:500}.hint{font-size:13px;color:#6474
   <script>
     VDB('#board', {
       theme:'blueprint', title:'Clean Architecture Refactor', tag:'x-ray',
-      state:{ view:'overview', step:1 },
+      state:{ view:'overview', step:1 }, animate:true,
       components:[
         { type:'controls', items:[
           { type:'tabs', param:'view', options:[
@@ -31,6 +31,7 @@ h1{font-size:18px;color:#7dd3fc;font-weight:500}.hint{font-size:13px;color:#6474
           { tag:'IO',   label:'supabase · github · data', sub:'the only outward calls' },
           { tag:'CORE', label:'format · state · config · similarity · health · skills', sub:'pure — no DOM / no IO' } ]},
         { when:'view==after', type:'callout', text:'Dependencies point one way — downward. CORE depends on nothing, which makes it the easy part to test.' },
+        { when:'view==after', type:'flow', title:'dependency flow (a dot traces it)', nodes:['APP','VIEW','IO','CORE'] },
 
         { when:'view==mechanism', type:'controls', items:[
           { type:'stepper', param:'step', steps:7, labels:[
