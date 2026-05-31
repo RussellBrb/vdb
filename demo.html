@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>VDB v3 · interactive demo</title>
+<style>body{background:#0a0a14;margin:0;padding:28px;font-family:ui-monospace,monospace;color:#cbd5e1}
+h1{font-size:18px;color:#7dd3fc;font-weight:500}.hint{font-size:13px;color:#64748b;margin:10px 0 18px;line-height:1.6}</style></head>
+<body>
+  <h1>VDB v3 · interactive — click the tabs, flip the switch, drag the slider, change the team, hit the button</h1>
+  <div class="hint">Everything is driven by <code>spec.state</code>. Controls write params; components show/hide via <code>when:</code>. The button fires <code>sendPrompt()</code> if a host is present, otherwise logs to console (open devtools to see it).</div>
+  <div id="board"></div>
+  <script src="./vdb.js"></script>
+  <script>
+    VDB('#board', {
+      theme:'twilight-forest', title:'Project Atlas', tag:'interactive',
+      state:{ view:'overview', dense:false, team:'all', focus:40 },
+      components:[
+        { type:'controls', items:[
+          { type:'tabs', param:'view', options:[{value:'overview',label:'Overview'},{value:'detail',label:'Detail'},{value:'activity',label:'Activity'}] },
+          { type:'toggle', param:'dense', label:'Dense' },
+          { type:'select', param:'team', options:[{value:'all',label:'All teams'},{value:'eng',label:'Engineering'},{value:'design',label:'Design'}] },
+          { type:'slider', param:'focus', label:'Focus', min:0, max:100, step:5 }
+        ]},
+
+        { when:'view==overview', type:'scene', motif:'forest', height:120 },
+        { when:'view==overview', type:'focal', value:'94%', label:'on track' },
+        { when:'view==overview', type:'bars', title:'momentum', items:[{label:'shipped',value:88},{label:'reviewed',value:72},{label:'planned',value:45}] },
+
+        { when:'view==detail', type:'cards', items:[
+          {title:'Postgres',desc:'relational analytics',tag:'recommended',rec:true},
+          {title:'Mongo',desc:'document store',tag:'flexible'} ]},
+        { when:'view==detail', type:'comparison', title:'fit (A) vs ops (B)', items:[{label:'Postgres',a:92,b:30},{label:'Dynamo',a:35,b:20}] },
+
+        { when:'view==activity', type:'sparkline', title:'throughput', points:[4,6,5,9,7,11,9,13], caption:'commits / day' },
+        { when:'view==activity', type:'pipeline', title:'deploy', items:[{label:'test',state:'done'},{label:'build',state:'active'},{label:'prod',state:'queued'}] },
+
+        { when:'dense!=true', type:'note', text:'cozy mode — toggle Dense to hide this note (a `when` bound to the switch).' },
+        { when:'focus>=70', type:'note', text:'⚡ focus ≥ 70 — this note only appears when you drag the slider up (a `when` bound to the slider).' },
+
+        { type:'controls', items:[
+          { type:'button', label:'Drill into selection →', action:{ prompt:'drill into the selected team and timeframe' } }
+        ]},
+      ]
+    });
+  </script>
+</body></html>
