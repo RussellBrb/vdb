@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════════════
-   VDB — Visual DashBoard engine  ·  v8 (· x-ray · graphs · stage · score · tweened motion)
+   VDB — Visual DashBoard engine  ·  v9 (· x-ray · graphs · stage · score · tweened motion · presets)
      VDB('#el', { theme, title, subtitle, backdrop, decor, state, components:[...] })
    No dependencies. v3 adds interactivity, modelled on Vega-Lite's idea that
    interaction is STATE and every view is a pure function of it:
@@ -116,6 +116,29 @@
     function play(){ stop(); timer=setInterval(function(){ if(!document.body.contains(root)){stop();return;} go(i+1); },1500); if(pb)pb.textContent='⏸'; }
     root.addEventListener('click',function(e){ var b=e.target.closest('[data-mo]'); if(!b) return; e.stopPropagation(); var v=b.getAttribute('data-mo'); if(v==='play'){ timer?stop():play(); } else { stop(); go(i+parseInt(v,10)); } });
     apply(); if(data.autoplay) play(); }
+  var MPRESETS={
+    'pen-click':{height:240,parts:[
+      {id:'barrel',label:'barrel',x:250,y:52,w:60,h:154,color:'rgba(255,255,255,.05)'},
+      {id:'plunger',label:'plunger',x:258,y:12,w:44,h:34,color:'rgba(125,211,252,.5)'},
+      {id:'cam',label:'cam',x:266,y:64,w:28,h:28,color:'rgba(252,211,77,.7)'},
+      {id:'spring',label:'',x:272,y:150,w:16,h:38,color:'rgba(255,255,255,.14)'},
+      {id:'tip',label:'tip',x:276,y:196,w:8,h:22,color:'rgba(125,211,252,.8)'}],frames:[
+      {caption:'retracted',on:'cam',note:'The <b>tip</b> is up — the <b>cam</b> teeth hold it.',set:{}},
+      {caption:'plunger down',on:'plunger',note:'The <b>plunger</b> pushes the <b>cam</b> down.',set:{plunger:{dy:28},cam:{dy:18},tip:{dy:16}}},
+      {caption:'click! locked',on:'cam',note:'The <b>cam</b> locks into the grooves — tip stays out.',set:{plunger:{dy:28},cam:{dy:14},tip:{dy:16}}},
+      {caption:'extended',on:'tip',note:'Plunger returns; the <b>tip</b> stays extended.',set:{plunger:{dy:0},cam:{dy:14},tip:{dy:16}}},
+      {caption:'press → retract',on:'spring',note:'Next press frees the cam; the <b>spring</b> pushes the tip up.',set:{plunger:{dy:28},cam:{dy:18},tip:{dy:0}}}]},
+    'toggle':{width:220,height:88,parts:[
+      {id:'track',label:'',x:60,y:34,w:100,h:26,color:'rgba(255,255,255,.12)'},
+      {id:'knob',label:'',x:62,y:32,w:30,h:30,color:'var(--accent)'}],frames:[
+      {caption:'off',on:'knob',note:'Knob rests left — <b>off</b>.',set:{}},
+      {caption:'on',on:'knob',note:'Knob slides right — <b>on</b>.',set:{knob:{dx:68}}}]},
+    'pump':function(p){var n=p&&p.strokes||3,parts=[
+      {id:'cyl',label:'cylinder',x:248,y:60,w:74,h:150,color:'rgba(255,255,255,.05)'},
+      {id:'rod',label:'',x:280,y:20,w:10,h:44,color:'rgba(255,255,255,.2)'},
+      {id:'piston',label:'piston',x:256,y:64,w:58,h:30,color:'var(--accent)'}],frames=[];
+      for(var k=0;k<n;k++){frames.push({caption:'intake '+(k+1),on:'piston',note:'Piston rises — chamber fills.',set:{}});frames.push({caption:'compress '+(k+1),on:'piston',note:'Piston drives down.',set:{piston:{dy:100},rod:{dy:100}}});}
+      return {height:240,parts:parts,frames:frames};}};
   let _sid=0;
   const C={
     gauge(c){const p=pct(c.value),circ=264,dash=(p/100*circ).toFixed(0);return `<div class="vdb-gw"><div class="vdb-gc"><svg width="108" height="108" viewBox="0 0 108 108"><circle cx="54" cy="54" r="42" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="9"/><circle cx="54" cy="54" r="42" fill="none" stroke="var(--anchor)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${dash} ${circ}" transform="rotate(-90 54 54)"/></svg><div class="vdb-gt"><div class="vdb-gv">${esc(c.display||(c.value<=1?c.value:Math.round(p)+'%'))}</div><div class="vdb-gl">${esc(c.label||'')}</div></div></div>${c.tiles?`<div class="vdb-tiles" style="--cols:${Math.min(c.tiles.length,2)}">${c.tiles.map(t=>`<div class="vdb-tile"><div class="vdb-tv">${esc(t.value)}</div><div class="vdb-tl">${esc(t.label)}</div></div>`).join('')}</div>`:''}</div>`;},
@@ -142,7 +165,7 @@
     nodes(c){c._id=++_sid;const ns=c.nodes||[];const byId={};ns.forEach(function(n,i){n._i=i;if(n.id!=null)byId[n.id]=n;});const cols={};ns.forEach(function(n,i){const k=n.col!=null?n.col:i;(cols[k]=cols[k]||[]).push(n);});const ck=Object.keys(cols).map(Number).sort(function(a,b){return a-b;});const NW=120,NH=34,GX=48,GY=14,PX=8,PY=8;const maxR=Math.max.apply(null,ck.map(function(k){return cols[k].length;}));const W=PX*2+ck.length*NW+(ck.length-1)*GX;const H=PY*2+maxR*NH+(maxR-1)*GY;ck.forEach(function(k,ci){const arr=cols[k],colH=arr.length*NH+(arr.length-1)*GY,y0=(H-colH)/2;arr.forEach(function(n,ri){n._x=PX+ci*(NW+GX);n._y=y0+ri*(NH+GY);});});const cur=c.active?c._state[c.active]:null;const eg=(c.edges||[]).map(function(e){const f=Array.isArray(e)?e[0]:e.from,t=Array.isArray(e)?e[1]:e.to,a=byId[f]||ns[f],b=byId[t]||ns[t];if(!a||!b)return '';const x1=a._x+NW,y1=a._y+NH/2,x2=b._x,y2=b._y+NH/2,mx=(x1+x2)/2;return `<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" stroke="var(--line)" stroke-width="2" class="vdb-edge" marker-end="url(#vdbar_${c._id})"/>`;}).join('');const nm=ns.map(function(n,i){const on=cur!=null&&((n.step!=null?n.step:i+1)==cur),op=cur!=null&&!on?'.45':'1';return `<g opacity="${op}"><rect x="${n._x}" y="${n._y}" width="${NW}" height="${NH}" rx="8" fill="rgba(255,255,255,.05)" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="${on?2:1}"/><text x="${n._x+NW/2}" y="${n._y+NH/2+4}" text-anchor="middle" fill="var(--ink)" font-size="12">${esc(n.label!=null?n.label:n.id)}</text></g>`;}).join('');return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-width:${W}px"><defs><marker id="vdbar_${c._id}" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6" fill="var(--line)"/></marker></defs>${eg}${nm}</svg>`;},
     mermaid(c){const id='vdbmm_'+(++_sid);setTimeout(function(){const host=document.getElementById(id);if(!host)return;const fb=function(){host.innerHTML='<pre style="white-space:pre-wrap;font-size:12px;color:var(--muted);margin:0">'+esc(c.code)+'</pre>';};loadMermaid().then(function(mm){try{mm.render(id+'_s',c.code).then(function(r){if(document.getElementById(id))host.innerHTML=r.svg;}).catch(fb);}catch(e){fb();}}).catch(fb);},0);return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<div id="${id}" class="vdb-mermaid">Loading diagram…</div>`;},
     stage(c){const parts=c.parts||[];const cur=c.active?c._state[c.active]:null;const W=600,BW=160,BH=30,GY=8,PX=18,PY=14,n=parts.length;const H=PY*2+n*BH+(Math.max(0,n-1))*GY;let bands='',anno='';parts.forEach(function(p,i){const y=PY+i*(BH+GY),on=cur!=null&&((p.step!=null?p.step:i+1)==cur),op=cur!=null&&!on?'.4':'1';bands+=`<g opacity="${op}"${on?' class="vdb-onpart"':''}${c.active?` data-vdb-set="${c.active}" data-v="${p.step!=null?p.step:i+1}" style="cursor:pointer"`:''}><rect x="${PX}" y="${y}" width="${BW}" height="${BH}" rx="7" fill="${on?(p.color||'rgba(255,255,255,.09)'):'rgba(255,255,255,.04)'}" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="${on?2:1}"/><text x="${PX+BW/2}" y="${y+BH/2+4}" text-anchor="middle" fill="var(--ink)" font-size="12">${esc(p.label!=null?p.label:p.id)}</text></g>`;if(on&&p.note){const my=y+BH/2,lx=PX+BW,nx=PX+BW+44;anno=`<path d="M${lx},${my} L${lx+24},${my} L${nx},${my}" stroke="var(--accent)" stroke-width="1.5" fill="none"/><circle cx="${lx}" cy="${my}" r="2.5" fill="var(--accent)"/><foreignObject x="${nx}" y="${my-28}" width="${W-nx-10}" height="64"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:12px;color:var(--ink);line-height:1.45;font-family:inherit">${p.note}</div></foreignObject>`;}});return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-width:${W}px">${bands}${anno}</svg>`;},
-    motion(c){const id='vdbmo_'+(++_sid);const W=c.width||600,H=c.height||200;const ps=(c.parts||[]).map(function(p){return `<g data-pid="${esc(p.id)}" style="transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .3s"><rect x="${p.x||0}" y="${p.y||0}" width="${p.w||60}" height="${p.h||24}" rx="6" fill="${p.color||'rgba(255,255,255,.08)'}" stroke="var(--line)"/>${p.label?`<text x="${(p.x||0)+(p.w||60)/2}" y="${(p.y||0)+(p.h||24)/2+4}" text-anchor="middle" fill="var(--ink)" font-size="11">${esc(p.label)}</text>`:''}</g>`;}).join('');const data=encodeURIComponent(JSON.stringify({frames:c.frames||[],autoplay:c.autoplay!==false}));setTimeout(function(){vdbInitMotion(id);},0);return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<div id="${id}" class="vdb-motion" data-m="${data}"><div class="vdb-mctrl"><button data-mo="-1" aria-label="previous">◀</button><span class="vdb-mcap"></span><button data-mo="1" aria-label="next">▶</button><button data-mo="play" class="vdb-mplay" aria-label="play / pause">⏸</button></div><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-width:${W}px">${ps}</svg><div class="vdb-mnote"></div></div>`;},
+    motion(c){if(c.preset&&MPRESETS[c.preset]){var _pp=MPRESETS[c.preset];if(typeof _pp==='function')_pp=_pp(c.params||{});c=Object.assign({},_pp,c);}const id='vdbmo_'+(++_sid);const W=c.width||600,H=c.height||200;const ps=(c.parts||[]).map(function(p){return `<g data-pid="${esc(p.id)}" style="transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .3s"><rect x="${p.x||0}" y="${p.y||0}" width="${p.w||60}" height="${p.h||24}" rx="6" fill="${p.color||'rgba(255,255,255,.08)'}" stroke="var(--line)"/>${p.label?`<text x="${(p.x||0)+(p.w||60)/2}" y="${(p.y||0)+(p.h||24)/2+4}" text-anchor="middle" fill="var(--ink)" font-size="11">${esc(p.label)}</text>`:''}</g>`;}).join('');const data=encodeURIComponent(JSON.stringify({frames:c.frames||[],autoplay:c.autoplay!==false}));setTimeout(function(){vdbInitMotion(id);},0);return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<div id="${id}" class="vdb-motion" data-m="${data}"><div class="vdb-mctrl"><button data-mo="-1" aria-label="previous">◀</button><span class="vdb-mcap"></span><button data-mo="1" aria-label="next">▶</button><button data-mo="play" class="vdb-mplay" aria-label="play / pause">⏸</button></div><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-width:${W}px">${ps}</svg><div class="vdb-mnote"></div></div>`;},
   };
 
   const ATM={far:'opacity:.5;filter:saturate(.7)',mid:'opacity:.8',near:''};
@@ -217,7 +240,7 @@
     return el;
   }
 
-  VDB.version='v8';
+  VDB.version='v9';
   VDB.themes=Object.keys(THEMES);
   VDB.palette=resolveTheme;
   global.VDB=VDB;
