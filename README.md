@@ -4,11 +4,11 @@ A tiny (~38 KB), dependency-free engine that renders themed, **interactive**, **
 dashboards and **visual explanations** from a compact JSON spec. Loaded once from jsDelivr and
 driven by small specs — rich, explorable boards for roughly the cost of the spec.
 
-**Live:** `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v10/vdb.js`
+**Live:** `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11/vdb.js`
 
 ```html
 <div id="v"></div>
-<script src="https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v10/vdb.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11/vdb.js"></script>
 <script>
 VDB('#v', {
   theme: 'twilight-forest',          // named theme, or { vibe: 'any phrase' }
@@ -128,6 +128,7 @@ so **bump the tag whenever `vdb.js` changes**.
 | `v8` | clickable parts + true tweened `motion` |
 | `v9` | motion preset registry (prefabs + parametric generators) |
 | `v10` | keyed persistence · DRY internals · themed Mermaid · keyboard-accessible parts |
+| `v11` | bug-fix: `flow` title-helper collision · readable Mermaid node text (dark-on-fill) |
 
 ## When to render — governance
 
