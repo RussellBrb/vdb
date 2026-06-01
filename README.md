@@ -1,14 +1,14 @@
 # vdb — Visual DashBoard engine
 
-A tiny (~23 KB), dependency-free engine that renders themed, **interactive** dashboards
-from a compact JSON spec. Hosted here so it loads once from jsDelivr and is driven by
-small specs — rich boards for roughly the cost of the spec itself.
+A tiny (~38 KB), dependency-free engine that renders themed, **interactive**, **animated**
+dashboards and **visual explanations** from a compact JSON spec. Loaded once from jsDelivr and
+driven by small specs — rich, explorable boards for roughly the cost of the spec.
 
-**Live:** `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v3/vdb.js`
+**Live:** `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v10/vdb.js`
 
 ```html
 <div id="v"></div>
-<script src="https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v3/vdb.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v10/vdb.js"></script>
 <script>
 VDB('#v', {
   theme: 'twilight-forest',          // named theme, or { vibe: 'any phrase' }
@@ -27,98 +27,112 @@ VDB('#v', {
 |---|---|
 | `theme` | named theme **or** `{ vibe: 'a phrase' }` (deterministic palette) |
 | `title`, `subtitle`, `tag` | header text |
+| `score` | `{ label, grade, detail:[{label,value,note}] }` → quiet corner chip; click to expand an Efficiency panel |
 | `state` | object of named params + defaults (drives interactivity) |
-| `components` | array of components, rendered top to bottom |
+| `components` | array of components, rendered top → bottom |
 | `decor` | `['vignette' | 'scanlines' | 'mist']` |
-| `backdrop` | `'mountains' | 'hills' | 'waves' | 'forest'` (or `{motif,height,opacity}`) paints a landscape behind everything |
+| `backdrop` | `'mountains' | 'hills' | 'waves' | 'forest'` (or `{motif,height,opacity}`) — paints a landscape behind everything |
+| `animate` | `true` → entrance motion (bars grow, focal pops, layers/cards fade) |
 | `seed`, `font` | optional: stable RNG seed; custom font stack |
 
 ## Themes
 
 Named: `twilight-forest`, `under-the-sea`, `sunrise`, `synthwave`, `crt`, `chill`, `blueprint`.
+Or generate from a phrase — `theme:{vibe:'tropical waters vacation'}` — via string hash →
+Mulberry32 → HSL (same phrase ⇒ same palette). Five roles: shade · anchor · secondary · tint · accent.
 
-Or generate one from a phrase — `theme: { vibe: 'tropical waters vacation' }` — via a string
-hash to Mulberry32 to HSL, so the same phrase always yields the same palette. Every theme
-exposes five roles: shade, anchor, secondary, tint, accent.
+## Components — which to use when
 
-## Components
+**Numbers & data**
+- `focal` — one hero metric (the headline number).
+- `tiles` — a row of small stat tiles.
+- `bars` — labelled progress/values.
+- `comparison` — A vs B bars per row.
+- `allocation` — proportions of a whole (segmented bar + legend).
+- `sparkline` — a trend over time.
+- `gauge` — a single radial score (optionally with side tiles).
+- `note` / `callout` — prose; `callout` has a left accent bar. (`text` is escaped; `html` is raw — see Security.)
 
-**Display:** `gauge`, `bars`, `allocation`, `sparkline`, `tiles`, `pipeline`, `note`,
-`focal` (hero metric), `comparison` (A/B bars), `cards` (option cards; `rec:true` highlights),
-`scene` (procedural layered landscape — `motif`, `height`, `sun`)
-· `diagram` (x-ray: addressable `layers`, highlights the one matching `active` step and dims the rest)
-· `callout` (step-aware label, pairs with `when:`).
+**Structure & explanation**
+- `pipeline` — sequential stages as chips (done/active/queued).
+- `diagram` — addressable **layers**; highlights the one matching `active`, dims the rest (lightweight x-ray).
+- `stage` — like `diagram` but SVG with **leader-line annotations**: the active part is highlighted and a note points at it. Parts are clickable (and keyboard-accessible) to jump.
+- `nodes` — a hand-rolled **graph**: `nodes:[{id,label,col}]` + `edges:[[from,to]]`, column layout, curved arrowed edges.
+- `mermaid` — freeform flowchart/graph from text (`code:'graph LR; A-->B'`); Mermaid is **lazy-loaded only when used** and themed to the board palette.
+- `scene` — a procedural atmospheric landscape (`motif`, `height`, `sun`).
 
-**Controls** (write to `state`): `tabs`, `toggle`, `select`, `slider`, `button`.
-Wrap several in `{ type:'controls', items:[ ... ] }` to lay them out in a row.
+**Motion**
+- `flow` — a row of nodes with a dot continuously tracing the line (`offset-path`).
+- `motion` — **true tweened mechanism**: parts physically slide between frames. Use a stored `preset` (see Presets) or supply `parts` + `frames`. Has its own prev/next + autoplay.
 
-Any component accepts `depth: 'far' | 'mid' | 'near'` — atmospheric perspective: `far` recedes
-(lower contrast, desaturated), `near` stays crisp. Use it to push chrome back and let the
-focal point advance.
+**Controls** (write to `state`): `tabs` · `toggle` · `select` · `slider` · `button` · `stepper`.
+Group with `{type:'controls', items:[ … ]}` for a row.
+
+Any component accepts `depth:'far'|'mid'|'near'` (atmospheric perspective: far recedes, near stays crisp).
 
 ## Interactivity
 
-Interaction is modelled on Vega-Lite's idea: **interaction is state, and every view is a pure
-function of it.** You declare params in `state`; controls write them; components show/hide with
-a `when:` condition. The engine keeps per-board state, re-renders idempotently from one
-delegated listener, and preserves focus across updates.
+Interaction is **state**, and every view is a function of it (Vega-Lite's model). Declare params
+in `state`; controls write them; components show/hide with a `when:` condition
+(`param`, `param==v`, `!=`, `>=`, `<=`, `>`, `<`). One delegated listener, idempotent re-render,
+focus preserved across updates.
 
-```js
-VDB('#v', {
-  theme: 'crt',
-  state: { view: 'overview', dense: false, team: 'all', focus: 40 },
-  components: [
-    { type: 'controls', items: [
-      { type: 'tabs',   param: 'view', options: [{value:'overview',label:'Overview'},{value:'detail',label:'Detail'}] },
-      { type: 'toggle', param: 'dense', label: 'Dense' },
-      { type: 'select', param: 'team',  options: [{value:'all',label:'All'},{value:'eng',label:'Eng'}] },
-      { type: 'slider', param: 'focus', label: 'Focus', min: 0, max: 100, step: 5 }
-    ]},
-    { when: 'view==overview', type: 'focal', value: '94%', label: 'on track' },
-    { when: 'view==detail',   type: 'comparison', items: [{label:'A',a:92,b:30}] },
-    { when: 'dense!=true',    type: 'note', text: 'shown unless Dense is on' },
-    { when: 'focus>=70',      type: 'note', text: 'shown when the slider is high' },
-    { type: 'controls', items: [
-      { type: 'button', label: 'Drill in', action: { prompt: 'drill into the selection' } }
-    ]}
-  ]
-});
-```
+### Persistence (v10)
 
-`when` supports `param`, `param==value`, `!=`, `>=`, `<=`, `>`, `<`.
+Re-rendering rebuilds the body, which would restart a playing `motion` or re-render a `mermaid`
+diagram. Give such a component a stable **`key`** and its live DOM is preserved across
+re-renders (the animation keeps playing, the diagram isn't recomputed):
+`{ type:'motion', preset:'pen-click', key:'pen' }`.
 
 ### Host bridge (button actions)
 
-A `button` runs an `action` against whatever host is present, degrading gracefully:
+A `button`'s `action` runs against whatever host exists, degrading gracefully:
+- `{ prompt:'…' }` → `sendPrompt()` (chat). `{param}` tokens are interpolated from live state.
+- `{ tool:'name', args:{…} }` → `cowork.callMcpTool()` then re-render (live data).
+- `{ url:'…' }` → `openLink()` / `window.open`.
+- No host → console; the rest of the board stays interactive.
 
-- `{ prompt: '...' }` -> `sendPrompt()` (chat hosts) — sends a message as if typed.
-- `{ tool: 'name', args: {...} }` -> `cowork.callMcpTool()` (Cowork) — pull/refresh live data, then re-render.
-- `{ url: '...' }` -> `openLink()` / `window.open`.
-- No host -> logged to console; the rest of the board stays fully interactive.
+## Motion presets
+
+`{type:'motion', preset:'name', params?:{…}}` — the geometry + frame choreography are stored in
+the engine, so a full mechanism is one line. Built-in: `pen-click`, `toggle` (stored prefabs),
+`pump` (parametric — `params:{strokes}`). Add new ones by extending `MPRESETS` (a tag bump).
+
+## Security
+
+Text fields are **escaped** (`esc`). The `html` field on `note`/`callout` and the `note` field
+on `stage`/`motion` render **raw** (for `<b>`, etc.) and trust the spec author. **Never
+interpolate untrusted/user data into `html`/`note` fields** — use the escaped `text` field for
+anything that isn't author-controlled.
 
 ## Accessibility
 
-Built on native `<button>`, `<select>`, `<input type=range>` + ARIA (`tablist`/`tab`,
-`role=switch`), so keyboard navigation, focus, and screen-reader semantics work out of the
-box. Tabs support arrow-key navigation. Respects `prefers-reduced-motion`.
+Built on native `<button>`/`<select>`/`<input type=range>` + ARIA (`tablist`/`tab`, `role=switch`).
+Tabs support arrow keys; clickable `stage` parts are `role=button` + Enter/Space focusable.
+Respects `prefers-reduced-motion`.
 
 ## Versioning
 
-Pin a tag for cache stability — `@v1`, `@v2`, `@v3` (`@main` serves the latest commit).
-jsDelivr caches tags, so **bump the tag whenever `vdb.js` changes**.
+Pin a tag for cache stability — `@v1` … `@v10` (`@main` = latest commit). jsDelivr caches tags,
+so **bump the tag whenever `vdb.js` changes**.
 
-| tag | what it added |
+| tag | added |
 |---|---|
 | `v1` | core engine: spec-driven, themed, CDN-hosted |
-| `v2` | artful layer — `scene`, `focal`, `comparison`, `cards`, `depth`, `backdrop` (Bob-Ross-informed) |
+| `v2` | artful layer — `scene`, `focal`, `comparison`, `cards`, `depth`, `backdrop` |
 | `v3` | interactivity — `state`, controls, `when`, host bridge, accessible inputs |
-| `v4` | x-ray / mechanism mode — `diagram`, `stepper`, `callout` (step through a system, highlight the active part) |
+| `v4` | x-ray / mechanism — `diagram`, `stepper`, `callout` |
+| `v5` | motion — `animate` flag + `flow` |
+| `v6` | graphs — hand-rolled `nodes`/edges + lazy `mermaid` |
+| `v7` | annotated `stage` (leader-lines) + `score` chip + Efficiency panel |
+| `v8` | clickable parts + true tweened `motion` |
+| `v9` | motion preset registry (prefabs + parametric generators) |
+| `v10` | keyed persistence · DRY internals · themed Mermaid · keyboard-accessible parts |
 
 ## Design notes
 
-Informed by Tufte (maximize data-ink, kill chartjunk) and Bob Ross's wet-on-wet method:
-paint the background first, build foreground on top, use **contrast for depth and a single
-focal point**, keep a limited palette, and treat constraints as features. Decoration lives in
-the receded background layer, never over the data.
+Informed by Tufte (maximize data-ink, kill chartjunk) and Bob Ross's wet-on-wet method: paint the
+background first, build forward, use contrast for depth and a single focal point, keep a limited
+palette, treat constraints as features. Decoration lives in the receded background, never over the data.
 
-— `demo.html` in this repo is a self-contained interactive example; open it in a browser.
+— `demo.html` is a self-contained interactive example; open it in a browser.
