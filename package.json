@@ -1,0 +1,24 @@
+{
+  "name": "vdb",
+  "version": "1.0.0",
+  "description": "A tiny dependency-free engine that renders themed, interactive, animated dashboards and visual explanations from a compact JSON spec.",
+  "main": "vdb.js",
+  "scripts": {
+    "test": "node tests/harness.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RussellBrb/vdb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/RussellBrb/vdb/issues"
+  },
+  "homepage": "https://github.com/RussellBrb/vdb#readme",
+  "devDependencies": {
+    "linkedom": "^0.18.12"
+  }
+}

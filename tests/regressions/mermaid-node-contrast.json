@@ -1,0 +1,9 @@
+{
+  "name": "mermaid-node-contrast",
+  "description": "mermaid theme variables keep node text dark on bright fills.",
+  "themes": ["crt", "blueprint"],
+  "mustContain": [
+    "primaryTextColor:'#0a0a12'",
+    "nodeTextColor:'#0a0a12'"
+  ]
+}

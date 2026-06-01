@@ -1,0 +1,15 @@
+{
+  "name": "flow-title-helper-collision",
+  "description": "flow renders non-empty with a title; guards against local helper shadowing.",
+  "spec": {
+    "theme": "blueprint",
+    "title": "Flow regression",
+    "components": [
+      {
+        "type": "flow",
+        "title": "Path",
+        "nodes": ["one", "two", "three"]
+      }
+    ]
+  }
+}

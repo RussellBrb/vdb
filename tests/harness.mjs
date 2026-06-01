@@ -1,0 +1,320 @@
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
+import { parseHTML } from 'linkedom';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = resolve(__dirname, '..');
+const vdbPath = resolve(root, 'vdb.js');
+const lastRunPath = resolve(__dirname, 'last-run.json');
+const vdbSource = await readFile(vdbPath, 'utf8');
+
+const THEMES = [
+  'twilight-forest',
+  'under-the-sea',
+  'sunrise',
+  'synthwave',
+  'crt',
+  'chill',
+  'blueprint',
+];
+
+const COMPONENTS = {
+  gauge: { value: 72, label: 'health' },
+  bars: { title: 'Load', items: [{ label: 'api', value: 68 }, { label: 'db', value: 0.42, note: '42%' }] },
+  allocation: { title: 'Mix', items: [{ label: 'core', value: 55 }, { label: 'edge', value: 45 }] },
+  sparkline: { title: 'Trend', points: [3, 8, 5, 13, 11, 18] },
+  tiles: { items: [{ value: '12', label: 'open' }, { value: '4', label: 'risk' }] },
+  pipeline: { title: 'Ship', items: [{ label: 'spec', state: 'done' }, { label: 'test', state: 'active' }, { label: 'tag', state: 'queued' }] },
+  note: { text: 'Plain note text.' },
+  focal: { value: '98%', label: 'uptime', sub: 'last 24h' },
+  scene: { height: 90, motif: 'hills' },
+  comparison: { title: 'Before / after', items: [{ label: 'latency', a: 84, b: 38, aNote: 'old', bNote: 'new' }] },
+  cards: { items: [{ title: 'A', desc: 'baseline', tag: 'safe' }, { title: 'B', desc: 'candidate', tag: 'rec', rec: true }] },
+  controls: {
+    items: [
+      { type: 'toggle', param: 'enabled', label: 'Enabled' },
+      { type: 'slider', param: 'level', label: 'Level', min: 0, max: 10 },
+      { type: 'select', param: 'mode', label: 'Mode', options: ['a', 'b'] },
+      { type: 'button', label: 'Send', action: { prompt: 'mode {mode}' } },
+    ],
+  },
+  button: { label: 'Send', action: { prompt: 'hello' } },
+  callout: { text: 'Important callout.' },
+  flow: { title: 'Flow', nodes: ['ingest', 'score', 'ship'] },
+  nodes: {
+    title: 'Graph',
+    active: 'step',
+    nodes: [{ id: 'a', label: 'A', col: 0, step: 1 }, { id: 'b', label: 'B', col: 1, step: 2 }],
+    edges: [['a', 'b']],
+  },
+  mermaid: { key: 'mm-fixture', code: 'flowchart LR\n  A[Start] --> B[Done]' },
+  stage: {
+    active: 'step',
+    parts: [{ label: 'Intake', step: 1 }, { label: 'Review', step: 2, note: 'Inspect this band.' }],
+  },
+  motion: { key: 'motion-fixture', preset: 'toggle', autoplay: false },
+  diagram: {
+    active: 'step',
+    layers: [{ tag: 'A', label: 'Input', sub: 'raw', step: 1 }, { tag: 'B', label: 'Output', sub: 'ready', step: 2 }],
+  },
+  stepper: { param: 'step', steps: 3, labels: ['one', 'two', 'three'] },
+  slider: { param: 'level', label: 'Level', min: 0, max: 10 },
+  select: { param: 'mode', label: 'Mode', options: ['a', { value: 'b', label: 'B' }] },
+  toggle: { param: 'enabled', label: 'Enabled' },
+  tabs: { param: 'mode', options: ['a', { value: 'b', label: 'B' }] },
+};
+
+const BASE_STATE = { step: 1, level: 5, mode: 'a', enabled: true };
+const NON_EMPTY_FLOOR = 24;
+
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function normalizeHtml(html) {
+  return html
+    .replace(/vdbsky_\d+/g, 'vdbsky_ID')
+    .replace(/vdbar_\d+/g, 'vdbar_ID')
+    .replace(/vdbmm_\d+/g, 'vdbmm_ID')
+    .replace(/vdbmo_\d+/g, 'vdbmo_ID')
+    .replace(/data-vdb-btn="\d+"/g, 'data-vdb-btn="N"');
+}
+
+function createRuntime() {
+  const { window } = parseHTML('<!doctype html><html><head></head><body><main id="app"></main></body></html>');
+  const errors = [];
+  const logs = [];
+
+  window.console = {
+    log: (...args) => logs.push(args.map(String).join(' ')),
+    warn: (...args) => logs.push(args.map(String).join(' ')),
+    error: (...args) => errors.push(args.map(String).join(' ')),
+  };
+  window.setTimeout = setTimeout;
+  window.clearTimeout = clearTimeout;
+  window.setInterval = setInterval;
+  window.clearInterval = clearInterval;
+  window.CSS = { escape: (value) => String(value).replace(/["\\]/g, '\\$&') };
+  window.open = () => {};
+
+  vm.runInNewContext(vdbSource, window, { filename: 'vdb.js' });
+  return { window, document: window.document, errors, logs, VDB: window.VDB };
+}
+
+function specFor(theme, component) {
+  return {
+    theme,
+    title: `${component.type} fixture`,
+    seed: 'harness',
+    state: clone(BASE_STATE),
+    animate: true,
+    components: [clone(component)],
+  };
+}
+
+async function settle() {
+  await new Promise((resolveSettle) => setTimeout(resolveSettle, 10));
+}
+
+async function renderOnce(theme, type) {
+  const runtime = createRuntime();
+  const target = runtime.document.getElementById('app');
+  const component = { type, ...clone(COMPONENTS[type]) };
+  const spec = specFor(theme, component);
+
+  let exception = null;
+  try {
+    runtime.VDB(target, spec);
+    await settle();
+  } catch (error) {
+    exception = error;
+  }
+
+  const html = target.innerHTML || '';
+  return { runtime, target, spec, html, exception };
+}
+
+async function checkRender(theme, type) {
+  const failures = [];
+  const result = await renderOnce(theme, type);
+
+  if (result.exception) failures.push(`exception: ${result.exception.message}`);
+  if (result.runtime.errors.length) failures.push(`console.error: ${result.runtime.errors.join(' | ')}`);
+  if (result.html.length < NON_EMPTY_FLOOR) failures.push(`empty render: innerHTML length ${result.html.length}`);
+
+  try {
+    const before = normalizeHtml(result.target.innerHTML);
+    result.runtime.VDB(result.target, result.spec);
+    await settle();
+    const after = normalizeHtml(result.target.innerHTML);
+    if (before !== after) failures.push('idempotent re-render changed normalized DOM');
+  } catch (error) {
+    failures.push(`idempotent exception: ${error.message}`);
+  }
+
+  if (type === 'mermaid' || type === 'motion') {
+    try {
+      const keyedBefore = result.target.querySelector('[data-vkey]');
+      result.runtime.VDB(result.target, result.spec);
+      await settle();
+      const keyedAfter = result.target.querySelector('[data-vkey]');
+      if (!keyedBefore || !keyedAfter || keyedBefore !== keyedAfter) {
+        failures.push('keyed node was not preserved across re-render');
+      }
+    } catch (error) {
+      failures.push(`key preservation exception: ${error.message}`);
+    }
+  }
+
+  return failures;
+}
+
+async function checkGracefulDegradation(type) {
+  const runtime = createRuntime();
+  const target = runtime.document.getElementById('app');
+  let exception = null;
+  try {
+    runtime.VDB(target, { theme: 'blueprint', state: clone(BASE_STATE), components: [{ type }] });
+    await settle();
+  } catch (error) {
+    exception = error;
+  }
+  const failures = [];
+  if (exception) failures.push(`missing props exception: ${exception.message}`);
+  if (runtime.errors.length) failures.push(`missing props console.error: ${runtime.errors.join(' | ')}`);
+  return failures;
+}
+
+function checkContrastConventions() {
+  const failures = [];
+  if (!vdbSource.includes('color:#06070f')) {
+    failures.push('diagram dark-on-fill convention #06070f not found');
+  }
+  if (!vdbSource.includes("primaryTextColor:'#0a0a12'") || !vdbSource.includes("nodeTextColor:'#0a0a12'")) {
+    failures.push('mermaid dark-on-fill convention #0a0a12 not found');
+  }
+  return failures;
+}
+
+function checkHelperShadowing() {
+  const helpers = ['h', 'esc', 'pct', 'C', '_sid'];
+  const failures = [];
+  const registryStart = vdbSource.indexOf('const C={');
+  const registryEnd = vdbSource.indexOf('\n  };\n\n  const ATM=', registryStart);
+  const registry = registryStart >= 0 && registryEnd > registryStart ? vdbSource.slice(registryStart, registryEnd) : '';
+  for (const helper of helpers) {
+    const pattern = new RegExp(`\\b(?:const|let|var)\\s+${helper}\\b`);
+    if (pattern.test(registry)) failures.push(`helper shadowed inside component registry: ${helper}`);
+  }
+  return failures;
+}
+
+async function checkRegressions() {
+  const regressions = [];
+
+  const flowResult = await renderOnce('blueprint', 'flow');
+  regressions.push({
+    name: 'flow-title-helper-collision',
+    ok: !flowResult.exception && flowResult.html.length >= NON_EMPTY_FLOOR,
+    failures: [
+      ...(flowResult.exception ? [`exception: ${flowResult.exception.message}`] : []),
+      ...(flowResult.html.length < NON_EMPTY_FLOOR ? [`empty render: innerHTML length ${flowResult.html.length}`] : []),
+    ],
+  });
+
+  const mermaidFailures = [];
+  for (const theme of ['crt', 'blueprint']) {
+    const result = await renderOnce(theme, 'mermaid');
+    if (result.exception) mermaidFailures.push(`${theme}: ${result.exception.message}`);
+  }
+  mermaidFailures.push(...checkContrastConventions().filter((failure) => failure.includes('mermaid')));
+  regressions.push({
+    name: 'mermaid-node-contrast',
+    ok: mermaidFailures.length === 0,
+    failures: mermaidFailures,
+  });
+
+  return regressions;
+}
+
+async function cdnSmoke() {
+  const url = 'https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11/vdb.js';
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    return { ok: response.status === 200, status: response.status, url };
+  } catch (error) {
+    return { ok: false, optional: true, error: error.message, url };
+  }
+}
+
+const matrix = {};
+const redCells = [];
+
+for (const type of Object.keys(COMPONENTS)) {
+  matrix[type] = {};
+  const degradationFailures = await checkGracefulDegradation(type);
+  for (const theme of THEMES) {
+    const failures = await checkRender(theme, type);
+    if (degradationFailures.length) failures.push(...degradationFailures);
+    matrix[type][theme] = failures.length ? { ok: false, failures } : { ok: true, failures: [] };
+    if (failures.length) redCells.push({ type, theme, failures });
+  }
+}
+
+const globalChecks = [
+  ...checkContrastConventions().map((failure) => ({ name: 'contrast-convention', failure })),
+  ...checkHelperShadowing().map((failure) => ({ name: 'helper-shadowing', failure })),
+];
+const regressions = await checkRegressions();
+const cdn = await cdnSmoke();
+
+for (const check of globalChecks) {
+  redCells.push({ type: check.name, theme: '*', failures: [check.failure] });
+}
+for (const regression of regressions) {
+  if (!regression.ok) redCells.push({ type: `regression:${regression.name}`, theme: '*', failures: regression.failures });
+}
+
+const failedMatrixCells = redCells.filter((cell) => THEMES.includes(cell.theme)).length;
+const summary = {
+  generatedAt: new Date().toISOString(),
+  vdbVersion: createRuntime().VDB.version,
+  componentCount: Object.keys(COMPONENTS).length,
+  themeCount: THEMES.length,
+  passedCells: Object.keys(COMPONENTS).length * THEMES.length - failedMatrixCells,
+  failedCells: failedMatrixCells,
+  globalFailures: globalChecks,
+  regressions,
+  cdnSmoke: cdn,
+  matrix,
+  redCells,
+};
+
+await mkdir(__dirname, { recursive: true });
+await writeFile(lastRunPath, JSON.stringify(summary, null, 2) + '\n', 'utf8');
+
+const header = ['component', ...THEMES].join('\t');
+const lines = [header];
+for (const [type, row] of Object.entries(matrix)) {
+  lines.push([type, ...THEMES.map((theme) => (row[theme].ok ? 'PASS' : 'FAIL'))].join('\t'));
+}
+
+lines.push('');
+lines.push(`Version: ${summary.vdbVersion}`);
+lines.push(`Cells: ${summary.passedCells} passed, ${summary.failedCells} failed`);
+lines.push(`Regressions: ${regressions.map((r) => `${r.name}=${r.ok ? 'PASS' : 'FAIL'}`).join(', ')}`);
+lines.push(`CDN smoke: ${cdn.ok ? 'PASS' : 'WARN'}${cdn.status ? ` (${cdn.status})` : cdn.error ? ` (${cdn.error})` : ''}`);
+lines.push(`last-run: ${lastRunPath}`);
+
+if (redCells.length) {
+  lines.push('');
+  lines.push('Red cells:');
+  for (const cell of redCells) {
+    lines.push(`- ${cell.type} / ${cell.theme}: ${cell.failures.join('; ')}`);
+  }
+  process.exitCode = 1;
+}
+
+process.stdout.write(`${lines.join('\n')}\n`);

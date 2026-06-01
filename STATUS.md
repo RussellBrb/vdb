@@ -6,19 +6,23 @@
 
 ## Engine
 - `vdb.js` @ **v11** live on CDN (commit `2bc4da9`). Fixes: `flow` title-helper collision, mermaid node contrast.
+- No engine hardening was done in this step.
 - Banked for v12: `vdb.min.js`; `{param}` interpolation into component *values* (currently only in button prompts).
 
 ## Docs
 - `GOVERNANCE.md`, `GOVERNANCE-research.md` - committed.
 - `HANDOFF-CONTRACT.md` - the build contract; all open items resolved (schemas, contrast, when-grammar).
 
+## Harness
+- `tests/harness.mjs` is in place and runs with `npm test` against local `vdb.js` using dev-only `linkedom`.
+- Latest run: `VDB.version='v11'`; 112 / 175 component-theme cells passed; 63 / 175 failed.
+- Locked regressions passed: `flow-title-helper-collision`, `mermaid-node-contrast`.
+- CDN `@v11` smoke passed with HTTP 200.
+- Current red cells are graceful-degradation failures for missing required props in `bars`, `allocation`, `sparkline`, `tiles`, `pipeline`, `comparison`, `cards`, `select`, and `tabs` across all themes.
+
 ## Phase
 **Consolidation** (no new features). Order: harness -> harden -> catalog -> recipes -> min build.
 
-## Relay
-- Handshake complete: Codex pulled `main`, read all required relay/contract/engine files, confirmed local `vdb.js` is `v11`, and verified the pinned CDN URL returns HTTP 200.
-- Step 2 harness work has not started; awaiting confirmation that the channel is green.
-
 ## Next deliverable
-- **Owner: Codex.** After handshake confirmation, `tests/harness.mjs` per HANDOFF-CONTRACT Section 5 - render every component x every theme; assert non-empty, no console errors, contrast (WCAG 4.5:1 / 3:1), graceful degradation, idempotency. Lock regression tests for the flow + mermaid bugs.
-- **Owner: Claude.** Review harness diff; design v12 `{param}` value-interpolation when reached.
+- **Owner: Claude.** Review harness diff and decide the hardening policy for missing required props.
+- **Owner: Codex.** After review, harden the red components per HANDOFF-CONTRACT Section 6, then rerun the matrix.

@@ -1,0 +1,1347 @@
+{
+  "generatedAt": "2026-06-01T19:50:28.404Z",
+  "vdbVersion": "v11",
+  "componentCount": 25,
+  "themeCount": 7,
+  "passedCells": 112,
+  "failedCells": 63,
+  "globalFailures": [],
+  "regressions": [
+    {
+      "name": "flow-title-helper-collision",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "name": "mermaid-node-contrast",
+      "ok": true,
+      "failures": []
+    }
+  ],
+  "cdnSmoke": {
+    "ok": true,
+    "status": 200,
+    "url": "https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11/vdb.js"
+  },
+  "matrix": {
+    "gauge": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "bars": {
+      "twilight-forest": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "under-the-sea": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "sunrise": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "synthwave": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "crt": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "chill": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "blueprint": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      }
+    },
+    "allocation": {
+      "twilight-forest": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+        ]
+      },
+      "under-the-sea": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+        ]
+      },
+      "sunrise": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+        ]
+      },
+      "synthwave": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+        ]
+      },
+      "crt": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+        ]
+      },
+      "chill": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+        ]
+      },
+      "blueprint": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+        ]
+      }
+    },
+    "sparkline": {
+      "twilight-forest": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "under-the-sea": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "sunrise": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "synthwave": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "crt": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "chill": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "blueprint": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      }
+    },
+    "tiles": {
+      "twilight-forest": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "under-the-sea": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "sunrise": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "synthwave": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "crt": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "chill": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      },
+      "blueprint": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'length')"
+        ]
+      }
+    },
+    "pipeline": {
+      "twilight-forest": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "under-the-sea": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "sunrise": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "synthwave": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "crt": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "chill": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "blueprint": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      }
+    },
+    "note": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "focal": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "scene": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "comparison": {
+      "twilight-forest": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "under-the-sea": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "sunrise": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "synthwave": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "crt": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "chill": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "blueprint": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      }
+    },
+    "cards": {
+      "twilight-forest": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "under-the-sea": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "sunrise": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "synthwave": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "crt": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "chill": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "blueprint": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      }
+    },
+    "controls": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "button": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "callout": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "flow": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "nodes": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "mermaid": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "stage": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "motion": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "diagram": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "stepper": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "slider": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "select": {
+      "twilight-forest": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "under-the-sea": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "sunrise": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "synthwave": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "crt": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "chill": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "blueprint": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      }
+    },
+    "toggle": {
+      "twilight-forest": {
+        "ok": true,
+        "failures": []
+      },
+      "under-the-sea": {
+        "ok": true,
+        "failures": []
+      },
+      "sunrise": {
+        "ok": true,
+        "failures": []
+      },
+      "synthwave": {
+        "ok": true,
+        "failures": []
+      },
+      "crt": {
+        "ok": true,
+        "failures": []
+      },
+      "chill": {
+        "ok": true,
+        "failures": []
+      },
+      "blueprint": {
+        "ok": true,
+        "failures": []
+      }
+    },
+    "tabs": {
+      "twilight-forest": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "under-the-sea": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "sunrise": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "synthwave": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "crt": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "chill": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      },
+      "blueprint": {
+        "ok": false,
+        "failures": [
+          "missing props exception: Cannot read properties of undefined (reading 'map')"
+        ]
+      }
+    }
+  },
+  "redCells": [
+    {
+      "type": "bars",
+      "theme": "twilight-forest",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "bars",
+      "theme": "under-the-sea",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "bars",
+      "theme": "sunrise",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "bars",
+      "theme": "synthwave",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "bars",
+      "theme": "crt",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "bars",
+      "theme": "chill",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "bars",
+      "theme": "blueprint",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "allocation",
+      "theme": "twilight-forest",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+      ]
+    },
+    {
+      "type": "allocation",
+      "theme": "under-the-sea",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+      ]
+    },
+    {
+      "type": "allocation",
+      "theme": "sunrise",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+      ]
+    },
+    {
+      "type": "allocation",
+      "theme": "synthwave",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+      ]
+    },
+    {
+      "type": "allocation",
+      "theme": "crt",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+      ]
+    },
+    {
+      "type": "allocation",
+      "theme": "chill",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+      ]
+    },
+    {
+      "type": "allocation",
+      "theme": "blueprint",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'reduce')"
+      ]
+    },
+    {
+      "type": "sparkline",
+      "theme": "twilight-forest",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "sparkline",
+      "theme": "under-the-sea",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "sparkline",
+      "theme": "sunrise",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "sparkline",
+      "theme": "synthwave",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "sparkline",
+      "theme": "crt",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "sparkline",
+      "theme": "chill",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "sparkline",
+      "theme": "blueprint",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "tiles",
+      "theme": "twilight-forest",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "tiles",
+      "theme": "under-the-sea",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "tiles",
+      "theme": "sunrise",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "tiles",
+      "theme": "synthwave",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "tiles",
+      "theme": "crt",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "tiles",
+      "theme": "chill",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "tiles",
+      "theme": "blueprint",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'length')"
+      ]
+    },
+    {
+      "type": "pipeline",
+      "theme": "twilight-forest",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "pipeline",
+      "theme": "under-the-sea",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "pipeline",
+      "theme": "sunrise",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "pipeline",
+      "theme": "synthwave",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "pipeline",
+      "theme": "crt",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "pipeline",
+      "theme": "chill",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "pipeline",
+      "theme": "blueprint",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "comparison",
+      "theme": "twilight-forest",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "comparison",
+      "theme": "under-the-sea",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "comparison",
+      "theme": "sunrise",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "comparison",
+      "theme": "synthwave",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "comparison",
+      "theme": "crt",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "comparison",
+      "theme": "chill",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "comparison",
+      "theme": "blueprint",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "cards",
+      "theme": "twilight-forest",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "cards",
+      "theme": "under-the-sea",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "cards",
+      "theme": "sunrise",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "cards",
+      "theme": "synthwave",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "cards",
+      "theme": "crt",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "cards",
+      "theme": "chill",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "cards",
+      "theme": "blueprint",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "select",
+      "theme": "twilight-forest",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "select",
+      "theme": "under-the-sea",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "select",
+      "theme": "sunrise",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "select",
+      "theme": "synthwave",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "select",
+      "theme": "crt",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "select",
+      "theme": "chill",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "select",
+      "theme": "blueprint",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "tabs",
+      "theme": "twilight-forest",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "tabs",
+      "theme": "under-the-sea",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "tabs",
+      "theme": "sunrise",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "tabs",
+      "theme": "synthwave",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "tabs",
+      "theme": "crt",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "tabs",
+      "theme": "chill",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    },
+    {
+      "type": "tabs",
+      "theme": "blueprint",
+      "failures": [
+        "missing props exception: Cannot read properties of undefined (reading 'map')"
+      ]
+    }
+  ]
+}
