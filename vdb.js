@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════════════
-   VDB — Visual DashBoard engine  ·  v6 (interactive · x-ray · motion · graphs)
+   VDB — Visual DashBoard engine  ·  v7 (· x-ray · motion · graphs · annotated stage · score chip)
      VDB('#el', { theme, title, subtitle, backdrop, decor, state, components:[...] })
    No dependencies. v3 adds interactivity, modelled on Vega-Lite's idea that
    interaction is STATE and every view is a pure function of it:
@@ -83,7 +83,11 @@
     @keyframes vdb-draw{from{stroke-dashoffset:600}to{stroke-dashoffset:0}}
     .vdb-anim .vdb-edge{stroke-dasharray:600;animation:vdb-draw 1s ease forwards}
     .vdb-mermaid{margin:8px 0;font-size:13px;color:var(--muted)}.vdb-mermaid svg{max-width:100%;height:auto}
-    @media (prefers-reduced-motion:reduce){.vdb *{transition:none!important;animation:none!important}}`;
+.vdb-score{font-size:12px;color:var(--accent);background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:20px;padding:2px 10px;cursor:pointer;font-family:inherit}
+    .vdb-score:focus-visible{outline:2px solid var(--tint);outline-offset:2px}
+    .vdb-eff{border:1px solid var(--line);border-radius:10px;padding:10px 13px;margin:6px 0 10px;background:rgba(255,255,255,.03)}
+    .vdb-anim .vdb-onpart{animation:vdb-pop .45s ease both}
+        @media (prefers-reduced-motion:reduce){.vdb *{transition:none!important;animation:none!important}}`;
     const el=document.createElement('style');el.id='vdb-styles';el.textContent=css;document.head.appendChild(el);
   }
 
@@ -125,6 +129,7 @@
     flow(c){const nodes=c.nodes||c.steps||[];const n=nodes.length||1;const w=600,h=66,y=24;const X=i=>n<2?w/2:30+i/(n-1)*(w-60);const line=`M30,${y} L${w-30},${y}`;const nm=nodes.map((nd,i)=>{const x=X(i).toFixed(1),l=(nd&&nd.label!=null)?nd.label:nd;return `<circle cx="${x}" cy="${y}" r="6" fill="var(--anchor)"/><text x="${x}" y="${h-8}" text-anchor="middle" fill="var(--muted)" font-size="12">${esc(l)}</text>`;}).join('');return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<svg width="100%" height="${h}" viewBox="0 0 ${w} ${h}"><path d="${line}" stroke="var(--line)" stroke-width="2" fill="none"/>${nm}<circle r="4.5" fill="var(--accent)" class="vdb-travel" style="offset-path:path('${line}');filter:drop-shadow(0 0 5px var(--accent))"/></svg>`;},
     nodes(c){c._id=++_sid;const ns=c.nodes||[];const byId={};ns.forEach(function(n,i){n._i=i;if(n.id!=null)byId[n.id]=n;});const cols={};ns.forEach(function(n,i){const k=n.col!=null?n.col:i;(cols[k]=cols[k]||[]).push(n);});const ck=Object.keys(cols).map(Number).sort(function(a,b){return a-b;});const NW=120,NH=34,GX=48,GY=14,PX=8,PY=8;const maxR=Math.max.apply(null,ck.map(function(k){return cols[k].length;}));const W=PX*2+ck.length*NW+(ck.length-1)*GX;const H=PY*2+maxR*NH+(maxR-1)*GY;ck.forEach(function(k,ci){const arr=cols[k],colH=arr.length*NH+(arr.length-1)*GY,y0=(H-colH)/2;arr.forEach(function(n,ri){n._x=PX+ci*(NW+GX);n._y=y0+ri*(NH+GY);});});const cur=c.active?c._state[c.active]:null;const eg=(c.edges||[]).map(function(e){const f=Array.isArray(e)?e[0]:e.from,t=Array.isArray(e)?e[1]:e.to,a=byId[f]||ns[f],b=byId[t]||ns[t];if(!a||!b)return '';const x1=a._x+NW,y1=a._y+NH/2,x2=b._x,y2=b._y+NH/2,mx=(x1+x2)/2;return `<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" stroke="var(--line)" stroke-width="2" class="vdb-edge" marker-end="url(#vdbar_${c._id})"/>`;}).join('');const nm=ns.map(function(n,i){const on=cur!=null&&((n.step!=null?n.step:i+1)==cur),op=cur!=null&&!on?'.45':'1';return `<g opacity="${op}"><rect x="${n._x}" y="${n._y}" width="${NW}" height="${NH}" rx="8" fill="rgba(255,255,255,.05)" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="${on?2:1}"/><text x="${n._x+NW/2}" y="${n._y+NH/2+4}" text-anchor="middle" fill="var(--ink)" font-size="12">${esc(n.label!=null?n.label:n.id)}</text></g>`;}).join('');return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-width:${W}px"><defs><marker id="vdbar_${c._id}" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6" fill="var(--line)"/></marker></defs>${eg}${nm}</svg>`;},
     mermaid(c){const id='vdbmm_'+(++_sid);setTimeout(function(){const host=document.getElementById(id);if(!host)return;const fb=function(){host.innerHTML='<pre style="white-space:pre-wrap;font-size:12px;color:var(--muted);margin:0">'+esc(c.code)+'</pre>';};loadMermaid().then(function(mm){try{mm.render(id+'_s',c.code).then(function(r){if(document.getElementById(id))host.innerHTML=r.svg;}).catch(fb);}catch(e){fb();}}).catch(fb);},0);return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<div id="${id}" class="vdb-mermaid">Loading diagram…</div>`;},
+    stage(c){const parts=c.parts||[];const cur=c.active?c._state[c.active]:null;const W=600,BW=160,BH=30,GY=8,PX=18,PY=14,n=parts.length;const H=PY*2+n*BH+(Math.max(0,n-1))*GY;let bands='',anno='';parts.forEach(function(p,i){const y=PY+i*(BH+GY),on=cur!=null&&((p.step!=null?p.step:i+1)==cur),op=cur!=null&&!on?'.4':'1';bands+=`<g opacity="${op}"${on?' class="vdb-onpart"':''}><rect x="${PX}" y="${y}" width="${BW}" height="${BH}" rx="7" fill="${on?(p.color||'rgba(255,255,255,.09)'):'rgba(255,255,255,.04)'}" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="${on?2:1}"/><text x="${PX+BW/2}" y="${y+BH/2+4}" text-anchor="middle" fill="var(--ink)" font-size="12">${esc(p.label!=null?p.label:p.id)}</text></g>`;if(on&&p.note){const my=y+BH/2,lx=PX+BW,nx=PX+BW+44;anno=`<path d="M${lx},${my} L${lx+24},${my} L${nx},${my}" stroke="var(--accent)" stroke-width="1.5" fill="none"/><circle cx="${lx}" cy="${my}" r="2.5" fill="var(--accent)"/><foreignObject x="${nx}" y="${my-28}" width="${W-nx-10}" height="64"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:12px;color:var(--ink);line-height:1.45;font-family:inherit">${p.note}</div></foreignObject>`;}});return (c.title?`<div class="vdb-h">${esc(c.title)}</div>`:'')+`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-width:${W}px">${bands}${anno}</svg>`;},
   };
 
   const ATM={far:'opacity:.5;filter:saturate(.7)',mid:'opacity:.8',near:''};
@@ -162,11 +167,13 @@
       let deco='';
       if(spec.backdrop){const bo=typeof spec.backdrop==='object'?Object.assign({},spec.backdrop):{motif:spec.backdrop};bo.id=++_sid;bo.height=bo.height||220;deco+=`<div class="vdb-deco" style="opacity:${bo.opacity!=null?bo.opacity:.5}">${sceneSVG(bo,rng,pal)}</div>`;}
       (spec.decor||[]).forEach(d=>{ if(d==='vignette')deco+=`<div class="vdb-deco" style="box-shadow:inset 0 0 90px 12px rgba(0,0,0,.5)"></div>`; else if(d==='scanlines')deco+=`<div class="vdb-deco" style="background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 2px 4px)"></div>`; else if(d==='mist')deco+=`<div class="vdb-deco" style="background:linear-gradient(0deg,rgba(255,255,255,.10),transparent 35%)"></div>`; });
-      const head=(spec.title||spec.subtitle)?`<div class="vdb-bar"><span>${spec.title||''}</span>${spec.tag?`<small>${esc(spec.tag)}</small>`:''}</div>${spec.subtitle?`<div class="vdb-sub">${esc(spec.subtitle)}</div>`:''}`:'';
+      const _sc=spec.score; const _chip=_sc?`<button class="vdb-score" data-vdb-score aria-expanded="${!!state.__eff}">${esc(_sc.label||'score')} · ${esc(_sc.grade!=null?_sc.grade:_sc.value)}</button>`:'';
+      const head=(spec.title||spec.subtitle||_sc)?`<div class="vdb-bar"><span>${spec.title||''}</span><span style="display:flex;gap:8px;align-items:baseline">${spec.tag?`<small>${esc(spec.tag)}</small>`:''}${_chip}</span></div>${spec.subtitle?`<div class="vdb-sub">${esc(spec.subtitle)}</div>`:''}`:'';
+      const effP=(_sc&&state.__eff&&_sc.detail)?`<div class="vdb-eff"><div class="vdb-h">Efficiency</div>${_sc.detail.map(function(d){var v=Math.max(0,Math.min(100,d.value<=1?d.value*100:d.value));return `<div class="vdb-row"><div class="vdb-lab"><span>${esc(d.label)}</span><span class="c">${esc(d.note!=null?d.note:Math.round(v))}</span></div><div class="vdb-trk"><div class="vdb-fl" style="width:${v}%"></div></div></div>`;}).join('')}</div>`:'';
       const body=(spec.components||[]).map(c=>renderComp(c,state,actions,pal,rng)).join('');
       /* preserve focus across re-render */
       const a=document.activeElement, fk=a&&el.contains(a)?a.getAttribute('data-focus'):null;
-      el.innerHTML=deco+`<div class="vdb-body">${head}${body}</div>`;
+      el.innerHTML=deco+`<div class="vdb-body">${head}${effP}${body}</div>`;
       if(fk){const t=el.querySelector('[data-focus="'+(window.CSS&&CSS.escape?CSS.escape(fk):fk)+'"]'); if(t&&t.focus)t.focus();}
     }
 
@@ -178,6 +185,7 @@
       el.addEventListener('click',e=>{
         const tab=e.target.closest('[data-vdb-tab]'); if(tab){state[tab.dataset.vdbTab]=coerce(tab.dataset.v);render();return;}
         const tg=e.target.closest('[data-vdb-toggle]'); if(tg){state[tg.dataset.vdbToggle]=!state[tg.dataset.vdbToggle];render();return;}
+        const sef=e.target.closest('[data-vdb-score]'); if(sef){state.__eff=!state.__eff;render();return;}
         const bt=e.target.closest('[data-vdb-btn]'); if(bt){hostAction((el.__actions||[])[+bt.dataset.vdbBtn]);return;}
         const stp=e.target.closest('[data-vdb-step]'); if(stp){const sp=stp.dataset.p,nn=+stp.dataset.n;state[sp]=Math.max(1,Math.min(nn,(state[sp]||1)+(+stp.dataset.vdbStep)));render();return;}
       });
@@ -195,7 +203,7 @@
     return el;
   }
 
-  VDB.version='v6';
+  VDB.version='v7';
   VDB.themes=Object.keys(THEMES);
   VDB.palette=resolveTheme;
   global.VDB=VDB;
