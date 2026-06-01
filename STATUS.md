@@ -23,6 +23,9 @@
 ## Phase
 **Consolidation** (no new features). Order: harness -> harden -> catalog -> recipes -> min build.
 
+## Harness
+- `tests/harness.mjs` built (Codex, commit 9d77c56). First run: 112/175 cells pass; both regressions green; CDN smoke 200. Failures = missing-prop graceful-degradation gap.
+
 ## Next deliverable
-- **Owner: Claude.** Review harness diff and decide the hardening policy for missing required props.
-- **Owner: Codex.** After review, harden the red components per HANDOFF-CONTRACT Section 6, then rerun the matrix.
+- **Owner: Codex.** Harden the 9 throwing components (guard collection props → degrade, never throw) per `inbox-codex.md` 2026-06-01 "Harness approved". Re-run harness → target 175/175.
+- **Owner: Claude.** Review the hardening diff; then scope v12 (min build + `{param}` value-interpolation).
