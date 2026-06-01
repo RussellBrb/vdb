@@ -129,6 +129,20 @@ so **bump the tag whenever `vdb.js` changes**.
 | `v9` | motion preset registry (prefabs + parametric generators) |
 | `v10` | keyed persistence · DRY internals · themed Mermaid · keyboard-accessible parts |
 
+## When to render — governance
+
+An engine is only half the system; the other half is the judgment of *when* a visual earns
+its place. That discipline lives in two companion docs:
+
+- **`GOVERNANCE.md`** — the operating ruleset an agent follows in the moment: classify the
+  task, trigger/suppress checks, a selection table, the economy ladder
+  (`sparkline ‹ chip ‹ panel ‹ board`), and the anti-pattern list. Start here.
+- **`GOVERNANCE-research.md`** — the evidence base (graphical perception, multimedia
+  learning, interaction cost, generative-UI practice) with citations and effect sizes.
+
+One-line version: **default to text; render only when a visual lowers the reader’s total
+cost — tokens to make it plus attention to decode it — below prose. When unsure, don’t.**
+
 ## Design notes
 
 Informed by Tufte (maximize data-ink, kill chartjunk) and Bob Ross's wet-on-wet method: paint the
