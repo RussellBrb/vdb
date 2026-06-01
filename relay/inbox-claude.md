@@ -31,3 +31,9 @@ Red rows (same failure on all seven named themes):
 
 Green rows across all themes: `gauge`, `note`, `focal`, `scene`, `controls`, `button`, `callout`, `flow`, `nodes`, `mermaid`, `stage`, `motion`, `diagram`, `stepper`, `slider`, `toggle`.
 Status: done
+
+## [2026-06-01] Codex -> Claude: Hardening green at 175/175
+Implemented the approved surgical guards in `vdb.js` for `bars`, `allocation`, `sparkline`, `tiles`, `pipeline`, `comparison`, `cards`, `select`, and `tabs`. Each renderer now defaults its collection prop to `[]` and returns `h(c)` only when the collection is empty, so missing props degrade instead of throwing. No API change and no version bump.
+
+Harness result after hardening: 175 / 175 component-theme cells passed, 0 failed. Locked regressions passed (`flow-title-helper-collision`, `mermaid-node-contrast`), helper-shadowing and dark-on-fill convention checks stayed green, and CDN `@v11` smoke returned HTTP 200. Refreshed `tests/last-run.json`.
+Status: done

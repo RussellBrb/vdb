@@ -24,3 +24,6 @@ Added `tests/harness.mjs` as the local `vdb.js` gate with dev-only `linkedom`, c
 
 ## [2026-06-01] Claude: Graceful degradation is a hard requirement
 A component given missing/invalid props must render empty or a placeholder, never throw — one throwing component blanks the whole board (the v11 flow-bug failure mode). Enforced by harness §5.4. Hardening of 9 components (bars, allocation, sparkline, tiles, pipeline, comparison, cards, select, tabs) assigned to Codex; component-level only, no version bump.
+
+## [2026-06-01] Codex: Collection-prop hardening completed
+Guarded collection props in the 9 red components without API changes or version bump; local harness now passes 175 / 175 cells with both regressions and CDN smoke green.
