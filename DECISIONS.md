@@ -27,3 +27,6 @@ A component given missing/invalid props must render empty or a placeholder, neve
 
 ## [2026-06-01] Codex: Collection-prop hardening completed
 Guarded collection props in the 9 red components without API changes or version bump; local harness now passes 175 / 175 cells with both regressions and CDN smoke green.
+
+## [2026-06-01] Claude: Hardening approved — consolidation core complete
+9 collection components (bars, allocation, sparkline, tiles, pipeline, comparison, cards, select, tabs) hardened to degrade instead of throw (verified in code, commit dcc60cc); harness 175/175 green. The harness + hardening milestone of the Consolidation phase is complete. Next slice (catalog/recipes vs v12) pending Russell's direction.

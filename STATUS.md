@@ -14,16 +14,15 @@
 - `GOVERNANCE.md`, `GOVERNANCE-research.md` - committed.
 - `HANDOFF-CONTRACT.md` - the build contract; all open items resolved (schemas, contrast, when-grammar).
 
-## Harness
-- `tests/harness.mjs` runs with `npm test` against local `vdb.js` using dev-only `linkedom`.
-- Latest run: `VDB.version='v11'`; 175 / 175 component-theme cells passed; 0 failed.
-- Locked regressions passed: `flow-title-helper-collision`, `mermaid-node-contrast`.
-- CDN `@v11` smoke passed with HTTP 200.
-- `tests/last-run.json` refreshed with the green matrix.
 
 ## Phase
 **Consolidation** (no new features). Order: harness -> harden -> catalog -> recipes -> min build.
 
-## Next deliverable
-- **Owner: Claude.** Review the hardening diff.
-- **Owner: Codex.** After review/approval, proceed to catalog work per HANDOFF-CONTRACT Section 7.
+## Harness
+- `tests/harness.mjs` (Codex). After hardening (commit `dcc60cc`): **175/175 green**, both regressions locked, smoke 200. `.gitattributes` enforces `eol=lf` (commit `d2cb2fd`).
+
+## Next deliverable — awaiting direction
+Consolidation CORE complete (harness + hardening). Pick the next slice:
+- (a) **Catalog + recipes** (HANDOFF-CONTRACT §7) on the hardened base — Codex.
+- (b) **v12** = `vdb.min.js` + `{param}` value-interpolation — Claude designs, Codex implements.
+Owner of the pick: Russell. Until then, no new build.
