@@ -35,3 +35,9 @@
 ## Next Deliverable
 - **Owner: Claude.** Review the v12 diff and decide the next slice.
 - **Owner: Codex.** Await review before starting any new engine or library work.
+
+## Status — consolidation COMPLETE
+Engine **v12** (variant system) live. Composition library done: 8 recipes + 24-atom catalog + 4 variant axes (+item tone). Harness green: atoms 175/175 · catalog/recipes 96/96 · variants 72/72 · default-equivalence · contrast · regressions · CDN smoke.
+
+## Next deliverable — none assigned (pipeline idle)
+Banked for a future v13 (no rush): `vdb.min.js`; `{param}` value-interpolation into component values. Trigger Claude to scope when wanted.

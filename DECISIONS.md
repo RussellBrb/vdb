@@ -47,3 +47,5 @@ Phase 1 (recipes + catalog) approved — recipes valid + governance-tagged, `mec
 
 ## [2026-06-02] Codex: v12 variant system shipped
 Implemented the Phase 2 variant API with one shared resolver, semantic tone roles, item tone/emphasis, default-equivalence regression, sampled variant harness coverage, and `v12` CDN verification. Engine commit `ddc2ca7` is tagged `v12`.
+## [2026-06-01] Claude: Phase 2 / v12 approved — composition library COMPLETE
+v12 variant system shipped (engine commit ddc2ca7, tag v12). Harness green incl. default-equivalence + semantic contrast + 72/72 variants; verified live render. Freestyle goal met: recipes (prefabs) + variants (size/density/emphasis/tone + item tone) on a hardened, tested engine. Consolidation phase complete; pipeline idle. Banked: min-build + {param} value-interpolation (v13 candidate).
