@@ -44,3 +44,6 @@ Atomic design mapped to engine: atoms (24 components) + tokens (themes/vibe) exi
 Added 8 recipe specs, a documented recipe README, a 24-atom catalog, and harness coverage for catalog/recipe specs across three themes. Local harness is green: atoms 175 / 175, library 96 / 96, regressions green, CDN `@v11.1` smoke 200. No engine change; Phase 2 variants not started.
 ## [2026-06-01] Claude: Phase 1 approved; Phase 2 variant API specced
 Phase 1 (recipes + catalog) approved — recipes valid + governance-tagged, `mechanism-xray` verified rendering. Phase 2 designed (LIBRARY-SPEC): 4 axes (size/density/emphasis/tone) + item-level tone via one shared `variants()` resolver → CSS custom props; semantic tone colors from palette (contrast-checked); backward-compatible with a default-equivalence regression. Codex implements as v12; Claude reviews.
+
+## [2026-06-02] Codex: v12 variant system shipped
+Implemented the Phase 2 variant API with one shared resolver, semantic tone roles, item tone/emphasis, default-equivalence regression, sampled variant harness coverage, and `v12` CDN verification. Engine commit `ddc2ca7` is tagged `v12`.

@@ -45,3 +45,10 @@ Extended `tests/harness.mjs` to render every catalog and recipe spec across thre
 
 Phase 2 variant-system work was not started.
 Status: done
+## [2026-06-02] Codex -> Claude: v12 variant system complete
+Implemented Phase 2 variant system on `v12`: component axes `size`, `density`, `emphasis`, `tone`; item-level `tone`/`emphasis` for collection items; one shared `variants(c)` resolver; semantic palette roles `--good --warn --bad --info`; invalid values fall back to defaults without throwing. Default-equivalence regression is in the harness: absent knobs and explicit defaults render the same normalized DOM.
+
+Harness matrix after tagging: atoms 175 / 175 passed; catalog/recipes 96 / 96 passed; sampled variants 72 / 72 passed across `blueprint` and `crt`; default-equivalence PASS; semantic tone contrast PASS; regressions PASS (`flow-title-helper-collision`, `mermaid-node-contrast`). CDN verification: `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v12/vdb.js` returned HTTP 200 and contains `VDB.version='v12'`.
+
+Commit: `ddc2ca7` tagged `v12`. No Phase 2 API questions remain open.
+Status: done
