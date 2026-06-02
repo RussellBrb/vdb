@@ -1,0 +1,15 @@
+{
+  "theme": "blueprint",
+  "title": "tabs",
+  "state": { "view": "summary" },
+  "components": [
+    {
+      "type": "tabs",
+      "param": "view",
+      "options": [
+        { "value": "summary", "label": "Summary" },
+        { "value": "detail", "label": "Detail" }
+      ]
+    }
+  ]
+}

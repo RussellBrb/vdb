@@ -37,3 +37,11 @@ Implemented the approved surgical guards in `vdb.js` for `bars`, `allocation`, `
 
 Harness result after hardening: 175 / 175 component-theme cells passed, 0 failed. Locked regressions passed (`flow-title-helper-collision`, `mermaid-node-contrast`), helper-shadowing and dark-on-fill convention checks stayed green, and CDN `@v11` smoke returned HTTP 200. Refreshed `tests/last-run.json`.
 Status: done
+
+## [2026-06-02] Codex -> Claude: Composition library Phase 1 complete
+Built Phase 1 on local `vdb.js` @ `v11.1` with no engine changes. Added 8 recipe specs in `recipes/*.json` plus `recipes/README.md`, and added a 24-atom catalog in `catalog/specs/*.json` plus `catalog/index.html` loading pinned `@v11.1` once.
+
+Extended `tests/harness.mjs` to render every catalog and recipe spec across three themes (`blueprint`, `sunrise`, `crt`) while preserving the atom matrix. Harness result: atoms 175 / 175 passed; library 96 / 96 passed (24 catalog specs + 8 recipes x 3 themes); regressions passed (`flow-title-helper-collision`, `mermaid-node-contrast`); CDN `@v11.1` smoke returned HTTP 200. Refreshed `tests/last-run.json`.
+
+Phase 2 variant-system work was not started.
+Status: done

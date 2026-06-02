@@ -1,0 +1,15 @@
+{
+  "theme": "blueprint",
+  "title": "allocation",
+  "components": [
+    {
+      "type": "allocation",
+      "title": "Share",
+      "items": [
+        { "label": "build", "value": 50 },
+        { "label": "review", "value": 30 },
+        { "label": "ops", "value": 20 }
+      ]
+    }
+  ]
+}

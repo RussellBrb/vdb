@@ -1,0 +1,8 @@
+{
+  "theme": "blueprint",
+  "title": "slider",
+  "state": { "level": 5 },
+  "components": [
+    { "type": "slider", "param": "level", "label": "Level", "min": 0, "max": 10 }
+  ]
+}

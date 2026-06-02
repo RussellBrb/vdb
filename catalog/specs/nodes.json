@@ -1,0 +1,18 @@
+{
+  "theme": "blueprint",
+  "title": "nodes",
+  "state": { "step": 2 },
+  "components": [
+    {
+      "type": "nodes",
+      "title": "Graph",
+      "active": "step",
+      "nodes": [
+        { "id": "a", "label": "Input", "col": 0, "step": 1 },
+        { "id": "b", "label": "Rule", "col": 1, "step": 2 },
+        { "id": "c", "label": "Output", "col": 2, "step": 3 }
+      ],
+      "edges": [["a", "b"], ["b", "c"]]
+    }
+  ]
+}

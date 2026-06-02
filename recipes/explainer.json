@@ -1,0 +1,25 @@
+{
+  "theme": "under-the-sea",
+  "title": "Concept Explainer",
+  "tag": "explainer",
+  "subtitle": "Teach one concept with a claim, a structure, and a plain-language note.",
+  "seed": "recipe-explainer",
+  "components": [
+    {
+      "type": "callout",
+      "text": "Main idea: the visible output is only the final layer of a multi-step system."
+    },
+    {
+      "type": "diagram",
+      "layers": [
+        { "tag": "A", "label": "Signal", "sub": "The input worth tracking." },
+        { "tag": "B", "label": "Filter", "sub": "Rules remove noise." },
+        { "tag": "C", "label": "Decision", "sub": "The system picks an action." }
+      ]
+    },
+    {
+      "type": "note",
+      "text": "Use this when a paragraph alone is too abstract. Keep the diagram to the minimum layers needed."
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "theme": "blueprint",
+  "title": "flow",
+  "animate": true,
+  "components": [
+    { "type": "flow", "title": "Path", "nodes": ["input", "score", "ship"] }
+  ]
+}

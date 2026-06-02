@@ -1,0 +1,14 @@
+{
+  "theme": "blueprint",
+  "title": "tiles",
+  "components": [
+    {
+      "type": "tiles",
+      "items": [
+        { "value": "8", "label": "ready" },
+        { "value": "2", "label": "risk" },
+        { "value": "1", "label": "block" }
+      ]
+    }
+  ]
+}

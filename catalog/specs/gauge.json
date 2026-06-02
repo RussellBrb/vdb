@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "gauge",
+  "components": [
+    { "type": "gauge", "title": "Health", "value": 81, "label": "score" }
+  ]
+}

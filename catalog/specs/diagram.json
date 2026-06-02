@@ -1,0 +1,16 @@
+{
+  "theme": "blueprint",
+  "title": "diagram",
+  "state": { "step": 2 },
+  "components": [
+    {
+      "type": "diagram",
+      "active": "step",
+      "layers": [
+        { "tag": "A", "label": "Input", "sub": "signal", "step": 1 },
+        { "tag": "B", "label": "Transform", "sub": "rule", "step": 2 },
+        { "tag": "C", "label": "Output", "sub": "result", "step": 3 }
+      ]
+    }
+  ]
+}

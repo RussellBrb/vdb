@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "scene",
+  "components": [
+    { "type": "scene", "height": 110, "motif": "mountains" }
+  ]
+}

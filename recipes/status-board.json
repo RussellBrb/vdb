@@ -1,0 +1,38 @@
+{
+  "theme": "blueprint",
+  "title": "Release Readiness",
+  "tag": "status-board",
+  "subtitle": "Scan the current launch state without reading a report.",
+  "seed": "recipe-status-board",
+  "components": [
+    {
+      "type": "focal",
+      "value": "87%",
+      "label": "ready",
+      "sub": "3 blockers left"
+    },
+    {
+      "type": "bars",
+      "title": "Critical Tracks",
+      "items": [
+        { "label": "Core tests", "value": 94 },
+        { "label": "Docs", "value": 82 },
+        { "label": "Rollout plan", "value": 68, "note": "owner review" }
+      ]
+    },
+    {
+      "type": "pipeline",
+      "title": "Path to Ship",
+      "items": [
+        { "label": "spec", "state": "done" },
+        { "label": "harness", "state": "done" },
+        { "label": "review", "state": "active" },
+        { "label": "tag", "state": "queued" }
+      ]
+    },
+    {
+      "type": "note",
+      "text": "Use when the job is status-at-a-glance: one headline state, the few fields that explain it, and the next operational step."
+    }
+  ]
+}

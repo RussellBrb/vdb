@@ -1,0 +1,14 @@
+{
+  "theme": "blueprint",
+  "title": "bars",
+  "components": [
+    {
+      "type": "bars",
+      "title": "Progress",
+      "items": [
+        { "label": "alpha", "value": 72 },
+        { "label": "beta", "value": 0.48, "note": "48%" }
+      ]
+    }
+  ]
+}

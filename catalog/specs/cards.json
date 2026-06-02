@@ -1,0 +1,13 @@
+{
+  "theme": "blueprint",
+  "title": "cards",
+  "components": [
+    {
+      "type": "cards",
+      "items": [
+        { "title": "Baseline", "desc": "Known path.", "tag": "current" },
+        { "title": "Candidate", "desc": "Better fit.", "tag": "rec", "rec": true }
+      ]
+    }
+  ]
+}

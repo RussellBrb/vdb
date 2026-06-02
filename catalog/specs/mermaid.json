@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "mermaid",
+  "components": [
+    { "type": "mermaid", "key": "catalog-mermaid", "code": "flowchart LR\n  A[Start] --> B[Done]" }
+  ]
+}

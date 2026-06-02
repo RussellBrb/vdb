@@ -1,0 +1,39 @@
+{
+  "theme": "chill",
+  "title": "Operations Snapshot",
+  "tag": "kpi-dashboard",
+  "subtitle": "A compact multi-metric scan for repeated review.",
+  "seed": "recipe-kpi-dashboard",
+  "components": [
+    {
+      "type": "tiles",
+      "items": [
+        { "value": "24", "label": "open" },
+        { "value": "7", "label": "risks" },
+        { "value": "3", "label": "owners" },
+        { "value": "91%", "label": "sla" }
+      ]
+    },
+    {
+      "type": "gauge",
+      "title": "Health",
+      "value": 76,
+      "label": "system"
+    },
+    {
+      "type": "sparkline",
+      "title": "Weekly Throughput",
+      "points": [12, 16, 14, 20, 22, 25, 24],
+      "caption": "steady climb"
+    },
+    {
+      "type": "allocation",
+      "title": "Capacity",
+      "items": [
+        { "label": "build", "value": 45 },
+        { "label": "support", "value": 30 },
+        { "label": "research", "value": 25 }
+      ]
+    }
+  ]
+}

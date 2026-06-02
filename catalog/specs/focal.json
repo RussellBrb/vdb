@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "focal",
+  "components": [
+    { "type": "focal", "value": "42", "label": "open items", "sub": "single hero number" }
+  ]
+}

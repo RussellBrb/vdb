@@ -1,0 +1,15 @@
+{
+  "theme": "blueprint",
+  "title": "pipeline",
+  "components": [
+    {
+      "type": "pipeline",
+      "title": "Stages",
+      "items": [
+        { "label": "plan", "state": "done" },
+        { "label": "build", "state": "active" },
+        { "label": "ship", "state": "queued" }
+      ]
+    }
+  ]
+}

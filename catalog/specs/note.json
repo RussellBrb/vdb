@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "note",
+  "components": [
+    { "type": "note", "text": "Plain explanatory note." }
+  ]
+}

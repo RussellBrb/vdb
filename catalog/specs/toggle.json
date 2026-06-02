@@ -1,0 +1,8 @@
+{
+  "theme": "blueprint",
+  "title": "toggle",
+  "state": { "enabled": true },
+  "components": [
+    { "type": "toggle", "param": "enabled", "label": "Enabled" }
+  ]
+}

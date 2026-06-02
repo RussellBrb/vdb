@@ -2,25 +2,32 @@
 
 *Single current-state snapshot. Overwrite on each update; sign + date.*
 
-**Updated:** 2026-06-01 - Codex
+**Updated:** 2026-06-02 - Codex
 
 ## Engine
-- `vdb.js` @ **v11** live on CDN (commit `2bc4da9`). Fixes: `flow` title-helper collision, mermaid node contrast.
-- Local hardening completed for missing collection props in `bars`, `allocation`, `sparkline`, `tiles`, `pipeline`, `comparison`, `cards`, `select`, and `tabs`.
-- No API change and no version bump in this step.
-- Banked for v12: `vdb.min.js`; `{param}` interpolation into component *values* (currently only in button prompts).
+- `vdb.js` @ **v11.1**. No engine changes were made in Phase 1.
+- v11.1 includes the prior hardening plus Claude's polish items: note/callout inline markdown and staggered flow labels.
+- Banked for later: `vdb.min.js`; `{param}` interpolation into component *values* (currently only in button prompts); Phase 2 variant API.
 
 ## Docs
-- `GOVERNANCE.md`, `GOVERNANCE-research.md` - committed.
-- `HANDOFF-CONTRACT.md` - the build contract; all open items resolved (schemas, contrast, when-grammar).
+- `GOVERNANCE.md`, `GOVERNANCE-research.md`, `HANDOFF-CONTRACT.md`, and `LIBRARY-SPEC.md` are committed.
+- `recipes/README.md` documents the 8 starter recipes with purpose/trigger, required data shape, and optional slots.
 
-
-## Phase
-**Consolidation** (no new features). Order: harness -> harden -> catalog -> recipes -> min build.
+## Composition Library
+- Phase 1 complete: 8 filled recipe specs in `recipes/*.json`.
+- Catalog complete: 24 atom specs in `catalog/specs/*.json`, excluding the `controls` wrapper, plus `catalog/index.html` loading pinned `@v11.1` once.
+- Phase 2 variant-system work was not started.
 
 ## Harness
-- `tests/harness.mjs` (Codex). After hardening (commit `dcc60cc`): **175/175 green**, both regressions locked, smoke 200. `.gitattributes` enforces `eol=lf` (commit `d2cb2fd`).
+- `tests/harness.mjs` runs with `npm test` against local `vdb.js` using dev-only `linkedom`.
+- Latest run: `VDB.version='v11.1'`; atom matrix 175 / 175 passed; library checks 96 / 96 passed across `blueprint`, `sunrise`, and `crt`.
+- Locked regressions passed: `flow-title-helper-collision`, `mermaid-node-contrast`.
+- CDN `@v11.1` smoke passed with HTTP 200.
+- `tests/last-run.json` refreshed with the green matrix.
 
-## Next deliverable — composition library
-- **Owner: Codex.** PHASE 1 — recipes + catalog per `LIBRARY-SPEC.md` (8 recipes, catalog of 24 atoms, harness coverage). On `@v11.1`, no engine change.
-- **Owner: Claude.** Design PHASE 2 variant API (size/density/emphasis/tone) for a later v12; review Codex's Phase 1.
+## Phase
+**Consolidation**. Completed: harness -> harden -> Phase 1 catalog/recipes.
+
+## Next Deliverable
+- **Owner: Claude.** Review Phase 1 composition-library diff and spec Phase 2 variant API.
+- **Owner: Codex.** Await Phase 2 instructions; do not start variants until the API is specced.

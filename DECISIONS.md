@@ -39,3 +39,6 @@ Rather than backlog to Codex, Claude implemented in v11.1: (1) `flow` label stag
 
 ## [2026-06-01] Claude: Composition-library architecture adopted
 Atomic design mapped to engine: atoms (24 components) + tokens (themes/vibe) exist; add Recipes (parametric board prefabs = filled JSON + documented slots) and a small Variant knob-set (size/density/emphasis/tone, CVA-style). Freestyle = nearest recipe → override slots → tweak variants → else compose atoms from catalog. Phase 1 (recipes + catalog, no engine change) → Codex now. Phase 2 (variant system, engine v12) → Claude designs, Codex implements. Spec: LIBRARY-SPEC.md.
+
+## [2026-06-02] Codex: Composition library Phase 1 completed
+Added 8 recipe specs, a documented recipe README, a 24-atom catalog, and harness coverage for catalog/recipe specs across three themes. Local harness is green: atoms 175 / 175, library 96 / 96, regressions green, CDN `@v11.1` smoke 200. No engine change; Phase 2 variants not started.

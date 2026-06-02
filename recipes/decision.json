@@ -1,0 +1,29 @@
+{
+  "theme": "twilight-forest",
+  "title": "Decision Brief",
+  "tag": "decision",
+  "subtitle": "Choose at a fork using visible criteria and a clear recommendation.",
+  "seed": "recipe-decision",
+  "components": [
+    {
+      "type": "cards",
+      "items": [
+        { "title": "Ship now", "desc": "Fastest path, accepts known visual debt.", "tag": "risk" },
+        { "title": "Harden first", "desc": "One more pass closes the known failure class.", "tag": "recommended", "rec": true },
+        { "title": "Defer", "desc": "Avoids current risk but delays feedback.", "tag": "slow" }
+      ]
+    },
+    {
+      "type": "comparison",
+      "title": "Decision Criteria",
+      "items": [
+        { "label": "user confidence", "a": 52, "b": 86, "aNote": "now", "bNote": "hardened" },
+        { "label": "rollback risk", "a": 72, "b": 24, "aNote": "higher", "bNote": "lower" }
+      ]
+    },
+    {
+      "type": "callout",
+      "text": "Recommendation: harden first. The known bug class is narrow, testable, and cheaper to close before release."
+    }
+  ]
+}

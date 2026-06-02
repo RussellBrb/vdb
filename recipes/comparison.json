@@ -1,0 +1,26 @@
+{
+  "theme": "sunrise",
+  "title": "Option Comparison",
+  "tag": "comparison",
+  "subtitle": "Compare candidate paths with the tradeoffs visible.",
+  "seed": "recipe-comparison",
+  "components": [
+    {
+      "type": "comparison",
+      "title": "Before vs Candidate",
+      "items": [
+        { "label": "setup time", "a": 80, "b": 35, "aNote": "manual", "bNote": "templated" },
+        { "label": "coverage", "a": 54, "b": 88, "aNote": "partial", "bNote": "broad" },
+        { "label": "maintenance", "a": 72, "b": 40, "aNote": "high", "bNote": "lower" }
+      ]
+    },
+    {
+      "type": "cards",
+      "items": [
+        { "title": "Stay manual", "desc": "Lowest upfront change, highest recurring work.", "tag": "baseline" },
+        { "title": "Adopt template", "desc": "More setup now, lower repeat cost.", "tag": "recommended", "rec": true },
+        { "title": "Hybrid", "desc": "Use template for only the repeatable portion.", "tag": "fallback" }
+      ]
+    }
+  ]
+}

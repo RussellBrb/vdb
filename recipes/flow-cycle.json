@@ -1,0 +1,19 @@
+{
+  "theme": "synthwave",
+  "title": "Feedback Cycle",
+  "tag": "flow-cycle",
+  "subtitle": "Show a loop or pipeline as a simple path with one explanatory note.",
+  "seed": "recipe-flow-cycle",
+  "animate": true,
+  "components": [
+    {
+      "type": "flow",
+      "title": "Loop",
+      "nodes": ["observe", "decide", "change", "measure", "repeat"]
+    },
+    {
+      "type": "note",
+      "text": "Use for loop and pipeline explanations where order is the main fact. Keep node labels short."
+    }
+  ]
+}

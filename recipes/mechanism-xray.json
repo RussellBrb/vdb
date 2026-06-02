@@ -1,0 +1,29 @@
+{
+  "theme": "blueprint",
+  "title": "Mechanism X-Ray",
+  "tag": "mechanism-xray",
+  "subtitle": "Step through a mechanism and highlight the active layer.",
+  "seed": "recipe-mechanism-xray",
+  "state": { "step": 1 },
+  "components": [
+    {
+      "type": "stepper",
+      "param": "step",
+      "steps": 3,
+      "labels": ["input", "transform", "output"]
+    },
+    {
+      "type": "diagram",
+      "active": "step",
+      "layers": [
+        { "tag": "1", "label": "Input", "sub": "Raw data enters the system.", "step": 1 },
+        { "tag": "2", "label": "Transform", "sub": "Rules reshape the input into a decision.", "step": 2 },
+        { "tag": "3", "label": "Output", "sub": "The result is emitted for review.", "step": 3 }
+      ]
+    },
+    {
+      "type": "note",
+      "text": "Use when the reader needs to understand how a process works, not just whether it is healthy."
+    }
+  ]
+}

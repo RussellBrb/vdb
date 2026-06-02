@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "callout",
+  "components": [
+    { "type": "callout", "text": "Emphasized note for the key claim." }
+  ]
+}

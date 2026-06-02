@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-01T20:08:42.793Z",
-  "vdbVersion": "v11",
+  "generatedAt": "2026-06-02T18:43:51.097Z",
+  "vdbVersion": "v11.1",
   "componentCount": 25,
   "themeCount": 7,
   "passedCells": 175,
@@ -21,7 +21,586 @@
   "cdnSmoke": {
     "ok": true,
     "status": 200,
-    "url": "https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11/vdb.js"
+    "url": "https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11.1/vdb.js"
+  },
+  "library": {
+    "themes": [
+      "blueprint",
+      "sunrise",
+      "crt"
+    ],
+    "catalog": {
+      "kind": "catalog",
+      "expectedCount": 24,
+      "actualCount": 24,
+      "themes": [
+        "blueprint",
+        "sunrise",
+        "crt"
+      ],
+      "rows": {
+        "allocation": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/allocation.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/allocation.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/allocation.json"
+          }
+        },
+        "bars": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/bars.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/bars.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/bars.json"
+          }
+        },
+        "button": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/button.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/button.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/button.json"
+          }
+        },
+        "callout": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/callout.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/callout.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/callout.json"
+          }
+        },
+        "cards": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/cards.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/cards.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/cards.json"
+          }
+        },
+        "comparison": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/comparison.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/comparison.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/comparison.json"
+          }
+        },
+        "diagram": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/diagram.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/diagram.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/diagram.json"
+          }
+        },
+        "flow": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/flow.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/flow.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/flow.json"
+          }
+        },
+        "focal": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/focal.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/focal.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/focal.json"
+          }
+        },
+        "gauge": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/gauge.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/gauge.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/gauge.json"
+          }
+        },
+        "mermaid": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/mermaid.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/mermaid.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/mermaid.json"
+          }
+        },
+        "motion": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/motion.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/motion.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/motion.json"
+          }
+        },
+        "nodes": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/nodes.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/nodes.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/nodes.json"
+          }
+        },
+        "note": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/note.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/note.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/note.json"
+          }
+        },
+        "pipeline": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/pipeline.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/pipeline.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/pipeline.json"
+          }
+        },
+        "scene": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/scene.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/scene.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/scene.json"
+          }
+        },
+        "select": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/select.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/select.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/select.json"
+          }
+        },
+        "slider": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/slider.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/slider.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/slider.json"
+          }
+        },
+        "sparkline": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/sparkline.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/sparkline.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/sparkline.json"
+          }
+        },
+        "stage": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/stage.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/stage.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/stage.json"
+          }
+        },
+        "stepper": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/stepper.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/stepper.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/stepper.json"
+          }
+        },
+        "tabs": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/tabs.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/tabs.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/tabs.json"
+          }
+        },
+        "tiles": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/tiles.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/tiles.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/tiles.json"
+          }
+        },
+        "toggle": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/toggle.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/toggle.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/specs/toggle.json"
+          }
+        }
+      },
+      "red": []
+    },
+    "recipes": {
+      "kind": "recipes",
+      "expectedCount": 8,
+      "actualCount": 8,
+      "themes": [
+        "blueprint",
+        "sunrise",
+        "crt"
+      ],
+      "rows": {
+        "comparison": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/comparison.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/comparison.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/comparison.json"
+          }
+        },
+        "decision": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/decision.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/decision.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/decision.json"
+          }
+        },
+        "explainer": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/explainer.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/explainer.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/explainer.json"
+          }
+        },
+        "flow-cycle": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/flow-cycle.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/flow-cycle.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/flow-cycle.json"
+          }
+        },
+        "kpi-dashboard": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/kpi-dashboard.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/kpi-dashboard.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/kpi-dashboard.json"
+          }
+        },
+        "mechanism-xray": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/mechanism-xray.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/mechanism-xray.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/mechanism-xray.json"
+          }
+        },
+        "status-board": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/status-board.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/status-board.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/status-board.json"
+          }
+        },
+        "timeline": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/timeline.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/timeline.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "recipes/timeline.json"
+          }
+        }
+      },
+      "red": []
+    },
+    "passedCells": 96,
+    "failedCells": 0
   },
   "matrix": {
     "gauge": {

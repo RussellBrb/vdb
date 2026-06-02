@@ -1,0 +1,30 @@
+{
+  "theme": "crt",
+  "title": "Program Timeline",
+  "tag": "timeline",
+  "subtitle": "Ordered stages with the current stage visible.",
+  "seed": "recipe-timeline",
+  "components": [
+    {
+      "type": "pipeline",
+      "title": "Quarter Plan",
+      "items": [
+        { "label": "discover", "state": "done" },
+        { "label": "prototype", "state": "done" },
+        { "label": "validate", "state": "active" },
+        { "label": "launch", "state": "queued" }
+      ]
+    },
+    {
+      "type": "nodes",
+      "title": "Dependencies",
+      "nodes": [
+        { "id": "d", "label": "Discover", "col": 0 },
+        { "id": "p", "label": "Prototype", "col": 1 },
+        { "id": "v", "label": "Validate", "col": 2 },
+        { "id": "l", "label": "Launch", "col": 3 }
+      ],
+      "edges": [["d", "p"], ["p", "v"], ["v", "l"]]
+    }
+  ]
+}

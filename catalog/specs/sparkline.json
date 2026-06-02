@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "sparkline",
+  "components": [
+    { "type": "sparkline", "title": "Trend", "points": [4, 9, 7, 13, 16, 14], "caption": "last six runs" }
+  ]
+}

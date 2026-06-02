@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "motion",
+  "components": [
+    { "type": "motion", "key": "catalog-motion", "preset": "toggle", "autoplay": false }
+  ]
+}

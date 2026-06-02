@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
@@ -19,6 +19,10 @@ const THEMES = [
   'chill',
   'blueprint',
 ];
+
+const LIBRARY_THEMES = ['blueprint', 'sunrise', 'crt'];
+const EXPECTED_CATALOG_ATOMS = 24;
+const EXPECTED_RECIPES = 8;
 
 const COMPONENTS = {
   gauge: { value: 72, label: 'health' },
@@ -136,6 +140,19 @@ async function renderOnce(theme, type) {
   return { runtime, target, spec, html, exception };
 }
 
+async function renderSpec(spec) {
+  const runtime = createRuntime();
+  const target = runtime.document.getElementById('app');
+  let exception = null;
+  try {
+    runtime.VDB(target, spec);
+    await settle();
+  } catch (error) {
+    exception = error;
+  }
+  return { runtime, target, html: target.innerHTML || '', exception };
+}
+
 async function checkRender(theme, type) {
   const failures = [];
   const result = await renderOnce(theme, type);
@@ -187,6 +204,43 @@ async function checkGracefulDegradation(type) {
   return failures;
 }
 
+async function readJsonSpecs(dir) {
+  const absDir = resolve(root, dir);
+  const files = (await readdir(absDir)).filter((file) => file.endsWith('.json')).sort();
+  const specs = [];
+  for (const file of files) {
+    specs.push({
+      name: file.replace(/\.json$/, ''),
+      file: `${dir}/${file}`.replace(/\\/g, '/'),
+      spec: JSON.parse(await readFile(resolve(absDir, file), 'utf8')),
+    });
+  }
+  return specs;
+}
+
+async function checkLibrarySpecs(kind, specs, expectedCount) {
+  const rows = {};
+  const red = [];
+  if (specs.length !== expectedCount) {
+    red.push({ kind, name: '*', theme: '*', failures: [`expected ${expectedCount} specs, found ${specs.length}`] });
+  }
+
+  for (const entry of specs) {
+    rows[entry.name] = {};
+    for (const theme of LIBRARY_THEMES) {
+      const spec = { ...clone(entry.spec), theme };
+      const result = await renderSpec(spec);
+      const failures = [];
+      if (result.exception) failures.push(`exception: ${result.exception.message}`);
+      if (result.runtime.errors.length) failures.push(`console.error: ${result.runtime.errors.join(' | ')}`);
+      if (result.html.length < NON_EMPTY_FLOOR) failures.push(`empty render: innerHTML length ${result.html.length}`);
+      rows[entry.name][theme] = failures.length ? { ok: false, failures, file: entry.file } : { ok: true, failures: [], file: entry.file };
+      if (failures.length) red.push({ kind, name: entry.name, theme, failures, file: entry.file });
+    }
+  }
+  return { kind, expectedCount, actualCount: specs.length, themes: LIBRARY_THEMES, rows, red };
+}
+
 function checkContrastConventions() {
   const failures = [];
   if (!vdbSource.includes('color:#06070f')) {
@@ -203,7 +257,8 @@ function checkHelperShadowing() {
   const failures = [];
   const registryStart = vdbSource.indexOf('const C={');
   const registryEnd = vdbSource.indexOf('\n  };\n\n  const ATM=', registryStart);
-  const registry = registryStart >= 0 && registryEnd > registryStart ? vdbSource.slice(registryStart, registryEnd) : '';
+  const registryBodyStart = registryStart + 'const C={'.length;
+  const registry = registryStart >= 0 && registryEnd > registryStart ? vdbSource.slice(registryBodyStart, registryEnd) : '';
   for (const helper of helpers) {
     const pattern = new RegExp(`\\b(?:const|let|var)\\s+${helper}\\b`);
     if (pattern.test(registry)) failures.push(`helper shadowed inside component registry: ${helper}`);
@@ -240,7 +295,7 @@ async function checkRegressions() {
 }
 
 async function cdnSmoke() {
-  const url = 'https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11/vdb.js';
+  const url = 'https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11.1/vdb.js';
   try {
     const response = await fetch(url, { method: 'HEAD' });
     return { ok: response.status === 200, status: response.status, url };
@@ -269,6 +324,10 @@ const globalChecks = [
 ];
 const regressions = await checkRegressions();
 const cdn = await cdnSmoke();
+const catalogSpecs = await readJsonSpecs('catalog/specs');
+const recipeSpecs = await readJsonSpecs('recipes');
+const catalogCheck = await checkLibrarySpecs('catalog', catalogSpecs, EXPECTED_CATALOG_ATOMS);
+const recipeCheck = await checkLibrarySpecs('recipes', recipeSpecs, EXPECTED_RECIPES);
 
 for (const check of globalChecks) {
   redCells.push({ type: check.name, theme: '*', failures: [check.failure] });
@@ -276,8 +335,13 @@ for (const check of globalChecks) {
 for (const regression of regressions) {
   if (!regression.ok) redCells.push({ type: `regression:${regression.name}`, theme: '*', failures: regression.failures });
 }
-
 const failedMatrixCells = redCells.filter((cell) => THEMES.includes(cell.theme)).length;
+for (const cell of [...catalogCheck.red, ...recipeCheck.red]) {
+  redCells.push({ type: `${cell.kind}:${cell.name}`, theme: cell.theme, failures: cell.failures });
+}
+
+const failedLibraryCells = [...catalogCheck.red, ...recipeCheck.red].filter((cell) => LIBRARY_THEMES.includes(cell.theme)).length;
+const totalLibraryCells = (catalogCheck.actualCount + recipeCheck.actualCount) * LIBRARY_THEMES.length;
 const summary = {
   generatedAt: new Date().toISOString(),
   vdbVersion: createRuntime().VDB.version,
@@ -288,6 +352,13 @@ const summary = {
   globalFailures: globalChecks,
   regressions,
   cdnSmoke: cdn,
+  library: {
+    themes: LIBRARY_THEMES,
+    catalog: catalogCheck,
+    recipes: recipeCheck,
+    passedCells: totalLibraryCells - failedLibraryCells,
+    failedCells: failedLibraryCells,
+  },
   matrix,
   redCells,
 };
@@ -304,6 +375,7 @@ for (const [type, row] of Object.entries(matrix)) {
 lines.push('');
 lines.push(`Version: ${summary.vdbVersion}`);
 lines.push(`Cells: ${summary.passedCells} passed, ${summary.failedCells} failed`);
+lines.push(`Library: ${summary.library.passedCells} passed, ${summary.library.failedCells} failed (${catalogCheck.actualCount} catalog, ${recipeCheck.actualCount} recipes across ${LIBRARY_THEMES.length} themes)`);
 lines.push(`Regressions: ${regressions.map((r) => `${r.name}=${r.ok ? 'PASS' : 'FAIL'}`).join(', ')}`);
 lines.push(`CDN smoke: ${cdn.ok ? 'PASS' : 'WARN'}${cdn.status ? ` (${cdn.status})` : cdn.error ? ` (${cdn.error})` : ''}`);
 lines.push(`last-run: ${lastRunPath}`);

@@ -1,0 +1,8 @@
+{
+  "theme": "blueprint",
+  "title": "button",
+  "state": { "mode": "safe" },
+  "components": [
+    { "type": "button", "label": "Send prompt", "action": { "prompt": "Run in {mode} mode" } }
+  ]
+}

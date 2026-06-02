@@ -1,0 +1,14 @@
+{
+  "theme": "blueprint",
+  "title": "comparison",
+  "components": [
+    {
+      "type": "comparison",
+      "title": "Before / after",
+      "items": [
+        { "label": "manual work", "a": 84, "b": 32, "aNote": "old", "bNote": "new" },
+        { "label": "coverage", "a": 46, "b": 90 }
+      ]
+    }
+  ]
+}

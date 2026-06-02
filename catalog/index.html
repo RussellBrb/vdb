@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VDB Catalog</title>
+  <script src="https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11.1/vdb.js"></script>
+  <style>
+    :root { color-scheme: dark; font-family: ui-monospace, "JetBrains Mono", monospace; background: #080b12; color: #edf2ff; }
+    body { margin: 0; padding: 24px; }
+    h1, h2 { margin: 0; font-weight: 650; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 18px; margin-top: 28px; }
+    .sub { color: #9aa8bd; margin: 6px 0 20px; max-width: 760px; line-height: 1.5; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; align-items: start; }
+    .cell { min-width: 0; }
+    .label { color: #9aa8bd; font-size: 12px; margin: 0 0 6px; letter-spacing: .04em; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <h1>VDB Catalog</h1>
+  <p class="sub">Live reference for the 24 atom specs and 8 starter recipes. Each panel is rendered by one pinned `@v11.1` engine load.</p>
+
+  <h2>Atoms</h2>
+  <div id="atoms" class="grid"></div>
+
+  <h2>Recipes</h2>
+  <div id="recipes" class="grid"></div>
+
+  <script>
+    const atoms = [
+      'focal', 'bars', 'gauge', 'sparkline', 'allocation', 'tiles', 'comparison', 'cards',
+      'nodes', 'flow', 'pipeline', 'diagram', 'stepper', 'stage', 'mermaid', 'motion',
+      'note', 'callout', 'scene', 'button', 'slider', 'select', 'toggle', 'tabs'
+    ];
+    const recipes = [
+      'status-board', 'kpi-dashboard', 'comparison', 'decision', 'mechanism-xray',
+      'flow-cycle', 'timeline', 'explainer'
+    ];
+
+    async function renderList(targetId, names, basePath) {
+      const target = document.getElementById(targetId);
+      for (const name of names) {
+        const cell = document.createElement('section');
+        cell.className = 'cell';
+        cell.innerHTML = `<div class="label">${name}</div><div></div>`;
+        target.appendChild(cell);
+        const spec = await fetch(`${basePath}/${name}.json`).then((res) => res.json());
+        VDB(cell.lastElementChild, spec);
+      }
+    }
+
+    renderList('atoms', atoms, 'specs');
+    renderList('recipes', recipes, '../recipes');
+  </script>
+</body>
+</html>

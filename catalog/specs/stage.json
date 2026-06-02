@@ -1,0 +1,16 @@
+{
+  "theme": "blueprint",
+  "title": "stage",
+  "state": { "step": 2 },
+  "components": [
+    {
+      "type": "stage",
+      "active": "step",
+      "parts": [
+        { "label": "Intake", "step": 1 },
+        { "label": "Review", "step": 2, "note": "Active band." },
+        { "label": "Done", "step": 3 }
+      ]
+    }
+  ]
+}
