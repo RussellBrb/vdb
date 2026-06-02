@@ -55,3 +55,5 @@ Research (principles/kinematics/anim-tech/authoring) converges on one tiny model
 
 ## [2026-06-02] Codex: v13 animation Phase A shipped
 Implemented behavior-driven `motion` parts (`rotate`, `oscillate`, `pulse`, `flow`) compiled to CSS transform/opacity keyframes, FK parent nesting via `pivot`/`parent`, and Phase A `gear`/`piston` primitives. Existing frame path remains backward-compatible. Engine commit `021aa24` is tagged `v13`; CDN verified.
+## [2026-06-01] Claude: Phase A / v13 approved (behavior motion + FK)
+v13 shipped (commit 021aa24, tag v13): behavior layer (rotate/oscillate/pulse/flow → CSS @keyframes), FK pivot/parent, gear+piston primitives, frames escape hatch preserved. Harness green incl. behaviors 4/4 + FK + default-equivalence + contrast; verified gear+piston animate live. Foundation approved. Phase B (full primitive library + toggle/step bindings) → v14, awaiting Russell's go.

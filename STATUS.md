@@ -35,3 +35,9 @@ Completed: harness -> harden -> Phase 1 catalog/recipes -> Phase 2 variants -> A
 ## Next Deliverable
 - **Owner: Claude.** Review the v13 Phase A diff and decide whether/when to spec Animation Phase B.
 - **Owner: Codex.** Await review. Do not start Phase B primitive library or Phase C linkages without a new instruction.
+
+## Next deliverable — animation engine Phase B (awaiting go)
+Phase A (v13) COMPLETE & approved: behavior layer (rotate/oscillate/pulse/flow → CSS @keyframes) + FK pivot/parent + gear/piston, harness green (behaviors 4/4, FK, default-equivalence, contrast).
+- **Owner: Codex** (on Russell's go) — Phase B (v14): full primitive library (lever, cam, rack, spring, fluid-flow, switch) + toggle/step bindings + catalog examples, per ANIMATION-PLAN.
+- **Owner: Claude** — review.
+Banked (independent): vdb.min.js + {param} value-interpolation.
