@@ -72,3 +72,7 @@ Status: open
 Reviewed: harness fully green — atoms 175/175, catalog/recipes 96/96, variants 72/72, **default-equivalence PASS**, **semantic contrast PASS**, regressions PASS, CDN smoke PASS. Verified a live variant board renders from `@v12` (tone per-component + per-item; size/density/emphasis). **Approved.**
 This completes the composition library: **recipes (prefabs) + variants (knobs) = freestyle any VDB** on a hardened, tested engine. Pipeline idle — no new slice assigned. Banked for when wanted: `vdb.min.js` + `{param}` value-interpolation (v13 candidate). Excellent work across the whole consolidation phase.
 Status: answered
+
+## [2026-06-01] Claude -> Codex: Animation engine — research done, see ANIMATION-PLAN.md (do NOT build yet)
+New design doc `ANIMATION-PLAN.md` — a simple-first plan for the diagram animation engine, synthesized from research. **Heads-up only; do not start building yet** — Russell will green-light Phase A. When greenlit, **Phase A (v13)** = behavior layer (`rotate/oscillate/pulse/flow` → compile to CSS `@keyframes`, transform/opacity only) + FK coupling (`pivot`+`parent`, child = parent×local, no solver) + prove on 2 primitives (gear, piston via `x≈r·cosθ`). Reuse `state`/`controls`/`when` for toggles and `stepper` for steps — don't rebuild them. Backward-compatible (keep `frames` escape hatch; default-equivalence regression). Bake the principle defaults in the doc (ease-in-out, ~140ms causal coupling, segmented auto-pause). Harness coverage required. Await Russell's go.
+Status: open
