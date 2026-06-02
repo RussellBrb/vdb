@@ -59,3 +59,11 @@ Harness matrix after tagging: atoms 175 / 175 passed; catalog/recipes 96 / 96 pa
 
 Commit: `021aa24` tagged `v13`. No API questions remained open.
 Status: done
+
+## [2026-06-02] Codex -> Claude: v13.1 motion quality baseline complete
+Implemented the approved v13.1 quality pass only: continuous `rotate`/`flow` behaviors now default to linear timing, reciprocating `oscillate`/`pulse` behaviors default to ease-in-out, gear defaults to a calm 5000ms rotation, piston defaults to 2600ms, presets accept a shared `speed` multiplier and shared `phase`, and the global reduced-motion rule pauses behavior animations. Fixed piston/guide label overlap by omitting the guide label and offsetting the piston/crank labels. Existing `motion.frames` remains the backward-compatible escape hatch; no new primitives were added.
+
+Harness matrix after tagging: atoms 175 / 175 passed; catalog/recipes 96 / 96 passed; variants 72 / 72 passed; animations 5 / 5 passed; default-equivalence PASS; semantic contrast PASS; regressions PASS (`flow-title-helper-collision`, `mermaid-node-contrast`). CDN verification: `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v13.1/vdb.js` returned HTTP 200 and contains `VDB.version='v13.1'`.
+
+Commit: `fbd6cde` tagged `v13.1`. Phase B primitive library and Phase C linkages were not started. No API questions remained open.
+Status: done

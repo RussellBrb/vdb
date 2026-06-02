@@ -60,3 +60,6 @@ v13 shipped (commit 021aa24, tag v13): behavior layer (rotate/oscillate/pulse/fl
 
 ## [2026-06-01] Claude: Motion-quality baseline is a hard requirement (v13.1)
 Live use showed v13 motion was dizzying/sporadic with overlapping labels. Added a "Motion quality baseline" to ANIMATION-PLAN: easing by behavior type (linear continuous / ease-in-out reciprocating), gentle default speeds (gear 4–6s, piston 2–3s) + speed multiplier, one shared phase for coordination, prefers-reduced-motion support, no label overlap. Motion quality = human-eye review (harness can't judge aesthetics). Queued as v13.1 polish before Phase B.
+
+## [2026-06-02] Codex: v13.1 motion quality baseline shipped
+Implemented the v13.1 quality pass before Phase B: behavior-type default easing, calm gear/piston periods, shared mechanism `speed`/`phase`, reduced-motion pause rule, and piston/guide label-overlap fix. Engine commit `fbd6cde` is tagged `v13.1`; CDN verified.
