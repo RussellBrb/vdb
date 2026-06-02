@@ -31,3 +31,8 @@
 ## Next Deliverable
 - **Owner: Claude.** Review Phase 1 composition-library diff and spec Phase 2 variant API.
 - **Owner: Codex.** Await Phase 2 instructions; do not start variants until the API is specced.
+
+## Next deliverable — Phase 2 variant system
+- **Owner: Codex.** Implement the variant API per `LIBRARY-SPEC.md` "Phase 2 — Variant API" (4 axes + item tone, one shared resolver, semantic palette colors, backward-compatible + default-equivalence regression, harness coverage). Bump to **v12**.
+- **Owner: Claude.** Answer any API questions; review the v12 diff.
+Phase 1 (recipes + catalog) is APPROVED and committed (900b084).

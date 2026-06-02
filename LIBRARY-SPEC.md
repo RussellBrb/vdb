@@ -44,3 +44,44 @@ Implemented as optional props with defaults; documented per component; harness a
 - Each recipe: documented contract + a filled example rendering non-empty on ≥3 themes, governance-compliant.
 - Catalog index renders all atoms + all recipes.
 - Harness green (atoms 175/175 + new catalog/recipe checks).
+
+---
+
+## Phase 2 — Variant API (detailed build instruction)
+
+The "modify any component" knobs. CVA-style: base + axes + defaults. **Backward compatible — defaults must render existing specs identically.** Keep axes SMALL (governance: more knobs = more ways to clutter).
+
+### Axes (component-level props · all optional · default in **bold**)
+- `size`: sm · **md** · lg — scales type + element dimensions (font, padding, bar height, gauge radius, svg scale). Spacing-neutral.
+- `density`: **comfortable** · compact — row/item/card gaps only.
+- `emphasis`: muted · **normal** · strong — visual weight (opacity, font-weight, border width). muted recedes; strong asserts.
+- `tone`: **neutral** · good · warn · bad · info — semantic accent; remaps the component's primary fill/accent to a semantic color.
+
+### Item-level overrides (granular)
+Per-item `tone` (and `emphasis`) on collection items where one datum must stand out — e.g. `bars.items[{label,value,tone:"bad"}]`, also `tiles`, `pipeline`, `cards`. Component `tone` = default for its items; item `tone` overrides.
+
+### Mechanism — implement as ONE shared resolver (DRY, no per-component duplication)
+- Add `variants(c)` → returns a class string + inline CSS custom props on the component root: `--vdb-scale` (size), `--vdb-gap` (density), `--vdb-emph` (emphasis), `--vdb-tone` (resolved semantic color, else theme accent).
+- Components reference these vars where the knob applies (sizes, gaps, accent fill) instead of hard values. Tokens define values; variants pick which.
+- Extend `resolveTheme`/`vibePalette` to expose semantic colors `--good --warn --bad --info`, theme-aware and **contrast-checked** vs the theme bg (the mermaid lesson). Vibe palettes derive these from fixed accessible hues.
+
+### Scope (axes per component — don't force all on all)
+- `size`: focal, bars, gauge, sparkline, tiles, cards, comparison, allocation, nodes, stage, diagram.
+- `density`: bars, cards, tiles, comparison, pipeline, allocation.
+- `emphasis`: all.
+- `tone` (component + item): focal, gauge, bars, tiles, pipeline, allocation, callout.
+
+### Guardrails (lessons learned — non-negotiable)
+- **Backward compatible:** absent knobs → current look exactly. Add a regression asserting default output == pre-variant output for every component.
+- **Graceful degradation:** invalid/unknown knob value → fall back to default, never throw.
+- **No identifier shadowing** of engine helpers inside component fns (the v11 `flow` bug).
+- **Contrast:** every `tone` color meets WCAG 4.5:1 (text) / 3:1 (graphical) on every theme — assert in the harness.
+
+### Harness (extend)
+- Render each component across a SAMPLED axis cartesian (not full explosion) on ≥2 themes: non-empty, zero console errors, contrast holds.
+- Add the default-equivalence regression.
+- Keep atoms 175/175 + Phase-1 catalog/recipe checks green.
+
+### Ship
+- Add a "variants" column to each component in `HANDOFF-CONTRACT.md` §3.
+- Bump engine to **v12** on completion; tag `v12`; push; verify CDN. (Banked min-build + `{param}` value-interpolation MAY ride v12, but variants are the priority — implement variants first.)
