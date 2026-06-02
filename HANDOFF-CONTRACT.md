@@ -142,6 +142,29 @@ Families map to governance triggers (see `GOVERNANCE.md` §3).
 
 > Authoritative type list (from the `C{}` registry in `vdb.js`): gauge, bars, allocation, sparkline, tiles, pipeline, note, focal, scene, comparison, cards, controls, button, callout, flow, nodes, mermaid, stage, motion, diagram, stepper, slider, select, toggle, tabs. `cards`: `{ title?, items:[{ title, desc?, tag?, rec? }] }` — **only for scannable data units, never prose (governance)**.
 
+### 3b. Variant API (v12)
+
+Every component may accept `emphasis?: 'muted' | 'normal' | 'strong'` (default `normal`) and invalid values fall back to defaults without throwing. Relevant components also accept:
+
+| type | variants |
+|---|---|
+| `focal` | `size`, `emphasis`, `tone` |
+| `bars` | `size`, `density`, `emphasis`, `tone`; item `tone`/`emphasis` |
+| `gauge` | `size`, `emphasis`, `tone` |
+| `sparkline` | `size`, `emphasis` |
+| `tiles` | `size`, `density`, `emphasis`, item `tone`/`emphasis` |
+| `cards` | `size`, `density`, `emphasis`, item `tone`/`emphasis` |
+| `comparison` | `size`, `density`, `emphasis` |
+| `allocation` | `size`, `density`, `emphasis`, `tone`; item `tone`/`emphasis` |
+| `nodes` | `size`, `emphasis` |
+| `stage` | `size`, `emphasis` |
+| `diagram` | `size`, `emphasis` |
+| `pipeline` | `density`, `emphasis`, `tone`; item `tone`/`emphasis` |
+| `callout` | `emphasis`, `tone` |
+| `note`, `scene`, `button`, `flow`, `mermaid`, `motion`, `stepper`, `slider`, `select`, `toggle`, `tabs`, `controls` | `emphasis` only |
+
+Axes: `size: 'sm' | 'md' | 'lg'` (default `md`), `density: 'compact' | 'comfortable'` (default `comfortable`), `emphasis: 'muted' | 'normal' | 'strong'` (default `normal`), `tone: 'neutral' | 'good' | 'warn' | 'bad' | 'info'` (default `neutral`). `tone` maps to semantic palette roles exposed as `--good --warn --bad --info`; default-equivalence is required, so absent knobs and explicit defaults render the same normalized DOM.
+
 ---
 
 ## 4. Theme & palette contract

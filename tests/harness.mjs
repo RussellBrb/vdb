@@ -23,6 +23,9 @@ const THEMES = [
 const LIBRARY_THEMES = ['blueprint', 'sunrise', 'crt'];
 const EXPECTED_CATALOG_ATOMS = 24;
 const EXPECTED_RECIPES = 8;
+const VARIANT_THEMES = ['blueprint', 'crt'];
+const VARIANT_DEFAULTS = { size: 'md', density: 'comfortable', emphasis: 'normal', tone: 'neutral' };
+const TONE_ROLES = ['good', 'warn', 'bad', 'info'];
 
 const COMPONENTS = {
   gauge: { value: 72, label: 'health' },
@@ -84,6 +87,26 @@ function normalizeHtml(html) {
     .replace(/vdbmm_\d+/g, 'vdbmm_ID')
     .replace(/vdbmo_\d+/g, 'vdbmo_ID')
     .replace(/data-vdb-btn="\d+"/g, 'data-vdb-btn="N"');
+}
+
+function hexToRgb(hex) {
+  const m = String(hex).match(/^#([0-9a-f]{6})$/i);
+  if (!m) return null;
+  const n = Number.parseInt(m[1], 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+function relLum(rgb) {
+  return rgb.map((v) => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  }).reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0);
+}
+
+function contrast(a, b) {
+  const l1 = relLum(a);
+  const l2 = relLum(b);
+  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
 }
 
 function createRuntime() {
@@ -241,6 +264,76 @@ async function checkLibrarySpecs(kind, specs, expectedCount) {
   return { kind, expectedCount, actualCount: specs.length, themes: LIBRARY_THEMES, rows, red };
 }
 
+function variantSpec(type, overrides) {
+  const component = { type, ...clone(COMPONENTS[type]), ...overrides };
+  if (Array.isArray(component.items)) {
+    component.items = component.items.map((item, index) => index === 0 ? { ...item, tone: 'bad', emphasis: 'strong' } : item);
+  }
+  return { theme: 'blueprint', title: `${type} variant`, state: clone(BASE_STATE), components: [component] };
+}
+
+async function checkDefaultEquivalence() {
+  const failures = [];
+  for (const type of Object.keys(COMPONENTS)) {
+    const base = await renderSpec(specFor('blueprint', { type, ...clone(COMPONENTS[type]) }));
+    const explicit = await renderSpec(specFor('blueprint', { type, ...clone(COMPONENTS[type]), ...VARIANT_DEFAULTS }));
+    if (base.exception || explicit.exception) {
+      failures.push(`${type}: exception during equivalence render`);
+      continue;
+    }
+    if (normalizeHtml(base.html) !== normalizeHtml(explicit.html)) {
+      failures.push(`${type}: explicit defaults changed normalized DOM`);
+    }
+  }
+  return failures;
+}
+
+async function checkVariants() {
+  const rows = {};
+  const red = [];
+  const variantTypes = ['focal', 'gauge', 'bars', 'tiles', 'pipeline', 'allocation', 'callout', 'cards', 'comparison', 'nodes', 'stage', 'diagram'];
+  const samples = [
+    { size: 'sm', density: 'compact', emphasis: 'muted', tone: 'good' },
+    { size: 'lg', density: 'comfortable', emphasis: 'strong', tone: 'warn' },
+    { size: 'bad-value', density: 'bad-value', emphasis: 'bad-value', tone: 'bad-value' },
+  ];
+
+  for (const type of variantTypes) {
+    rows[type] = {};
+    for (const theme of VARIANT_THEMES) {
+      rows[type][theme] = [];
+      for (const sample of samples) {
+        const spec = variantSpec(type, sample);
+        spec.theme = theme;
+        const result = await renderSpec(spec);
+        const failures = [];
+        if (result.exception) failures.push(`exception: ${result.exception.message}`);
+        if (result.runtime.errors.length) failures.push(`console.error: ${result.runtime.errors.join(' | ')}`);
+        if (result.html.length < NON_EMPTY_FLOOR) failures.push(`empty render: innerHTML length ${result.html.length}`);
+        if (sample.size !== 'bad-value' && !result.html.includes('vdb-var')) failures.push('missing shared variant wrapper');
+        rows[type][theme].push(failures.length ? { ok: false, failures, sample } : { ok: true, failures: [], sample });
+        if (failures.length) red.push({ type, theme, sample, failures });
+      }
+    }
+  }
+  return { themes: VARIANT_THEMES, rows, red };
+}
+
+function checkSemanticContrast() {
+  const failures = [];
+  const darkText = hexToRgb('#0a0a12');
+  const runtime = createRuntime();
+  for (const theme of THEMES) {
+    const pal = runtime.VDB.palette(theme);
+    for (const role of TONE_ROLES) {
+      const rgb = hexToRgb(pal[role]);
+      if (!rgb) failures.push(`${theme}/${role}: missing hex semantic color`);
+      else if (contrast(rgb, darkText) < 4.5) failures.push(`${theme}/${role}: contrast below 4.5 against dark-on-fill text`);
+    }
+  }
+  return failures;
+}
+
 function checkContrastConventions() {
   const failures = [];
   if (!vdbSource.includes('color:#06070f')) {
@@ -295,7 +388,7 @@ async function checkRegressions() {
 }
 
 async function cdnSmoke() {
-  const url = 'https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11.1/vdb.js';
+  const url = 'https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v12/vdb.js';
   try {
     const response = await fetch(url, { method: 'HEAD' });
     return { ok: response.status === 200, status: response.status, url };
@@ -328,6 +421,9 @@ const catalogSpecs = await readJsonSpecs('catalog/specs');
 const recipeSpecs = await readJsonSpecs('recipes');
 const catalogCheck = await checkLibrarySpecs('catalog', catalogSpecs, EXPECTED_CATALOG_ATOMS);
 const recipeCheck = await checkLibrarySpecs('recipes', recipeSpecs, EXPECTED_RECIPES);
+const variantCheck = await checkVariants();
+const defaultEquivalenceFailures = await checkDefaultEquivalence();
+const semanticContrastFailures = checkSemanticContrast();
 
 for (const check of globalChecks) {
   redCells.push({ type: check.name, theme: '*', failures: [check.failure] });
@@ -339,9 +435,16 @@ const failedMatrixCells = redCells.filter((cell) => THEMES.includes(cell.theme))
 for (const cell of [...catalogCheck.red, ...recipeCheck.red]) {
   redCells.push({ type: `${cell.kind}:${cell.name}`, theme: cell.theme, failures: cell.failures });
 }
+for (const cell of variantCheck.red) {
+  redCells.push({ type: `variant:${cell.type}`, theme: cell.theme, failures: cell.failures });
+}
+if (defaultEquivalenceFailures.length) redCells.push({ type: 'regression:default-equivalence', theme: '*', failures: defaultEquivalenceFailures });
+if (semanticContrastFailures.length) redCells.push({ type: 'variant:semantic-contrast', theme: '*', failures: semanticContrastFailures });
 
 const failedLibraryCells = [...catalogCheck.red, ...recipeCheck.red].filter((cell) => LIBRARY_THEMES.includes(cell.theme)).length;
 const totalLibraryCells = (catalogCheck.actualCount + recipeCheck.actualCount) * LIBRARY_THEMES.length;
+const failedVariantCells = variantCheck.red.length;
+const totalVariantCells = Object.keys(variantCheck.rows).length * VARIANT_THEMES.length * 3;
 const summary = {
   generatedAt: new Date().toISOString(),
   vdbVersion: createRuntime().VDB.version,
@@ -358,6 +461,14 @@ const summary = {
     recipes: recipeCheck,
     passedCells: totalLibraryCells - failedLibraryCells,
     failedCells: failedLibraryCells,
+  },
+  variants: {
+    themes: VARIANT_THEMES,
+    passedCells: totalVariantCells - failedVariantCells,
+    failedCells: failedVariantCells,
+    defaultEquivalence: { ok: defaultEquivalenceFailures.length === 0, failures: defaultEquivalenceFailures },
+    semanticContrast: { ok: semanticContrastFailures.length === 0, failures: semanticContrastFailures },
+    matrix: variantCheck.rows,
   },
   matrix,
   redCells,
@@ -376,6 +487,7 @@ lines.push('');
 lines.push(`Version: ${summary.vdbVersion}`);
 lines.push(`Cells: ${summary.passedCells} passed, ${summary.failedCells} failed`);
 lines.push(`Library: ${summary.library.passedCells} passed, ${summary.library.failedCells} failed (${catalogCheck.actualCount} catalog, ${recipeCheck.actualCount} recipes across ${LIBRARY_THEMES.length} themes)`);
+lines.push(`Variants: ${summary.variants.passedCells} passed, ${summary.variants.failedCells} failed; default-equivalence=${summary.variants.defaultEquivalence.ok ? 'PASS' : 'FAIL'}; semantic-contrast=${summary.variants.semanticContrast.ok ? 'PASS' : 'FAIL'}`);
 lines.push(`Regressions: ${regressions.map((r) => `${r.name}=${r.ok ? 'PASS' : 'FAIL'}`).join(', ')}`);
 lines.push(`CDN smoke: ${cdn.ok ? 'PASS' : 'WARN'}${cdn.status ? ` (${cdn.status})` : cdn.error ? ` (${cdn.error})` : ''}`);
 lines.push(`last-run: ${lastRunPath}`);

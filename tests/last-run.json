@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-02T18:43:51.097Z",
-  "vdbVersion": "v11.1",
+  "generatedAt": "2026-06-02T19:51:31.241Z",
+  "vdbVersion": "v12",
   "componentCount": 25,
   "themeCount": 7,
   "passedCells": 175,
@@ -19,9 +19,9 @@
     }
   ],
   "cdnSmoke": {
-    "ok": true,
-    "status": 200,
-    "url": "https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11.1/vdb.js"
+    "ok": false,
+    "status": 404,
+    "url": "https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v12/vdb.js"
   },
   "library": {
     "themes": [
@@ -601,6 +601,816 @@
     },
     "passedCells": 96,
     "failedCells": 0
+  },
+  "variants": {
+    "themes": [
+      "blueprint",
+      "crt"
+    ],
+    "passedCells": 72,
+    "failedCells": 0,
+    "defaultEquivalence": {
+      "ok": true,
+      "failures": []
+    },
+    "semanticContrast": {
+      "ok": true,
+      "failures": []
+    },
+    "matrix": {
+      "focal": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      },
+      "gauge": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      },
+      "bars": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      },
+      "tiles": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      },
+      "pipeline": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      },
+      "allocation": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      },
+      "callout": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      },
+      "cards": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      },
+      "comparison": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      },
+      "nodes": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      },
+      "stage": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      },
+      "diagram": {
+        "blueprint": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ],
+        "crt": [
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "sm",
+              "density": "compact",
+              "emphasis": "muted",
+              "tone": "good"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "lg",
+              "density": "comfortable",
+              "emphasis": "strong",
+              "tone": "warn"
+            }
+          },
+          {
+            "ok": true,
+            "failures": [],
+            "sample": {
+              "size": "bad-value",
+              "density": "bad-value",
+              "emphasis": "bad-value",
+              "tone": "bad-value"
+            }
+          }
+        ]
+      }
+    }
   },
   "matrix": {
     "gauge": {
