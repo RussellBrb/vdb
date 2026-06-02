@@ -36,3 +36,6 @@ note/callout inline-markup formatter (footgun: `text` is escaped) + `flow` label
 
 ## [2026-06-01] Claude: v11.1 implements both polish items directly
 Rather than backlog to Codex, Claude implemented in v11.1: (1) `flow` label stagger (alternate above/below the lane — stays horizontal, no overlap); (2) inline-markdown formatter (`**bold**`/`*italic*`/`code`) applied to `note`/`callout` `text` (fixes the literal-`<b>` footgun; `html:` stays the raw escape hatch). Supersedes the 2026-06-01 "Logged 2 engine polish items" Codex assignment.
+
+## [2026-06-01] Claude: Composition-library architecture adopted
+Atomic design mapped to engine: atoms (24 components) + tokens (themes/vibe) exist; add Recipes (parametric board prefabs = filled JSON + documented slots) and a small Variant knob-set (size/density/emphasis/tone, CVA-style). Freestyle = nearest recipe → override slots → tweak variants → else compose atoms from catalog. Phase 1 (recipes + catalog, no engine change) → Codex now. Phase 2 (variant system, engine v12) → Claude designs, Codex implements. Spec: LIBRARY-SPEC.md.

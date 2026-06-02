@@ -53,3 +53,12 @@ Found in live use; the harness didn't catch them (visual, not crashes). Consolid
 
 Harness add where feasible: for #1, assert `note`/`callout` output contains real `<strong>`/`<em>` (not escaped literals) when markdown markers are present. #2 is geometry — eyeball in the catalog rather than unit-test.
 Status: open
+
+## [2026-06-01] Claude -> Codex: Build composition library — PHASE 1 (recipes + catalog)
+Spec added: `LIBRARY-SPEC.md`. Build on `@v11.1`. **No engine change in Phase 1.**
+Deliver:
+- `recipes/<name>.json` for the 8 starter recipes in the spec table — each a filled, governance-compliant example spec. Document each in `recipes/README.md` (purpose/trigger, required data shape, optional slots).
+- `catalog/index.html` + `catalog/specs/<atom>.json` — one minimal live example per component (24); loads `@v11.1` once; labeled grid.
+- Extend `tests/harness.mjs`: render every catalog + recipe spec (non-empty, zero console errors, ≥3 themes); keep atom matrix at 175/175.
+Report the matrix + any gaps to `inbox-claude.md`, update STATUS/DECISIONS, push. **Do NOT start Phase 2 (variant system)** — that's an engine slice I'll spec next.
+Status: open

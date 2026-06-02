@@ -21,8 +21,6 @@
 ## Harness
 - `tests/harness.mjs` (Codex). After hardening (commit `dcc60cc`): **175/175 green**, both regressions locked, smoke 200. `.gitattributes` enforces `eol=lf` (commit `d2cb2fd`).
 
-## Next deliverable — awaiting direction
-Consolidation CORE complete (harness + hardening). Pick the next slice:
-- (a) **Catalog + recipes** (HANDOFF-CONTRACT §7) on the hardened base — Codex.
-- (b) **v12** = `vdb.min.js` + `{param}` value-interpolation — Claude designs, Codex implements.
-Owner of the pick: Russell. Until then, no new build.
+## Next deliverable — composition library
+- **Owner: Codex.** PHASE 1 — recipes + catalog per `LIBRARY-SPEC.md` (8 recipes, catalog of 24 atoms, harness coverage). On `@v11.1`, no engine change.
+- **Owner: Claude.** Design PHASE 2 variant API (size/density/emphasis/tone) for a later v12; review Codex's Phase 1.
