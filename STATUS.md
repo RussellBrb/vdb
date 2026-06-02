@@ -36,8 +36,8 @@ Completed: harness -> harden -> Phase 1 catalog/recipes -> Phase 2 variants -> A
 - **Owner: Claude.** Review the v13 Phase A diff and decide whether/when to spec Animation Phase B.
 - **Owner: Codex.** Await review. Do not start Phase B primitive library or Phase C linkages without a new instruction.
 
-## Next deliverable — animation engine Phase B (awaiting go)
-Phase A (v13) COMPLETE & approved: behavior layer (rotate/oscillate/pulse/flow → CSS @keyframes) + FK pivot/parent + gear/piston, harness green (behaviors 4/4, FK, default-equivalence, contrast).
-- **Owner: Codex** (on Russell's go) — Phase B (v14): full primitive library (lever, cam, rack, spring, fluid-flow, switch) + toggle/step bindings + catalog examples, per ANIMATION-PLAN.
-- **Owner: Claude** — review.
-Banked (independent): vdb.min.js + {param} value-interpolation.
+## Next deliverable — v13.1 motion-quality pass (queued)
+v13 animates but the baseline is dizzying/sporadic + labels overlap. v13.1 fix queued (ANIMATION-PLAN "Motion quality baseline"): easing by behavior type, gentle speeds + speed knob, one shared phase, prefers-reduced-motion, fix gear/piston label overlap. Human-eye review required (harness can't judge aesthetics).
+- **Owner: Codex** (on Russell's go) — v13.1 quality pass; NO new primitives.
+- **Owner: Claude/Russell** — eyeball the calmed result before Phase B.
+Then: Phase B (full primitive library). Banked: vdb.min.js + {param} interpolation.

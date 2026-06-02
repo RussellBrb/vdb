@@ -45,3 +45,15 @@ Engineering, animation, and web tech independently point at the SAME minimal rep
 
 ## Acceptance
 A mechanism authored as parts+behaviors+pivots renders, animates (CSS), steps, and toggles via state; principle defaults applied; no rAF/SMIL/deps; harness green incl. default-equivalence + contrast.
+
+---
+
+## Motion quality baseline (v13.1 — REQUIRED, learned from live use)
+The foundation animates, but the baseline was **dizzying / sporadic** with **overlapping labels**. A calm, smooth default is a hard requirement, not polish:
+- **Easing by behavior type:** continuous `rotate`/`flow` → `linear` + `infinite` (constant, smooth — never stepped/jittery); `oscillate`/reciprocation + `pulse` → `ease-in-out` (no hard reversals).
+- **Gentle default speeds:** slow the defaults — full gear rotation **~4–6 s**, piston reciprocation **~2–3 s**. Fast = dizzying. Expose a speed multiplier (don't force authors to fight defaults).
+- **Coordinated phase:** drive a mechanism's parts from **ONE shared phase** so motion reads connected, not desynced/sporadic.
+- **Calm amplitude:** modest movement; nothing whipping around.
+- **Honor `prefers-reduced-motion`:** auto-pause or slow to near-still when the OS setting is on (comfort + a11y).
+- **No overlapping labels:** offset, or label only key parts (reuse the flow-stagger discipline). The gear/piston presets currently collide (`piston`/`guide`).
+- **Process:** motion quality is a **human-eye review** — the harness can't judge "pleasant." Every primitive must be eyeballed at default speed before ship; the default must look calm and smooth.
