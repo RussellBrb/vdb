@@ -334,6 +334,82 @@ function checkSemanticContrast() {
   return failures;
 }
 
+function keyframeBlocks(css) {
+  const blocks = [];
+  const re = /@keyframes\s+[\w-]+\s*\{/g;
+  let match;
+  while ((match = re.exec(css))) {
+    let depth = 1;
+    let i = re.lastIndex;
+    while (i < css.length && depth > 0) {
+      if (css[i] === '{') depth += 1;
+      else if (css[i] === '}') depth -= 1;
+      i += 1;
+    }
+    blocks.push(css.slice(re.lastIndex, i - 1));
+    re.lastIndex = i;
+  }
+  return blocks;
+}
+
+async function checkAnimations() {
+  const red = [];
+  const rows = {};
+  const samples = {
+    gear: { theme: 'blueprint', components: [{ type: 'motion', preset: 'gear', params: { teethA: 24, teethB: 12, period: 1200 }, key: 'gear-check' }] },
+    piston: { theme: 'crt', components: [{ type: 'motion', preset: 'piston', params: { radius: 32, period: 1400 }, key: 'piston-check' }] },
+    behavior: {
+      theme: 'blueprint',
+      components: [{
+        type: 'motion',
+        width: 220,
+        height: 120,
+        parts: [
+          { id: 'driver', shape: 'circle', x: 60, y: 60, r: 18, behaviors: [{ type: 'rotate', period: 900 }] },
+          { id: 'follower', parent: 'driver', shape: 'circle', x: 28, y: 0, r: 6, behaviors: [{ type: 'pulse', prop: 'opacity', period: 900, phase: 0.08 }] },
+          { id: 'flow', shape: 'circle', x: 130, y: 60, r: 5, behaviors: [{ type: 'flow', path: [[0, 0], [24, 0], [48, 12]], period: 900 }] },
+        ],
+      }],
+    },
+  };
+
+  for (const [name, spec] of Object.entries(samples)) {
+    const result = await renderSpec(spec);
+    const failures = [];
+    const html = result.html;
+    const css = [...html.matchAll(/<style[^>]*data-vdb-behavior[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('\n');
+    const blocks = keyframeBlocks(css);
+    if (result.exception) failures.push(`exception: ${result.exception.message}`);
+    if (result.runtime.errors.length) failures.push(`console.error: ${result.runtime.errors.join(' | ')}`);
+    if (html.length < NON_EMPTY_FLOOR) failures.push(`empty render: innerHTML length ${html.length}`);
+    if (!html.includes('data-principles="ease-in-out causal-140ms segmented-auto-pause"')) failures.push('missing principle defaults marker');
+    if (!css.includes('@keyframes')) failures.push('missing compiled keyframes');
+    if (!blocks.length) failures.push('no parseable keyframe blocks');
+    for (const block of blocks) {
+      const props = [...block.matchAll(/([a-z-]+)\s*:/g)].map((m) => m[1]);
+      const badProps = props.filter((prop) => prop !== 'transform' && prop !== 'opacity');
+      if (badProps.length) failures.push(`keyframes include non-transform/opacity properties: ${badProps.join(',')}`);
+    }
+    if (/requestAnimationFrame|\.animate\(|<animate/.test(vdbSource) || /offset-path|offset-distance/.test(css)) failures.push('disallowed animation runtime/path primitive found');
+    if (name === 'gear' && !css.includes('rotate(-720deg)')) failures.push('gear tooth ratio / opposite rotation not found');
+    if (name === 'piston' && !css.includes('translateX(32px)')) failures.push('piston slider-crank x ~= r*cos(theta) oscillation not found');
+    if (name === 'behavior' && !/<g data-pid="driver"[\s\S]*<g data-pid="follower"/.test(html)) failures.push('FK parent nesting not found');
+    rows[name] = failures.length ? { ok: false, failures } : { ok: true, failures: [] };
+    if (failures.length) red.push({ name, failures });
+  }
+
+  const base = await renderSpec({ theme: 'blueprint', components: [{ type: 'motion', preset: 'toggle', key: 'escape', autoplay: false }] });
+  const explicit = await renderSpec({ theme: 'blueprint', components: [{ type: 'motion', preset: 'toggle', key: 'escape', autoplay: false, behaviors: [] }] });
+  const eqFailures = [];
+  if (base.exception || explicit.exception) eqFailures.push('exception during frame escape-hatch render');
+  if (!base.html.includes('data-m=') || base.html.includes('data-vdb-behavior')) eqFailures.push('base frame path did not use data-m escape hatch');
+  if (normalizeHtml(base.html) !== normalizeHtml(explicit.html)) eqFailures.push('empty behaviors changed legacy frame output');
+  rows['frame-default-equivalence'] = eqFailures.length ? { ok: false, failures: eqFailures } : { ok: true, failures: [] };
+  if (eqFailures.length) red.push({ name: 'frame-default-equivalence', failures: eqFailures });
+
+  return { rows, red };
+}
+
 function checkContrastConventions() {
   const failures = [];
   if (!vdbSource.includes('color:#06070f')) {
@@ -388,7 +464,7 @@ async function checkRegressions() {
 }
 
 async function cdnSmoke() {
-  const url = 'https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v12/vdb.js';
+  const url = 'https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v13/vdb.js';
   try {
     const response = await fetch(url, { method: 'HEAD' });
     return { ok: response.status === 200, status: response.status, url };
@@ -424,6 +500,7 @@ const recipeCheck = await checkLibrarySpecs('recipes', recipeSpecs, EXPECTED_REC
 const variantCheck = await checkVariants();
 const defaultEquivalenceFailures = await checkDefaultEquivalence();
 const semanticContrastFailures = checkSemanticContrast();
+const animationCheck = await checkAnimations();
 
 for (const check of globalChecks) {
   redCells.push({ type: check.name, theme: '*', failures: [check.failure] });
@@ -440,6 +517,9 @@ for (const cell of variantCheck.red) {
 }
 if (defaultEquivalenceFailures.length) redCells.push({ type: 'regression:default-equivalence', theme: '*', failures: defaultEquivalenceFailures });
 if (semanticContrastFailures.length) redCells.push({ type: 'variant:semantic-contrast', theme: '*', failures: semanticContrastFailures });
+for (const cell of animationCheck.red) {
+  redCells.push({ type: `animation:${cell.name}`, theme: '*', failures: cell.failures });
+}
 
 const failedLibraryCells = [...catalogCheck.red, ...recipeCheck.red].filter((cell) => LIBRARY_THEMES.includes(cell.theme)).length;
 const totalLibraryCells = (catalogCheck.actualCount + recipeCheck.actualCount) * LIBRARY_THEMES.length;
@@ -470,6 +550,11 @@ const summary = {
     semanticContrast: { ok: semanticContrastFailures.length === 0, failures: semanticContrastFailures },
     matrix: variantCheck.rows,
   },
+  animations: {
+    passedCells: Object.keys(animationCheck.rows).length - animationCheck.red.length,
+    failedCells: animationCheck.red.length,
+    matrix: animationCheck.rows,
+  },
   matrix,
   redCells,
 };
@@ -488,6 +573,7 @@ lines.push(`Version: ${summary.vdbVersion}`);
 lines.push(`Cells: ${summary.passedCells} passed, ${summary.failedCells} failed`);
 lines.push(`Library: ${summary.library.passedCells} passed, ${summary.library.failedCells} failed (${catalogCheck.actualCount} catalog, ${recipeCheck.actualCount} recipes across ${LIBRARY_THEMES.length} themes)`);
 lines.push(`Variants: ${summary.variants.passedCells} passed, ${summary.variants.failedCells} failed; default-equivalence=${summary.variants.defaultEquivalence.ok ? 'PASS' : 'FAIL'}; semantic-contrast=${summary.variants.semanticContrast.ok ? 'PASS' : 'FAIL'}`);
+lines.push(`Animations: ${summary.animations.passedCells} passed, ${summary.animations.failedCells} failed`);
 lines.push(`Regressions: ${regressions.map((r) => `${r.name}=${r.ok ? 'PASS' : 'FAIL'}`).join(', ')}`);
 lines.push(`CDN smoke: ${cdn.ok ? 'PASS' : 'WARN'}${cdn.status ? ` (${cdn.status})` : cdn.error ? ` (${cdn.error})` : ''}`);
 lines.push(`last-run: ${lastRunPath}`);

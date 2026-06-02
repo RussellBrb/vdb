@@ -117,6 +117,8 @@ Families map to governance triggers (see `GOVERNANCE.md` §3).
 |---|---|---|
 | `motion` | preset: `{ preset, params?, key? }` — OR custom: `{ parts:[{ id, x?, y?, w?, h?, color?, label? }], frames:[…], autoplay?, key?, width?, height? }` | presets: `pen-click`, `pump`, `toggle`. `parts` = positioned rects; `frames` drive transforms (read `MPRESETS` `pump` in `vdb.js` for the exact frame shape). Self-contained autoplay; persists via `key` |
 
+**Motion behavior layer (v13 Phase A):** `motion` also accepts behavior-driven parts while keeping `frames` as the backward-compatible escape hatch. Part additions: `shape?:'circle'`, `r?`, `pivot?:[x,y]`, `parent?:partId`, `behaviors?:[{ type:'rotate', deg?, period?, phase?, ease?, segmented? } | { type:'oscillate', axis:'x'|'y', amp?, period?, phase?, ease?, segmented? } | { type:'pulse', prop:'opacity', period?, phase? } | { type:'flow', path:[[x,y],...], period?, phase?, ease? }]`. Behaviors compile to CSS `@keyframes` animating only `transform`/`opacity`; no rAF, SMIL, solver, or dependency. Phase A presets: `gear` and `piston`, both one-parameter approximations with FK parent nesting.
+
 **INTERACTIVE** — *controls write `state`; views are functions of state.*
 
 ```

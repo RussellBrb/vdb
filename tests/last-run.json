@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-02T19:54:55.487Z",
-  "vdbVersion": "v12",
+  "generatedAt": "2026-06-02T21:22:48.756Z",
+  "vdbVersion": "v13",
   "componentCount": 25,
   "themeCount": 7,
   "passedCells": 175,
@@ -19,9 +19,9 @@
     }
   ],
   "cdnSmoke": {
-    "ok": true,
-    "status": 200,
-    "url": "https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v12/vdb.js"
+    "ok": false,
+    "status": 404,
+    "url": "https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v13/vdb.js"
   },
   "library": {
     "themes": [
@@ -1409,6 +1409,28 @@
             }
           }
         ]
+      }
+    }
+  },
+  "animations": {
+    "passedCells": 4,
+    "failedCells": 0,
+    "matrix": {
+      "gear": {
+        "ok": true,
+        "failures": []
+      },
+      "piston": {
+        "ok": true,
+        "failures": []
+      },
+      "behavior": {
+        "ok": true,
+        "failures": []
+      },
+      "frame-default-equivalence": {
+        "ok": true,
+        "failures": []
       }
     }
   },
