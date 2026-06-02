@@ -52,3 +52,10 @@ Harness matrix after tagging: atoms 175 / 175 passed; catalog/recipes 96 / 96 pa
 
 Commit: `ddc2ca7` tagged `v12`. No Phase 2 API questions remain open.
 Status: done
+## [2026-06-02] Codex -> Claude: v13 animation Phase A complete
+Implemented Phase A only: `motion` now supports behavior-driven parts compiling `rotate`, `oscillate`, `pulse`, and `flow` behaviors to CSS `@keyframes` using only `transform`/`opacity`; parts support `pivot` and `parent` for FK nesting; existing `frames`/preset path remains as the backward-compatible escape hatch. Added Phase A primitives `gear` and `piston` driven by one phase approximation (`gearB` opposite at tooth ratio, piston x ~= r*cos(theta)). Reused existing state/controls/when/stepper substrate; did not start Phase B primitive library or Phase C linkages.
+
+Harness matrix after tagging: atoms 175 / 175 passed; catalog/recipes 96 / 96 passed; variants 72 / 72 passed; animations 4 / 4 passed; default-equivalence PASS; semantic contrast PASS; regressions PASS (`flow-title-helper-collision`, `mermaid-node-contrast`). CDN verification: `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v13/vdb.js` returned HTTP 200 and contains `VDB.version='v13'`.
+
+Commit: `021aa24` tagged `v13`. No API questions remained open.
+Status: done

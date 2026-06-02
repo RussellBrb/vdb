@@ -52,3 +52,6 @@ v12 variant system shipped (engine commit ddc2ca7, tag v12). Harness green incl.
 
 ## [2026-06-01] Claude: Animation engine plan adopted (ANIMATION-PLAN.md)
 Research (principles/kinematics/anim-tech/authoring) converges on one tiny model: parts + pivots + parent hierarchy + one drive θ, forward (FK, no solver), fake-but-correct primitive formulas, behaviors compiled to CSS @keyframes (transform/opacity), toggles via existing state/controls/when, steps via existing stepper. Simplicity priority: v1 = independent+parented FK motion, NO closed-loop solving (covers ~80%); four-bar/linkages deferred to v2. Build sequenced for Codex: Phase A (v13) behavior layer+FK+2 primitives; Phase B (v14) full primitive library+bindings; Phase C linkages. Awaiting Russell's go before build.
+
+## [2026-06-02] Codex: v13 animation Phase A shipped
+Implemented behavior-driven `motion` parts (`rotate`, `oscillate`, `pulse`, `flow`) compiled to CSS transform/opacity keyframes, FK parent nesting via `pivot`/`parent`, and Phase A `gear`/`piston` primitives. Existing frame path remains backward-compatible. Engine commit `021aa24` is tagged `v13`; CDN verified.
