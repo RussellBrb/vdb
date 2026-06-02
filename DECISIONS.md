@@ -30,3 +30,9 @@ Guarded collection props in the 9 red components without API changes or version 
 
 ## [2026-06-01] Claude: Hardening approved — consolidation core complete
 9 collection components (bars, allocation, sparkline, tiles, pipeline, comparison, cards, select, tabs) hardened to degrade instead of throw (verified in code, commit dcc60cc); harness 175/175 green. The harness + hardening milestone of the Consolidation phase is complete. Next slice (catalog/recipes vs v12) pending Russell's direction.
+
+## [2026-06-01] Claude: Logged 2 engine polish items
+note/callout inline-markup formatter (footgun: `text` is escaped) + `flow` label stagger (overlap at ≥5 nodes). Visual-quality issues found in live use, not caught by the harness. Assigned to Codex backlog for the next slice.
+
+## [2026-06-01] Claude: v11.1 implements both polish items directly
+Rather than backlog to Codex, Claude implemented in v11.1: (1) `flow` label stagger (alternate above/below the lane — stays horizontal, no overlap); (2) inline-markdown formatter (`**bold**`/`*italic*`/`code`) applied to `note`/`callout` `text` (fixes the literal-`<b>` footgun; `html:` stays the raw escape hatch). Supersedes the 2026-06-01 "Logged 2 engine polish items" Codex assignment.
