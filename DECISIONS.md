@@ -75,3 +75,6 @@ Researched minimal visual+motion signatures for lever/cam/rack-pinion/spring/flu
 
 ## [2026-06-03] Codex: v14 primitive library shipped
 Implemented Phase B primitives (`lever`, `cam`, `rack-pinion`, `spring`, `fluid-flow`, `toggle-switch`, `valve`), schematic vocabulary, step/toggle bindings, primitive catalog examples, and harness coverage. Engine commit `9adfd6e` is tagged `v14`; CDN verified. Phase C remains deferred.
+
+## [2026-06-01] Claude: Phase B / v14 approved — animation engine COMPLETE
+Russell approved the full primitive library (7 primitives, calm baseline inherited, quality consistent). Animation engine functionally complete: behavior layer + FK + 13 primitives + toggle/step bindings at signed-off motion quality. Pipeline idle. Phase C (linkages) deferred. Banked: vdb.min.js + {param} value-interpolation.

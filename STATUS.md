@@ -46,3 +46,9 @@ Completed: harness -> harden -> Phase 1 catalog/recipes -> Phase 2 variants -> A
 - **Owner: Codex.** Await review. Do not start Phase C closed-loop linkages without a new instruction.
 
 Banked: `vdb.min.js` + `{param}` interpolation.
+
+## Status — ANIMATION ENGINE COMPLETE (v14)
+Approved. Behaviors (rotate/oscillate/pulse/flow) + FK coupling + 13 primitives (gear, piston, pen, pump, lever, cam, rack-pinion, spring, fluid-flow, toggle-switch, valve + more) + toggle/step bindings, at the signed-off calm baseline. Harness green: atoms 175 · catalog/primitives/recipes 117 · variants 72 · animations 13/13 · default-equivalence · contrast.
+
+## Next deliverable — none assigned (pipeline idle)
+Banked for a future v15 (no rush): `vdb.min.js`; `{param}` value-interpolation. Phase C (closed-loop linkages) deferred. Trigger Claude to scope when wanted.
