@@ -39,3 +39,9 @@ Completed: harness -> harden -> Phase 1 catalog/recipes -> Phase 2 variants -> A
 - **Owner: Codex.** Await review. Do not start Phase B primitive library or Phase C linkages without a new instruction.
 
 Then: Phase B (full primitive library). Banked: `vdb.min.js` + `{param}` interpolation.
+
+## Next deliverable — Phase B IN PROGRESS (v14)
+Green-lit. Codex building the full primitive library (lever, cam, rack-pinion, spring, fluid-flow, toggle/valve) per ANIMATION-PLAN "Phase B — primitive specs", inheriting the v13.2 calm baseline + cross-cutting schematic vocabulary + toggle/step bindings + catalog. Eyeball each before ship; bump to v14.
+- **Owner: Codex** — building.
+- **Owner: Claude/Russell** — review each primitive's motion quality.
+Banked: vdb.min.js + {param} value-interpolation. Phase C (linkages) deferred.

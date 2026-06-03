@@ -61,3 +61,18 @@ The foundation animates, but the baseline was **dizzying / sporadic** with **ove
 ### v13.2 refinements (from live review)
 - **Err slow:** defaults still ~20% too fast — gear ~5–7 s/rev, piston ~2.5–3.5 s. Calm beats brisk.
 - **No edge clipping:** the motion `viewBox` must include each part's **full motion excursion** (rotation radius / oscillation range / flow path) **plus margin**, and the motion svg/container must be `overflow:visible`. Lay preset parts with margin from bounds so nothing clips at corners.
+
+---
+
+## Phase B — primitive specs (v14)
+All inherit the **v13.2 calm baseline** (slow defaults, easing by type, padded viewBox/overflow, prefers-reduced-motion). Shared phase θ∈[0,1]: continuous = `rotate(360θ)`/dashoffset; reciprocating = `sin/cos(2πθ)` ease-in-out; toggles = boolean snap. Eyeball each at default speed before ship.
+
+- **lever** — bar `<rect>` + triangle fulcrum (+ground hatch). Rotate about fulcrum apex `angle=A·sin(2πθ)`, A≈15° (small range, not full rotation). Params: `barLength`, `fulcrumX`, `amplitudeDeg`.
+- **cam** — circle (eccentric) or pear `<path>` cam + center dot + vertical follower on guide rails. Cam `rotate(360θ)`; follower `lift=profile(θ)`: eccentric `e(1−cos2πθ)` (smooth) OR pear rise[0–.3]/fall[.3–.5]/**dwell**[.5–1] (the dwell flat is the cam cue). Params: `liftHeight`, `riseFraction`, `dwellFraction`. (Cam graphic + follower aren't geometrically coupled — sync visually, reads perfectly.)
+- **rack-pinion** — pinion circle + **radial tick** (essential, else a blank spinning disc) + rack `<rect>` on rails. `pinionAngle=360θ`, `rackX=2πr·θ` (tie travel to circumference). Params: `pinionRadius`, `travel`, mode oscillate|translate.
+- **spring** — zigzag `<polyline>` (4–6 segs, recompute points > scaleY) anchored (ground hatch) to a mass. `length=L0+A·cos(2πθ)`, ease-in-out SHM. Params: `restLength`, `amplitude`, `coilCount`.
+- **fluid-flow** — pipe `<path>` stroked with `stroke-dasharray`; animate `stroke-dashoffset` as a **CSS keyframe on its own clock** (follows curves, GPU-cheap; the one primitive not θ-sampled). Arrowhead = direction. Params: `flowRate`, `dashLength`, `direction` (±1), `pipeWidth`.
+- **toggle-switch / valve** — track+knob (switch) or body+bore disc (valve). **Boolean `state` → two fixed configs**, SNAP transition ~150 ms `cubic-bezier(.34,1.56,.64,1)` overshoot, no held mid-states. `knobX`/`angle` or valve `boreAngle` (0°=open, 90°=closed). Color cue (green=on/open). **Driven by `state`/`controls`, NOT continuous θ — this is the toggle-binding exemplar.**
+
+### Cross-cutting schematic vocabulary (apply across ALL primitives, incl. existing)
+ground **hatching** under fixed parts · **motion arrows** (curved=rotate, straight=translate, double=oscillate) · **joint dots** (filled circle at each revolute joint) · **guide rails** (two thin lines constraining any slider). Same vocabulary → primitives compose consistently.

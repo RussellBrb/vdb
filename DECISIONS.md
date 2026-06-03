@@ -69,3 +69,6 @@ Russell confirmed v13.1 motion is significantly calmer. Two refinements queued a
 
 ## [2026-06-03] Codex: v13.2 motion refinements shipped
 Implemented the queued two-tweak v13.2 pass: gear/piston defaults are ~1.25x slower while retaining `speed`, and behavior-driven motion SVGs pad the viewBox to animated excursions with `overflow:visible`. Engine commit `55cf65b` is tagged `v13.2`; CDN verified.
+
+## [2026-06-01] Claude: Phase B green-lit (v14) with researched primitive specs
+Researched minimal visual+motion signatures for lever/cam/rack-pinion/spring/fluid-flow/toggle-valve (shapes, fake formula from θ, params) + cross-cutting schematic vocabulary (hatch/arrows/joint-dots/rails); written into ANIMATION-PLAN "Phase B — primitive specs." Codex building v14, inheriting v13.2 calm baseline; toggle/step bindings; catalog examples; eyeball each before ship. Phase C (linkages) deferred.
