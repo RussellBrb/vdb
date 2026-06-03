@@ -359,6 +359,7 @@ async function checkAnimations() {
     gear: { theme: 'blueprint', components: [{ type: 'motion', preset: 'gear', params: { teethA: 24, teethB: 12 }, key: 'gear-check' }] },
     piston: { theme: 'crt', components: [{ type: 'motion', preset: 'piston', params: { radius: 30 }, key: 'piston-check' }] },
     speed: { theme: 'blueprint', components: [{ type: 'motion', preset: 'gear', params: { speed: 2 }, key: 'speed-check' }] },
+    clipping: { theme: 'blueprint', components: [{ type: 'motion', parts: [{ id: 'edge', shape: 'circle', x: 8, y: 8, r: 18, behaviors: [{ type: 'oscillate', axis: 'x', amp: 20 }] }], key: 'clip-check' }] },
     behavior: {
       theme: 'blueprint',
       components: [{
@@ -393,13 +394,15 @@ async function checkAnimations() {
     }
     if (/requestAnimationFrame|\.animate\(|<animate/.test(vdbSource) || /offset-path|offset-distance/.test(css)) failures.push('disallowed animation runtime/path primitive found');
     if (!/prefers-reduced-motion:reduce/.test(vdbSource) || !/animation:none!important/.test(vdbSource)) failures.push('prefers-reduced-motion pause rule not found');
-    if (name === 'gear' && !/5000ms linear infinite/.test(html)) failures.push('gear default is not slow linear 5s');
+    if (name === 'gear' && !/6250ms linear infinite/.test(html)) failures.push('gear default is not slow linear 6.25s');
     if (name === 'gear' && !css.includes('rotate(-720deg)')) failures.push('gear tooth ratio / opposite rotation not found');
-    if (name === 'piston' && !/2600ms ease-in-out infinite/.test(html)) failures.push('piston default is not slow ease-in-out 2.6s');
+    if (name === 'piston' && !/3250ms ease-in-out infinite/.test(html)) failures.push('piston default is not slow ease-in-out 3.25s');
     if (name === 'piston' && !css.includes('translateX(30px)')) failures.push('piston slider-crank x ~= r*cos(theta) oscillation not found');
     if (name === 'piston' && !html.includes('data-pid="guide"') || name === 'piston' && />guide</.test(html)) failures.push('guide label should be omitted to avoid overlap');
     if (name === 'piston' && !html.includes('labelY') && !html.includes('y="30" text-anchor="middle"')) failures.push('piston label offset not found');
-    if (name === 'speed' && !/2500ms linear infinite/.test(html)) failures.push('speed multiplier did not halve gear period');
+    if (name === 'speed' && !/3125ms linear infinite/.test(html)) failures.push('speed multiplier did not halve gear period');
+    if (name === 'clipping' && !/viewBox="-\d+ -\d+ \d+ \d+"/.test(html)) failures.push('motion viewBox was not padded beyond the origin');
+    if (name === 'clipping' && !/overflow:visible/.test(html)) failures.push('motion svg is missing overflow:visible');
     if (name === 'behavior' && !/<g data-pid="driver"[\s\S]*<g data-pid="follower"/.test(html)) failures.push('FK parent nesting not found');
     rows[name] = failures.length ? { ok: false, failures } : { ok: true, failures: [] };
     if (failures.length) red.push({ name, failures });
@@ -471,7 +474,7 @@ async function checkRegressions() {
 }
 
 async function cdnSmoke() {
-  const url = 'https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v13.1/vdb.js';
+  const url = 'https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v13.2/vdb.js';
   try {
     const response = await fetch(url, { method: 'HEAD' });
     return { ok: response.status === 200, status: response.status, url };
