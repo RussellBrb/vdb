@@ -1,0 +1,9 @@
+{
+  "theme": "blueprint",
+  "title": "toggle-switch",
+  "state": { "enabled": true },
+  "components": [
+    { "type": "toggle", "param": "enabled", "label": "Enabled" },
+    { "type": "motion", "key": "primitive-toggle-switch", "preset": "toggle-switch", "params": { "param": "enabled" } }
+  ]
+}

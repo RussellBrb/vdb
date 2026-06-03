@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "spring",
+  "components": [
+    { "type": "motion", "key": "primitive-spring", "preset": "spring", "params": { "restLength": 88, "amplitude": 18, "coilCount": 5 } }
+  ]
+}

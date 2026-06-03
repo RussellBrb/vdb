@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-03T14:36:40.223Z",
-  "vdbVersion": "v13.2",
+  "generatedAt": "2026-06-03T15:37:04.428Z",
+  "vdbVersion": "v14",
   "componentCount": 25,
   "themeCount": 7,
   "passedCells": 175,
@@ -19,9 +19,9 @@
     }
   ],
   "cdnSmoke": {
-    "ok": true,
-    "status": 200,
-    "url": "https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v13.2/vdb.js"
+    "ok": false,
+    "status": 404,
+    "url": "https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v14/vdb.js"
   },
   "library": {
     "themes": [
@@ -450,6 +450,138 @@
       },
       "red": []
     },
+    "primitives": {
+      "kind": "primitives",
+      "expectedCount": 7,
+      "actualCount": 7,
+      "themes": [
+        "blueprint",
+        "sunrise",
+        "crt"
+      ],
+      "rows": {
+        "cam": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/cam.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/cam.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/cam.json"
+          }
+        },
+        "fluid-flow": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/fluid-flow.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/fluid-flow.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/fluid-flow.json"
+          }
+        },
+        "lever": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/lever.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/lever.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/lever.json"
+          }
+        },
+        "rack-pinion": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/rack-pinion.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/rack-pinion.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/rack-pinion.json"
+          }
+        },
+        "spring": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/spring.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/spring.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/spring.json"
+          }
+        },
+        "toggle-switch": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/toggle-switch.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/toggle-switch.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/toggle-switch.json"
+          }
+        },
+        "valve": {
+          "blueprint": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/valve.json"
+          },
+          "sunrise": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/valve.json"
+          },
+          "crt": {
+            "ok": true,
+            "failures": [],
+            "file": "catalog/primitives/valve.json"
+          }
+        }
+      },
+      "red": []
+    },
     "recipes": {
       "kind": "recipes",
       "expectedCount": 8,
@@ -599,7 +731,7 @@
       },
       "red": []
     },
-    "passedCells": 96,
+    "passedCells": 117,
     "failedCells": 0
   },
   "variants": {
@@ -1413,7 +1545,7 @@
     }
   },
   "animations": {
-    "passedCells": 6,
+    "passedCells": 13,
     "failedCells": 0,
     "matrix": {
       "gear": {
@@ -1429,6 +1561,34 @@
         "failures": []
       },
       "clipping": {
+        "ok": true,
+        "failures": []
+      },
+      "lever": {
+        "ok": true,
+        "failures": []
+      },
+      "cam": {
+        "ok": true,
+        "failures": []
+      },
+      "rack-pinion": {
+        "ok": true,
+        "failures": []
+      },
+      "spring": {
+        "ok": true,
+        "failures": []
+      },
+      "fluid-flow": {
+        "ok": true,
+        "failures": []
+      },
+      "toggle-switch": {
+        "ok": true,
+        "failures": []
+      },
+      "valve": {
         "ok": true,
         "failures": []
       },

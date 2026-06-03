@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>VDB Catalog</title>
-  <script src="https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v13.2/vdb.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v14/vdb.js"></script>
   <style>
     :root { color-scheme: dark; font-family: ui-monospace, "JetBrains Mono", monospace; background: #080b12; color: #edf2ff; }
     body { margin: 0; padding: 24px; }
@@ -19,10 +19,13 @@
 </head>
 <body>
   <h1>VDB Catalog</h1>
-  <p class="sub">Live reference for the 24 atom specs and 8 starter recipes. Each panel is rendered by one pinned `@v13.2` engine load.</p>
+  <p class="sub">Live reference for the 24 atom specs, Phase B primitive mechanisms, and 8 starter recipes. Each panel is rendered by one pinned `@v14` engine load.</p>
 
   <h2>Atoms</h2>
   <div id="atoms" class="grid"></div>
+
+  <h2>Primitive Mechanisms</h2>
+  <div id="primitives" class="grid"></div>
 
   <h2>Recipes</h2>
   <div id="recipes" class="grid"></div>
@@ -36,6 +39,9 @@
     const recipes = [
       'status-board', 'kpi-dashboard', 'comparison', 'decision', 'mechanism-xray',
       'flow-cycle', 'timeline', 'explainer'
+    ];
+    const primitives = [
+      'lever', 'cam', 'rack-pinion', 'spring', 'fluid-flow', 'toggle-switch', 'valve'
     ];
 
     async function renderList(targetId, names, basePath) {
@@ -51,6 +57,7 @@
     }
 
     renderList('atoms', atoms, 'specs');
+    renderList('primitives', primitives, 'primitives');
     renderList('recipes', recipes, '../recipes');
   </script>
 </body>

@@ -1,0 +1,9 @@
+{
+  "theme": "blueprint",
+  "title": "lever",
+  "state": { "step": 2 },
+  "components": [
+    { "type": "stepper", "param": "step", "steps": 4, "labels": ["left load", "rising", "peak", "return"] },
+    { "type": "motion", "key": "primitive-lever", "preset": "lever", "params": { "stepParam": "step", "steps": 4 } }
+  ]
+}

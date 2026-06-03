@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "fluid-flow",
+  "components": [
+    { "type": "motion", "key": "primitive-fluid-flow", "preset": "fluid-flow", "params": { "flowRate": 5200, "dashLength": 14, "direction": 1, "pipeWidth": 10 } }
+  ]
+}

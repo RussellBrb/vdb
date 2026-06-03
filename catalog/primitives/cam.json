@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "cam",
+  "components": [
+    { "type": "motion", "key": "primitive-cam", "preset": "cam", "params": { "profile": "pear", "liftHeight": 34, "riseFraction": 0.3, "dwellFraction": 0.45 } }
+  ]
+}

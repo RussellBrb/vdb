@@ -1,0 +1,7 @@
+{
+  "theme": "blueprint",
+  "title": "rack-pinion",
+  "components": [
+    { "type": "motion", "key": "primitive-rack-pinion", "preset": "rack-pinion", "params": { "pinionRadius": 32, "mode": "oscillate" } }
+  ]
+}

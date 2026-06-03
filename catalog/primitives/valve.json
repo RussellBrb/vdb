@@ -1,0 +1,9 @@
+{
+  "theme": "blueprint",
+  "title": "valve",
+  "state": { "open": false },
+  "components": [
+    { "type": "toggle", "param": "open", "label": "Open" },
+    { "type": "motion", "key": "primitive-valve", "preset": "valve", "params": { "param": "open" } }
+  ]
+}

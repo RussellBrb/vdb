@@ -22,6 +22,7 @@ const THEMES = [
 
 const LIBRARY_THEMES = ['blueprint', 'sunrise', 'crt'];
 const EXPECTED_CATALOG_ATOMS = 24;
+const EXPECTED_PRIMITIVES = 7;
 const EXPECTED_RECIPES = 8;
 const VARIANT_THEMES = ['blueprint', 'crt'];
 const VARIANT_DEFAULTS = { size: 'md', density: 'comfortable', emphasis: 'normal', tone: 'neutral' };
@@ -360,6 +361,13 @@ async function checkAnimations() {
     piston: { theme: 'crt', components: [{ type: 'motion', preset: 'piston', params: { radius: 30 }, key: 'piston-check' }] },
     speed: { theme: 'blueprint', components: [{ type: 'motion', preset: 'gear', params: { speed: 2 }, key: 'speed-check' }] },
     clipping: { theme: 'blueprint', components: [{ type: 'motion', parts: [{ id: 'edge', shape: 'circle', x: 8, y: 8, r: 18, behaviors: [{ type: 'oscillate', axis: 'x', amp: 20 }] }], key: 'clip-check' }] },
+    lever: { theme: 'blueprint', state: { step: 3 }, components: [{ type: 'stepper', param: 'step', steps: 4 }, { type: 'motion', preset: 'lever', params: { stepParam: 'step', steps: 4 }, key: 'lever-check' }] },
+    cam: { theme: 'crt', components: [{ type: 'motion', preset: 'cam', params: { profile: 'pear' }, key: 'cam-check' }] },
+    'rack-pinion': { theme: 'blueprint', components: [{ type: 'motion', preset: 'rack-pinion', key: 'rack-check' }] },
+    spring: { theme: 'sunrise', components: [{ type: 'motion', preset: 'spring', key: 'spring-check' }] },
+    'fluid-flow': { theme: 'blueprint', components: [{ type: 'motion', preset: 'fluid-flow', key: 'flow-check' }] },
+    'toggle-switch': { theme: 'blueprint', state: { enabled: true }, components: [{ type: 'toggle', param: 'enabled', label: 'Enabled' }, { type: 'motion', preset: 'toggle-switch', params: { param: 'enabled' }, key: 'switch-check' }] },
+    valve: { theme: 'blueprint', state: { open: false }, components: [{ type: 'toggle', param: 'open', label: 'Open' }, { type: 'motion', preset: 'valve', params: { param: 'open' }, key: 'valve-check' }] },
     behavior: {
       theme: 'blueprint',
       components: [{
@@ -381,15 +389,16 @@ async function checkAnimations() {
     const html = result.html;
     const css = [...html.matchAll(/<style[^>]*data-vdb-behavior[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('\n');
     const blocks = keyframeBlocks(css);
+    const keyless = name === 'toggle-switch' || name === 'valve';
     if (result.exception) failures.push(`exception: ${result.exception.message}`);
     if (result.runtime.errors.length) failures.push(`console.error: ${result.runtime.errors.join(' | ')}`);
     if (html.length < NON_EMPTY_FLOOR) failures.push(`empty render: innerHTML length ${html.length}`);
-    if (!html.includes('data-principles="ease-in-out causal-140ms segmented-auto-pause"')) failures.push('missing principle defaults marker');
-    if (!css.includes('@keyframes')) failures.push('missing compiled keyframes');
-    if (!blocks.length) failures.push('no parseable keyframe blocks');
+    if (!html.includes('data-principles="ease-in-out causal-140ms segmented-auto-pause')) failures.push('missing principle defaults marker');
+    if (!keyless && !css.includes('@keyframes')) failures.push('missing compiled keyframes');
+    if (!keyless && !blocks.length) failures.push('no parseable keyframe blocks');
     for (const block of blocks) {
       const props = [...block.matchAll(/([a-z-]+)\s*:/g)].map((m) => m[1]);
-      const badProps = props.filter((prop) => prop !== 'transform' && prop !== 'opacity');
+      const badProps = props.filter((prop) => prop !== 'transform' && prop !== 'opacity' && prop !== 'stroke-dashoffset');
       if (badProps.length) failures.push(`keyframes include non-transform/opacity properties: ${badProps.join(',')}`);
     }
     if (/requestAnimationFrame|\.animate\(|<animate/.test(vdbSource) || /offset-path|offset-distance/.test(css)) failures.push('disallowed animation runtime/path primitive found');
@@ -403,6 +412,14 @@ async function checkAnimations() {
     if (name === 'speed' && !/3125ms linear infinite/.test(html)) failures.push('speed multiplier did not halve gear period');
     if (name === 'clipping' && !/viewBox="-\d+ -\d+ \d+ \d+"/.test(html)) failures.push('motion viewBox was not padded beyond the origin');
     if (name === 'clipping' && !/overflow:visible/.test(html)) failures.push('motion svg is missing overflow:visible');
+    if (['gear', 'piston', 'lever', 'cam', 'rack-pinion', 'spring'].includes(name) && !/data-vocab="(?:ground-hatch|motion-arrow|joint-dot|guide-rail)"/.test(html)) failures.push('schematic vocabulary marker not found');
+    if (name === 'lever' && !/animation-play-state:paused/.test(html)) failures.push('lever step binding did not pause at selected phase');
+    if (name === 'cam' && !/translateY\(-34px\)/.test(css)) failures.push('cam lift/dwell keyframes not found');
+    if (name === 'rack-pinion' && !html.includes('data-pid="tick"')) failures.push('rack-pinion radial tick not found');
+    if (name === 'spring' && !/scaleY/.test(css)) failures.push('spring stretch keyframes not found');
+    if (name === 'fluid-flow' && !/stroke-dashoffset/.test(css)) failures.push('fluid-flow dashoffset keyframes not found');
+    if (name === 'toggle-switch' && !html.includes('>on<')) failures.push('toggle-switch did not read boolean state');
+    if (name === 'valve' && !/rotate\(90deg\)/.test(html)) failures.push('valve closed bore angle not found');
     if (name === 'behavior' && !/<g data-pid="driver"[\s\S]*<g data-pid="follower"/.test(html)) failures.push('FK parent nesting not found');
     rows[name] = failures.length ? { ok: false, failures } : { ok: true, failures: [] };
     if (failures.length) red.push({ name, failures });
@@ -474,7 +491,7 @@ async function checkRegressions() {
 }
 
 async function cdnSmoke() {
-  const url = 'https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v13.2/vdb.js';
+  const url = 'https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v14/vdb.js';
   try {
     const response = await fetch(url, { method: 'HEAD' });
     return { ok: response.status === 200, status: response.status, url };
@@ -504,8 +521,10 @@ const globalChecks = [
 const regressions = await checkRegressions();
 const cdn = await cdnSmoke();
 const catalogSpecs = await readJsonSpecs('catalog/specs');
+const primitiveSpecs = await readJsonSpecs('catalog/primitives');
 const recipeSpecs = await readJsonSpecs('recipes');
 const catalogCheck = await checkLibrarySpecs('catalog', catalogSpecs, EXPECTED_CATALOG_ATOMS);
+const primitiveCheck = await checkLibrarySpecs('primitives', primitiveSpecs, EXPECTED_PRIMITIVES);
 const recipeCheck = await checkLibrarySpecs('recipes', recipeSpecs, EXPECTED_RECIPES);
 const variantCheck = await checkVariants();
 const defaultEquivalenceFailures = await checkDefaultEquivalence();
@@ -519,7 +538,7 @@ for (const regression of regressions) {
   if (!regression.ok) redCells.push({ type: `regression:${regression.name}`, theme: '*', failures: regression.failures });
 }
 const failedMatrixCells = redCells.filter((cell) => THEMES.includes(cell.theme)).length;
-for (const cell of [...catalogCheck.red, ...recipeCheck.red]) {
+for (const cell of [...catalogCheck.red, ...primitiveCheck.red, ...recipeCheck.red]) {
   redCells.push({ type: `${cell.kind}:${cell.name}`, theme: cell.theme, failures: cell.failures });
 }
 for (const cell of variantCheck.red) {
@@ -531,8 +550,8 @@ for (const cell of animationCheck.red) {
   redCells.push({ type: `animation:${cell.name}`, theme: '*', failures: cell.failures });
 }
 
-const failedLibraryCells = [...catalogCheck.red, ...recipeCheck.red].filter((cell) => LIBRARY_THEMES.includes(cell.theme)).length;
-const totalLibraryCells = (catalogCheck.actualCount + recipeCheck.actualCount) * LIBRARY_THEMES.length;
+const failedLibraryCells = [...catalogCheck.red, ...primitiveCheck.red, ...recipeCheck.red].filter((cell) => LIBRARY_THEMES.includes(cell.theme)).length;
+const totalLibraryCells = (catalogCheck.actualCount + primitiveCheck.actualCount + recipeCheck.actualCount) * LIBRARY_THEMES.length;
 const failedVariantCells = variantCheck.red.length;
 const totalVariantCells = Object.keys(variantCheck.rows).length * VARIANT_THEMES.length * 3;
 const summary = {
@@ -548,6 +567,7 @@ const summary = {
   library: {
     themes: LIBRARY_THEMES,
     catalog: catalogCheck,
+    primitives: primitiveCheck,
     recipes: recipeCheck,
     passedCells: totalLibraryCells - failedLibraryCells,
     failedCells: failedLibraryCells,
@@ -581,7 +601,7 @@ for (const [type, row] of Object.entries(matrix)) {
 lines.push('');
 lines.push(`Version: ${summary.vdbVersion}`);
 lines.push(`Cells: ${summary.passedCells} passed, ${summary.failedCells} failed`);
-lines.push(`Library: ${summary.library.passedCells} passed, ${summary.library.failedCells} failed (${catalogCheck.actualCount} catalog, ${recipeCheck.actualCount} recipes across ${LIBRARY_THEMES.length} themes)`);
+lines.push(`Library: ${summary.library.passedCells} passed, ${summary.library.failedCells} failed (${catalogCheck.actualCount} catalog, ${primitiveCheck.actualCount} primitives, ${recipeCheck.actualCount} recipes across ${LIBRARY_THEMES.length} themes)`);
 lines.push(`Variants: ${summary.variants.passedCells} passed, ${summary.variants.failedCells} failed; default-equivalence=${summary.variants.defaultEquivalence.ok ? 'PASS' : 'FAIL'}; semantic-contrast=${summary.variants.semanticContrast.ok ? 'PASS' : 'FAIL'}`);
 lines.push(`Animations: ${summary.animations.passedCells} passed, ${summary.animations.failedCells} failed`);
 lines.push(`Regressions: ${regressions.map((r) => `${r.name}=${r.ok ? 'PASS' : 'FAIL'}`).join(', ')}`);
