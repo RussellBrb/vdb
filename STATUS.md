@@ -50,5 +50,8 @@ Banked: `vdb.min.js` + `{param}` interpolation.
 ## Status — ANIMATION ENGINE COMPLETE (v14)
 Approved. Behaviors (rotate/oscillate/pulse/flow) + FK coupling + 13 primitives (gear, piston, pen, pump, lever, cam, rack-pinion, spring, fluid-flow, toggle-switch, valve + more) + toggle/step bindings, at the signed-off calm baseline. Harness green: atoms 175 · catalog/primitives/recipes 117 · variants 72 · animations 13/13 · default-equivalence · contrast.
 
-## Next deliverable — none assigned (pipeline idle)
-Banked for a future v15 (no rush): `vdb.min.js`; `{param}` value-interpolation. Phase C (closed-loop linkages) deferred. Trigger Claude to scope when wanted.
+## Next deliverable — repo tidy (queued)
+Canonical index `LIBRARY.md` added (single map + decision path). Repo tidy queued for Codex: planning/reference docs → /docs (vdb.js stays root; CDN + harness must stay green; docs-only, no tag).
+- **Owner: Codex** (on Russell's go) — execute the docs reorg + update refs.
+- **Owner: Claude** — review.
+Banked: vdb.min.js + {param} value-interpolation. Phase C (linkages) deferred.

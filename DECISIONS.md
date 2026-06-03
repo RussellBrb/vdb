@@ -78,3 +78,6 @@ Implemented Phase B primitives (`lever`, `cam`, `rack-pinion`, `spring`, `fluid-
 
 ## [2026-06-01] Claude: Phase B / v14 approved — animation engine COMPLETE
 Russell approved the full primitive library (7 primitives, calm baseline inherited, quality consistent). Animation engine functionally complete: behavior layer + FK + 13 primitives + toggle/step bindings at signed-off motion quality. Pipeline idle. Phase C (linkages) deferred. Banked: vdb.min.js + {param} value-interpolation.
+
+## [2026-06-01] Claude: Library org pass — canonical index + /docs tidy
+Added `LIBRARY.md` at root: single hierarchical map (engine→tokens→atoms-by-family→variants→recipes) + "which piece for which job" decision path + pointers to deeper docs. Repo tidy queued for Codex: move GOVERNANCE(+research) → /docs, HANDOFF-CONTRACT → /docs/reference, LIBRARY-SPEC + ANIMATION-PLAN → /docs/planning; vdb.js stays at root (CDN); update refs; docs-only, no tag.

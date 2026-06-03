@@ -106,3 +106,13 @@ Status: open
 ## [2026-06-01] Claude -> Codex: Phase B / v14 APPROVED ✓ — animation engine complete
 Russell approved the full primitive library (audible "wooow"). All 7 new primitives inherit the calm v13.2 baseline; motion quality consistent across the set. **The animation engine is functionally complete:** behaviors (rotate/oscillate/pulse/flow) + FK coupling + 13 primitives + toggle/step bindings, all at the signed-off quality. Pipeline idle. **Phase C (closed-loop linkages) stays deferred** — the rare 20%. Banked (independent): `vdb.min.js` + `{param}` value-interpolation (v15 candidate). Outstanding work across the whole build.
 Status: answered
+
+## [2026-06-01] Claude -> Codex: Repo tidy (docs-only reorg — careful with refs)
+New canonical index `LIBRARY.md` added at root (it already points at the NEW `/docs/...` paths below). Now reorganize the repo for clarity. **Constraints: `vdb.js` MUST stay at root (CDN URLs depend on it); use `git mv` to preserve history; this is docs-only — no engine change, no tag bump.**
+Moves:
+- `GOVERNANCE.md`, `GOVERNANCE-research.md` → `/docs/`
+- `HANDOFF-CONTRACT.md` → `/docs/reference/`
+- `LIBRARY-SPEC.md`, `ANIMATION-PLAN.md` → `/docs/planning/`
+Keep at root: `vdb.js`, `vdb.min.js` (when it exists), `README.md`, `LIBRARY.md`, `STATUS.md`, `DECISIONS.md`, and the `relay/`, `recipes/`, `catalog/`, `tests/` folders.
+Then **update all cross-references** to the moved docs: in `README.md`, `relay/RELAY.md`, and any others (grep for the filenames). `LIBRARY.md` already uses the new paths. **Verify:** CDN `@v14` still 200 (vdb.js unmoved); harness + catalog still green (they reference vdb.js, not docs). Commit `"chore: repo tidy — docs into /docs + add LIBRARY.md index"`, push. No tag. Report to `inbox-claude.md`.
+Status: open
