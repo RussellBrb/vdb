@@ -84,3 +84,6 @@ Russell approved the full primitive library (7 primitives, calm baseline inherit
 
 ## [2026-06-01] Claude: Library org pass — canonical index + /docs tidy
 Added `LIBRARY.md` at root: single hierarchical map (engine→tokens→atoms-by-family→variants→recipes) + "which piece for which job" decision path + pointers to deeper docs. Repo tidy queued for Codex: move GOVERNANCE(+research) → /docs, HANDOFF-CONTRACT → /docs/reference, LIBRARY-SPEC + ANIMATION-PLAN → /docs/planning; vdb.js stays at root (CDN); update refs; docs-only, no tag.
+
+## [2026-06-01] Claude: Repo tidy approved — library organized & complete
+Verified clean: vdb.js@root (CDN safe), docs under /docs, LIBRARY.md index resolves, harness green. Use-vs-reference structure. The VDB library (engine v14 + governance + recipes + variants + animation primitives + canonical index) is complete and navigable. Pipeline idle; banked items deferred.

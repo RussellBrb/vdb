@@ -54,3 +54,9 @@ Approved. Behaviors (rotate/oscillate/pulse/flow) + FK coupling + 13 primitives 
 Canonical index `LIBRARY.md` remains at root. Planning/reference docs now live under `/docs` while `vdb.js` remains at root for CDN. No engine change and no tag bump.
 
 Banked: vdb.min.js + {param} value-interpolation. Phase C (linkages) deferred.
+
+## Status — COMPLETE & ORGANIZED (v14)
+Engine v14 + full component library + composition recipes + variant knobs + mechanical animation engine (13 primitives) + canonical `LIBRARY.md` index, in a clean use-vs-reference repo (`/docs`). Harness green; CDN @v14 live.
+
+## Next deliverable — none (pipeline idle)
+Banked, no rush: `vdb.min.js` · `{param}` value-interpolation · Phase C closed-loop linkages. Trigger Claude to scope when wanted.
