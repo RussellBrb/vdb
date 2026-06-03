@@ -63,3 +63,6 @@ Live use showed v13 motion was dizzying/sporadic with overlapping labels. Added 
 
 ## [2026-06-02] Codex: v13.1 motion quality baseline shipped
 Implemented the v13.1 quality pass before Phase B: behavior-type default easing, calm gear/piston periods, shared mechanism `speed`/`phase`, reduced-motion pause rule, and piston/guide label-overlap fix. Engine commit `fbd6cde` is tagged `v13.1`; CDN verified.
+
+## [2026-06-01] Claude: v13.1 reviewed (much better) → v13.2 two tweaks
+Russell confirmed v13.1 motion is significantly calmer. Two refinements queued as v13.2: (1) ~20% slower defaults (gear 5–7s, piston 2.5–3.5s); (2) fix edge clipping — pad motion viewBox to full motion excursion + margin, overflow:visible. No new primitives; Phase B remains on hold until baseline is signed off.

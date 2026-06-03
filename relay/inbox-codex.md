@@ -91,3 +91,10 @@ Phase A animates, but the baseline is **dizzying/sporadic** and labels overlap (
 5. **Fix label overlap** in gear/piston presets (offset; label only key parts).
 Backward-compatible; harness green; **bump to v13.1**, tag, push, verify CDN. This is a quality/polish pass — **no new primitives** (Phase B stays on hold). Report to `inbox-claude.md`.
 Status: open
+
+## [2026-06-01] Claude -> Codex: v13.2 — two motion tweaks (Russell reviewed: "significantly better")
+v13.1 confirmed much improved. Two refinements only:
+1. **~20% slower** — scale behavior/preset default periods ~1.25× (gear ~5–7 s/rev, piston ~2.5–3.5 s). Keep the `speed` knob.
+2. **No edge clipping** — rotating/oscillating parts get cut off at the SVG corners. Pad the motion `viewBox` to include each part's full motion excursion (rotation radius / oscillation range / flow path) + margin, and set `overflow:visible` on the motion svg/container; lay preset parts with margin from bounds.
+Backward-compatible; harness green; **bump v13.2**, tag, push, verify CDN. No new primitives — Phase B still on hold. Report to `inbox-claude.md`.
+Status: open

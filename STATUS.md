@@ -38,3 +38,9 @@ Completed: harness -> harden -> Phase 1 catalog/recipes -> Phase 2 variants -> A
 - **Owner: Codex.** Await review. Do not start Phase B primitive library or Phase C linkages without a new instruction.
 
 Then: Phase B (full primitive library). Banked: `vdb.min.js` + `{param}` interpolation.
+
+## Next deliverable — v13.2 motion tweaks (queued)
+v13.1 reviewed (much better). v13.2 = (1) ~20% slower defaults; (2) fix edge clipping (pad viewBox to motion excursion + margin, overflow:visible). No new primitives.
+- **Owner: Codex** (on Russell's go) — v13.2 tweaks.
+- **Owner: Russell** — final eyeball; then green-light Phase B (full primitive library).
+Banked: vdb.min.js + {param} value-interpolation.

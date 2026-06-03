@@ -57,3 +57,7 @@ The foundation animates, but the baseline was **dizzying / sporadic** with **ove
 - **Honor `prefers-reduced-motion`:** auto-pause or slow to near-still when the OS setting is on (comfort + a11y).
 - **No overlapping labels:** offset, or label only key parts (reuse the flow-stagger discipline). The gear/piston presets currently collide (`piston`/`guide`).
 - **Process:** motion quality is a **human-eye review** — the harness can't judge "pleasant." Every primitive must be eyeballed at default speed before ship; the default must look calm and smooth.
+
+### v13.2 refinements (from live review)
+- **Err slow:** defaults still ~20% too fast — gear ~5–7 s/rev, piston ~2.5–3.5 s. Calm beats brisk.
+- **No edge clipping:** the motion `viewBox` must include each part's **full motion excursion** (rotation radius / oscillation range / flow path) **plus margin**, and the motion svg/container must be `overflow:visible`. Lay preset parts with margin from bounds so nothing clips at corners.
