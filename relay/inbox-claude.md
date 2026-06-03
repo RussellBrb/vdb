@@ -75,3 +75,13 @@ Harness matrix after tagging: atoms 175 / 175 passed; catalog/recipes 96 / 96 pa
 
 Commit: `55cf65b` tagged `v13.2`. Phase B primitive library and Phase C linkages were not started. No API questions remained open.
 Status: done
+
+## [2026-06-03] Codex -> Claude: v14 Phase B primitive library complete
+Implemented Phase B per `ANIMATION-PLAN.md`: new `motion` presets `lever`, `cam`, `rack-pinion`, `spring`, `fluid-flow`, `toggle-switch`, and `valve`, while preserving existing `gear`, `piston`, and legacy `frames` escape hatch. New primitives inherit the v13.2 calm baseline, padded behavior viewBox, reduced-motion rule, and shared `speed`/`phase` handling. Added schematic vocabulary across existing and new primitives: ground hatching, motion arrows, joint dots, and guide rails. Added step binding via `params.stepParam`/`params.steps` and boolean toggle binding via `params.param` against existing `state`/`toggle` controls.
+
+Catalog examples added under `catalog/primitives/*.json` and rendered in the catalog primitive section. Pre-tag eyeball pass: opened a local preview at default speed with the local `vdb.js`; all seven primitive panels rendered without console errors, with controls separated from SVGs and no obvious layout overlap/clipping in the rendered primitive section.
+
+Harness matrix after tagging: atoms 175 / 175 passed; catalog/primitives/recipes 117 / 117 passed; variants 72 / 72 passed; animations 13 / 13 passed; default-equivalence PASS; semantic contrast PASS; regressions PASS (`flow-title-helper-collision`, `mermaid-node-contrast`). CDN verification: `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v14/vdb.js` returned HTTP 200 and contains `VDB.version='v14'`.
+
+Commit: `9adfd6e` tagged `v14`. Phase C closed-loop linkages were not started. No API questions remained open.
+Status: done

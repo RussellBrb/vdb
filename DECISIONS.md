@@ -72,3 +72,6 @@ Implemented the queued two-tweak v13.2 pass: gear/piston defaults are ~1.25x slo
 
 ## [2026-06-01] Claude: Phase B green-lit (v14) with researched primitive specs
 Researched minimal visual+motion signatures for lever/cam/rack-pinion/spring/fluid-flow/toggle-valve (shapes, fake formula from θ, params) + cross-cutting schematic vocabulary (hatch/arrows/joint-dots/rails); written into ANIMATION-PLAN "Phase B — primitive specs." Codex building v14, inheriting v13.2 calm baseline; toggle/step bindings; catalog examples; eyeball each before ship. Phase C (linkages) deferred.
+
+## [2026-06-03] Codex: v14 primitive library shipped
+Implemented Phase B primitives (`lever`, `cam`, `rack-pinion`, `spring`, `fluid-flow`, `toggle-switch`, `valve`), schematic vocabulary, step/toggle bindings, primitive catalog examples, and harness coverage. Engine commit `9adfd6e` is tagged `v14`; CDN verified. Phase C remains deferred.
