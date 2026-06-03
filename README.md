@@ -136,10 +136,10 @@ so **bump the tag whenever `vdb.js` changes**.
 An engine is only half the system; the other half is the judgment of *when* a visual earns
 its place. That discipline lives in two companion docs:
 
-- **`GOVERNANCE.md`** — the operating ruleset an agent follows in the moment: classify the
+- **`docs/GOVERNANCE.md`** — the operating ruleset an agent follows in the moment: classify the
   task, trigger/suppress checks, a selection table, the economy ladder
   (`sparkline ‹ chip ‹ panel ‹ board`), and the anti-pattern list. Start here.
-- **`GOVERNANCE-research.md`** — the evidence base (graphical perception, multimedia
+- **`docs/GOVERNANCE-research.md`** — the evidence base (graphical perception, multimedia
   learning, interaction cost, generative-UI practice) with citations and effect sizes.
 
 One-line version: **default to text; render only when a visual lowers the reader’s total

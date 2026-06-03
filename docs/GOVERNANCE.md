@@ -1,6 +1,6 @@
 # VDB Governance — the operating ruleset
 
-*The* **what** *— rules an agent follows in the moment. The* **why** *(evidence, effect sizes, citations) lives in `GOVERNANCE-research.md`. When this doc and intuition disagree, follow this doc; when this doc and the research disagree, the research wins and this doc should be updated.*
+*The* **what** *— rules an agent follows in the moment. The* **why** *(evidence, effect sizes, citations) lives in `docs/GOVERNANCE-research.md`. When this doc and intuition disagree, follow this doc; when this doc and the research disagree, the research wins and this doc should be updated.*
 
 ---
 
@@ -107,7 +107,7 @@ Even frontier systems ship learned triggers with explicit error budgets and manu
 - Make every visual **cheap to ignore** (text stands alone).
 - Bias toward **suppression** — the asymmetry favors it (see prime directive).
 - If the user signals a visual didn't help (or wasn't wanted), **drop down a rung** next time, don't justify the last one.
-- Treat the rules as **tunable**, not frozen — if real use contradicts a rule, update `GOVERNANCE-research.md` first, then this doc.
+- Treat the rules as **tunable**, not frozen — if real use contradicts a rule, update `docs/GOVERNANCE-research.md` first, then this doc.
 
 ---
 

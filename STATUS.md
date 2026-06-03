@@ -15,8 +15,8 @@
 - Banked for later: `vdb.min.js`; `{param}` interpolation into component values; Animation Phase C closed-loop linkages.
 
 ## Docs
-- `GOVERNANCE.md`, `GOVERNANCE-research.md`, `HANDOFF-CONTRACT.md`, `LIBRARY-SPEC.md`, and `ANIMATION-PLAN.md` are committed.
-- `HANDOFF-CONTRACT.md` documents the v14 behavior/preset schema and binding convention.
+- `docs/GOVERNANCE.md`, `docs/GOVERNANCE-research.md`, `docs/reference/HANDOFF-CONTRACT.md`, `docs/planning/LIBRARY-SPEC.md`, and `docs/planning/ANIMATION-PLAN.md` are committed.
+- `docs/reference/HANDOFF-CONTRACT.md` documents the v14 behavior/preset schema and binding convention.
 
 ## Composition Library
 - Phase 1 complete: 8 filled recipe specs in `recipes/*.json`.
@@ -50,8 +50,7 @@ Banked: `vdb.min.js` + `{param}` interpolation.
 ## Status — ANIMATION ENGINE COMPLETE (v14)
 Approved. Behaviors (rotate/oscillate/pulse/flow) + FK coupling + 13 primitives (gear, piston, pen, pump, lever, cam, rack-pinion, spring, fluid-flow, toggle-switch, valve + more) + toggle/step bindings, at the signed-off calm baseline. Harness green: atoms 175 · catalog/primitives/recipes 117 · variants 72 · animations 13/13 · default-equivalence · contrast.
 
-## Next deliverable — repo tidy (queued)
-Canonical index `LIBRARY.md` added (single map + decision path). Repo tidy queued for Codex: planning/reference docs → /docs (vdb.js stays root; CDN + harness must stay green; docs-only, no tag).
-- **Owner: Codex** (on Russell's go) — execute the docs reorg + update refs.
-- **Owner: Claude** — review.
+## Status — repo tidy complete
+Canonical index `LIBRARY.md` remains at root. Planning/reference docs now live under `/docs` while `vdb.js` remains at root for CDN. No engine change and no tag bump.
+
 Banked: vdb.min.js + {param} value-interpolation. Phase C (linkages) deferred.

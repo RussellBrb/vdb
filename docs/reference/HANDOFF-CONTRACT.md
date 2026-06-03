@@ -8,7 +8,7 @@
 
 You (the implementer) build against the schemas and acceptance criteria below. You do **not** redesign the engine or invent components. When a schema here says "VERIFY against `vdb.js`," read the named component function in `vdb.js` and confirm the exact prop names before relying on them — a few shapes are marked uncertain on purpose.
 
-Definition of done for any task = (a) matches the schema in §3, (b) passes the harness in §5 with zero console errors and a non-empty render on **every** theme, (c) obeys the rendering policy in `GOVERNANCE.md`, (d) Claude has reviewed the diff.
+Definition of done for any task = (a) matches the schema in §3, (b) passes the harness in §5 with zero console errors and a non-empty render on **every** theme, (c) obeys the rendering policy in `../GOVERNANCE.md`, (d) Claude has reviewed the diff.
 
 Hard constraints (non-negotiable):
 - Vanilla JS, single-file IIFE, **dependency-free** (Mermaid is the only external, lazy-loaded; do not add others).
@@ -30,7 +30,7 @@ Hard constraints (non-negotiable):
 | `vdb.min.js` minified build | Codex | Tooling task |
 | Doc scaffolding | Codex | Bulk |
 
-**Workflow:** Claude writes/updates this contract → Codex implements a task branch → harness runs green → Claude reviews diff → merge → tag. Codex never needs session history; everything required is in this file + `vdb.js` + `GOVERNANCE.md`.
+**Workflow:** Claude writes/updates this contract → Codex implements a task branch → harness runs green → Claude reviews diff → merge → tag. Codex never needs session history; everything required is in this file + `../../vdb.js` + `../GOVERNANCE.md`.
 
 ---
 
@@ -41,9 +41,14 @@ vdb/
   vdb.js               # engine (source of truth)
   vdb.min.js           # minified build (generated; do not hand-edit)
   README.md
-  GOVERNANCE.md        # when-to-render ruleset
-  GOVERNANCE-research.md
-  HANDOFF-CONTRACT.md  # this file
+  docs/
+    GOVERNANCE.md        # when-to-render ruleset
+    GOVERNANCE-research.md
+    reference/
+      HANDOFF-CONTRACT.md  # this file
+    planning/
+      LIBRARY-SPEC.md
+      ANIMATION-PLAN.md
   catalog/             # one minimal live example per component type
     index.html         # renders all catalog specs in a grid
     specs/<type>.json
@@ -85,7 +90,7 @@ Every component object: `{ type, title?, key?, when?, depth?, ...typeProps }`.
 
 ### 3a. Component families & schemas
 
-Families map to governance triggers (see `GOVERNANCE.md` §3).
+Families map to governance triggers (see `../GOVERNANCE.md` §3).
 
 **DATA / QUANTITATIVE** — *triggers: trend, comparison, part-to-whole, status field. Encode with position/length.*
 
@@ -239,7 +244,7 @@ Tests precede libraries deliberately: the bugs live in the components, and the h
 
 All previously-open items are answered inline above: the four `VERIFY` schemas (`nodes.edges`, `stage.parts`, custom `motion`, `tabs`) are filled in §3; the `when` grammar is in §3 common props; the contrast threshold is WCAG **4.5:1 / 3:1** in §5.3; the dev-dependency question and harness target are answered in §5.
 
-**Repo / workspace — the blocker:** the source of truth is the GitHub repo **`RussellBrb/vdb`** at tag **`v11`** (commit `2bc4da9`); CDN mirror `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11/vdb.js`. Work from a **clone of that repo** — *not* the cowork/Nexus workspace (a different project; that's the "site-like" thing you saw). `GOVERNANCE.md` and `GOVERNANCE-research.md` are already committed in the repo. **This file (`HANDOFF-CONTRACT.md`) must be added to the repo** and maintained there as the source of truth; the copy under `cowork/_vdb/` is staging only.
+**Repo / workspace — the blocker:** the source of truth is the GitHub repo **`RussellBrb/vdb`** at tag **`v11`** (commit `2bc4da9`); CDN mirror `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v11/vdb.js`. Work from a **clone of that repo** — *not* the cowork/Nexus workspace (a different project; that's the "site-like" thing you saw). `../GOVERNANCE.md` and `../GOVERNANCE-research.md` are committed in the repo. **This file (`docs/reference/HANDOFF-CONTRACT.md`) is maintained there as the source of truth; the copy under `cowork/_vdb/` is staging only.**
 
 ---
 

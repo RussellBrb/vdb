@@ -1,6 +1,6 @@
 # VDB Composition Library — Spec
 
-*Goal: freestyle any VDB fast. **Prefabs (recipes)** for ~80% of needs, a small **variant** knob-set to modify atoms for the rest. Grounded in atomic design (Frost) + the CVA/Stitches variant pattern. Component schemas live in `HANDOFF-CONTRACT.md` §3; this builds the two layers above the atoms.*
+*Goal: freestyle any VDB fast. **Prefabs (recipes)** for ~80% of needs, a small **variant** knob-set to modify atoms for the rest. Grounded in atomic design (Frost) + the CVA/Stitches variant pattern. Component schemas live in `../reference/HANDOFF-CONTRACT.md` §3; this builds the two layers above the atoms.*
 
 ## Model (atomic design → engine)
 - **Atoms** = the 24 existing components (focal, bars, gauge, nodes, motion, …). Done.
@@ -83,5 +83,5 @@ Per-item `tone` (and `emphasis`) on collection items where one datum must stand 
 - Keep atoms 175/175 + Phase-1 catalog/recipe checks green.
 
 ### Ship
-- Add a "variants" column to each component in `HANDOFF-CONTRACT.md` §3.
+- Add a "variants" column to each component in `../reference/HANDOFF-CONTRACT.md` §3.
 - Bump engine to **v12** on completion; tag `v12`; push; verify CDN. (Banked min-build + `{param}` value-interpolation MAY ride v12, but variants are the priority — implement variants first.)

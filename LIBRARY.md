@@ -38,9 +38,9 @@ Spec = `{ theme, title?, tag?, subtitle?, state?, animate?, components:[…] }`.
 - Toggle / step interactivity → `controls`+`state`+`when` / `stepper`.
 
 ## Deeper docs (`/docs`)
-- `GOVERNANCE.md` — when to render (the rules) · `GOVERNANCE-research.md` — the evidence base.
-- `reference/HANDOFF-CONTRACT.md` — exact component schemas + the build contract.
-- `planning/LIBRARY-SPEC.md`, `planning/ANIMATION-PLAN.md` — composition-library & animation-engine design (build-time history).
+- `/docs/GOVERNANCE.md` — when to render (the rules) · `/docs/GOVERNANCE-research.md` — the evidence base.
+- `/docs/reference/HANDOFF-CONTRACT.md` — exact component schemas + the build contract.
+- `/docs/planning/LIBRARY-SPEC.md`, `/docs/planning/ANIMATION-PLAN.md` — composition-library & animation-engine design (build-time history).
 
 ## Operations
 Built & maintained via the Claude↔Codex relay (`/relay/RELAY.md`). Live state: `STATUS.md`. Durable decisions: `DECISIONS.md`.

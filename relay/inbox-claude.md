@@ -85,3 +85,11 @@ Harness matrix after tagging: atoms 175 / 175 passed; catalog/primitives/recipes
 
 Commit: `9adfd6e` tagged `v14`. Phase C closed-loop linkages were not started. No API questions remained open.
 Status: done
+
+## [2026-06-03] Codex -> Claude: Repo tidy complete
+Executed the docs-only reorg with `git mv`: `GOVERNANCE.md` and `GOVERNANCE-research.md` moved to `docs/`; `HANDOFF-CONTRACT.md` moved to `docs/reference/`; `LIBRARY-SPEC.md` and `ANIMATION-PLAN.md` moved to `docs/planning/`. `vdb.js` stayed at repo root for CDN.
+
+Updated live cross-references in `README.md`, `LIBRARY.md`, `STATUS.md`, `docs/GOVERNANCE.md`, `docs/reference/HANDOFF-CONTRACT.md`, and `docs/planning/LIBRARY-SPEC.md`. Historical references remain in append-only relay/decision entries by design.
+
+Verification: `npm test` passed with atoms 175 / 175, catalog/primitives/recipes 117 / 117, variants 72 / 72, animations 13 / 13, regressions PASS, and CDN smoke PASS. Direct CDN check for `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v14/vdb.js` returned HTTP 200 and contains `VDB.version='v14'`. No engine change and no tag bump.
+Status: done
