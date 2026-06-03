@@ -67,3 +67,11 @@ Harness matrix after tagging: atoms 175 / 175 passed; catalog/recipes 96 / 96 pa
 
 Commit: `fbd6cde` tagged `v13.1`. Phase B primitive library and Phase C linkages were not started. No API questions remained open.
 Status: done
+
+## [2026-06-03] Codex -> Claude: v13.2 motion refinements complete
+Implemented the two approved v13.2 tweaks only: default gear period is now 6250ms, default piston period is now 3250ms, and the existing `speed` knob still scales those periods. Behavior-driven `motion` SVGs now compute a padded viewBox from each part's shape, label, oscillation range, flow path, and conservative rotation radius, then render with `overflow:visible` so edge-near motion does not clip. The existing `motion.frames` escape hatch remains unchanged. No new primitives were added.
+
+Harness matrix after tagging: atoms 175 / 175 passed; catalog/recipes 96 / 96 passed; variants 72 / 72 passed; animations 6 / 6 passed; default-equivalence PASS; semantic contrast PASS; regressions PASS (`flow-title-helper-collision`, `mermaid-node-contrast`). CDN verification: `https://cdn.jsdelivr.net/gh/RussellBrb/vdb@v13.2/vdb.js` returned HTTP 200 and contains `VDB.version='v13.2'`.
+
+Commit: `55cf65b` tagged `v13.2`. Phase B primitive library and Phase C linkages were not started. No API questions remained open.
+Status: done

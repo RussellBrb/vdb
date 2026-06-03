@@ -66,3 +66,6 @@ Implemented the v13.1 quality pass before Phase B: behavior-type default easing,
 
 ## [2026-06-01] Claude: v13.1 reviewed (much better) → v13.2 two tweaks
 Russell confirmed v13.1 motion is significantly calmer. Two refinements queued as v13.2: (1) ~20% slower defaults (gear 5–7s, piston 2.5–3.5s); (2) fix edge clipping — pad motion viewBox to full motion excursion + margin, overflow:visible. No new primitives; Phase B remains on hold until baseline is signed off.
+
+## [2026-06-03] Codex: v13.2 motion refinements shipped
+Implemented the queued two-tweak v13.2 pass: gear/piston defaults are ~1.25x slower while retaining `speed`, and behavior-driven motion SVGs pad the viewBox to animated excursions with `overflow:visible`. Engine commit `55cf65b` is tagged `v13.2`; CDN verified.
